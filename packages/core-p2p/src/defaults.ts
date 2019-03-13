@@ -4,11 +4,11 @@ export const defaults = {
     /**
      * The minimum peer version we expect
      */
-    minimumVersions: [">=2.1.0", ">=2.2.0-alpha.0", ">=2.2.0-beta.0", ">=2.2.0-rc.0"],
+    minimumVersions: [">=0.0.0"],
     /**
      * The number of peers we expect to be available to start a relay
      */
-    minimumNetworkReach: 20,
+    minimumNetworkReach: 4,
     /**
      * The timeout for requests to other peers
      */

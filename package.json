@@ -79,11 +79,6 @@
         "packages/*",
         "plugins/*"
     ],
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged && cross-env-shell ./scripts/pre-commit.sh"
-        }
-    },
     "jest": {
         "preset": "./jest-preset.json",
         "collectCoverageFrom": [
