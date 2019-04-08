@@ -2,12 +2,12 @@
     "name": "mainnet",
     "messagePrefix": "Persona message:\n",
     "bip32": {
-        "public": 46090600,
-        "private": 46089520
+        "public": 70617039,
+        "private": 70615956
     },
     "pubKeyHash": 55,
-    "nethash": "14b55c1de06caa015362d59ad97a144bc3c9fc2b50ece84b78d13ceaeaf7d8fb",
-    "wif": 170,
+    "nethash": "4dd0c25de9d9422c0a9c43369319c1f59900f4871d06b8fd8426a3ba8a5237e5",
+    "wif": 80,
     "aip20": 0,
     "client": {
         "token": "PRSN",

@@ -18,9 +18,9 @@ module.exports = {
         connection: {
             host: process.env.CORE_DB_HOST || "localhost",
             port: process.env.CORE_DB_PORT || 5432,
-            database: process.env.CORE_DB_DATABASE || `persona_core`,
-            user: process.env.CORE_DB_USERNAME || "postgres",
-            password: process.env.CORE_DB_PASSWORD || "postgres",
+            database: process.env.CORE_DB_DATABASE || "persona_mainnet",
+            user: process.env.CORE_DB_USERNAME || "personaminer",
+            password: process.env.CORE_DB_PASSWORD || "password",
         },
     },
     "@arkecosystem/core-transaction-pool": {
@@ -72,7 +72,7 @@ module.exports = {
         port: process.env.CORE_GRAPHQL_PORT || 4005,
     },
     "@arkecosystem/core-forger": {
-        hosts: [`http://127.0.0.1:${process.env.CORE_P2P_PORT || 4001}`],
+        hosts: [`http://127.0.0.1:${process.env.CORE_P2P_PORT || 4102}`],
     },
     "@arkecosystem/core-json-rpc": {
         enabled: process.env.CORE_JSON_RPC_ENABLED,
