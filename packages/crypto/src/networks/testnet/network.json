@@ -11,7 +11,7 @@
     "aip20": 0,
     "client": {
         "token": "TPRSN",
-        "symbol": "TPRSN",
+        "symbol": "TP",
         "explorer": "http://texplorer.persona.im"
     }
 }
