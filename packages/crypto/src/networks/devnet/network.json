@@ -11,7 +11,7 @@
     "aip20": 0,
     "client": {
         "token": "DPRSN",
-        "symbol": "DPRSN",
+        "symbol": "DP",
         "explorer": "https://dexplorer.persona.im"
     }
 }
