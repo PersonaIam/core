@@ -11,7 +11,7 @@
     "aip20": 0,
     "client": {
         "token": "PRSN",
-        "symbol": "PRSN",
+        "symbol": "P",
         "explorer": "https://explorer.persona.im"
     }
 }
