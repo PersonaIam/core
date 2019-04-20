@@ -17,7 +17,7 @@
         "/oclif.manifest.json"
     ],
     "bin": {
-        "ark": "./bin/run"
+        "persona": "./bin/run"
     },
     "scripts": {
         "publish:alpha": "npm publish --tag alpha",
@@ -38,7 +38,7 @@
         "debug:start": "node --inspect-brk yarn ark core:run",
         "debug:relay": "node --inspect-brk yarn ark relay:run",
         "debug:forger": "node --inspect-brk yarn ark forger:run",
-        "ark": "./bin/run",
+        "persona": "./bin/run",
         "start:mainnet": "cross-env CORE_PATH_CONFIG=./bin/config/mainnet yarn ark core:run",
         "start:devnet": "cross-env CORE_PATH_CONFIG=./bin/config/devnet yarn ark core:run",
         "start:testnet": "cross-env CORE_PATH_CONFIG=./bin/config/testnet CORE_ENV=test yarn ark core:run",
@@ -134,7 +134,7 @@
                 "./dist/hooks/command_not_found/suggest"
             ]
         },
-        "bin": "ark",
+        "bin": "persona",
         "topics": {
             "config": {
                 "description": "manage core config variables"

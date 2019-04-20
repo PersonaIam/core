@@ -1,4 +1,4 @@
-# Ark Core - Blockchain
+# Persona Core - Blockchain
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

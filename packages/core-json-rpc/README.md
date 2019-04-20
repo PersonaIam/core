@@ -1,4 +1,4 @@
-# Ark Core - JSON-RPC
+# Persona Core - JSON-RPC
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

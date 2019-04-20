@@ -1,4 +1,4 @@
-# Ark Core - Snapshots
+# Persona Core - Snapshots
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

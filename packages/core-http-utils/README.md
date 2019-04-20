@@ -1,4 +1,4 @@
-# Ark Core - HTTP Utilities
+# Persona Core - HTTP Utilities
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

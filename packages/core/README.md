@@ -1,4 +1,4 @@
-# Ark Core - Core
+# Persona Core - Core
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

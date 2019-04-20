@@ -1,4 +1,4 @@
-# Ark Core - Elasticsearch
+# Persona Core - Elasticsearch
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

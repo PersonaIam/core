@@ -1,6 +1,6 @@
 {
     "name": "@arkecosystem/core-elasticsearch",
-    "description": "A powerful Elasticsearch integration for Ark Core",
+    "description": "A powerful Elasticsearch integration for Persona Core",
     "version": "2.2.2",
     "contributors": [
         "Brian Faust <brian@ark.io>"

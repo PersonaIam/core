@@ -1,4 +1,4 @@
-# Ark Core - Forger
+# Persona Core - Forger
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

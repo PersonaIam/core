@@ -1,4 +1,4 @@
-# Ark Core - Utilities
+# Persona Core - Utilities
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

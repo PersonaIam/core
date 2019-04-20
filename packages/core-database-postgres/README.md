@@ -1,4 +1,4 @@
-# Ark Core - Database - Postgres
+# Persona Core - Database - Postgres
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

@@ -1,4 +1,4 @@
-# Ark Core - Event Emitter
+# Persona Core - Event Emitter
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

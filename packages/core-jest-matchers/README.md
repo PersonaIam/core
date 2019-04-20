@@ -1,4 +1,4 @@
-# Ark Core - Jest Matchers
+# Persona Core - Jest Matchers
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />

@@ -1,4 +1,4 @@
-# Ark Core - Public API
+# Persona Core - Public API
 
 <p align="center">
     <img src="../../banner.png?sanitize=true" />
