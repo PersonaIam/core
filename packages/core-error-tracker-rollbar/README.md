@@ -1,4 +1,4 @@
-# ARK Core - Error Tracker - rollbar
+# Persona Core - Error Tracker - rollbar
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png?sanitize=true" />

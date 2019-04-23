@@ -1,6 +1,6 @@
 {
     "name": "@arkecosystem/core-new-relic",
-    "description": "New Relic integration for ARK Core.",
+    "description": "New Relic integration for Persona Core.",
     "version": "2.3.1",
     "contributors": [
         "Brian Faust <brian@ark.io>"

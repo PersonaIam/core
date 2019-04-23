@@ -1,6 +1,6 @@
 {
     "name": "@arkecosystem/core-interfaces",
-    "description": "Interface types for essential ARK Core modules",
+    "description": "Interface types for essential Persona Core modules",
     "version": "2.3.1",
     "contributors": [
         "François-Xavier Thoorens <fx@ark.io>",

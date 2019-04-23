@@ -1,4 +1,4 @@
-# ARK Core - Error Tracker - Raygun
+# Persona Core - Error Tracker - Raygun
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png?sanitize=true" />

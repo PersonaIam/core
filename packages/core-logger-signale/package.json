@@ -1,6 +1,6 @@
 {
     "name": "@arkecosystem/core-logger-signale",
-    "description": "Signale integration for ARK Core",
+    "description": "Signale integration for Persona Core",
     "version": "2.3.1",
     "contributors": [
         "Brian Faust <brian@ark.io>"
