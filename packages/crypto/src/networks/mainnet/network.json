@@ -8,6 +8,7 @@
     "pubKeyHash": 55,
     "nethash": "14b55c1de06caa015362d59ad97a144bc3c9fc2b50ece84b78d13ceaeaf7d8fb",
     "wif": 80,
+    "slip44": 111,
     "aip20": 0,
     "client": {
         "token": "PRSN",

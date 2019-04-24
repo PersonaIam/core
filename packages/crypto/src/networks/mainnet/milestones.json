@@ -30,6 +30,13 @@
         "reward": 800000000
     },
     {
+        "height": 4000000,
+        "block": {
+            "idFullSha256": true
+        },
+        "vendorFieldLength": 255
+    },
+    {
         "height": 8040600,
         "reward": 400000000
     },
