@@ -202,7 +202,7 @@ success "Installed system updates!"
 heading "Installing Persona Core..."
 
 cd /home/vagrant
-git clone https://github.com/ArkEcosystem/core.git ark-core -b develop
+git clone https://github.com/ARKEcosystem/core.git ark-core -b develop
 cd ark-core
 yarn setup
 

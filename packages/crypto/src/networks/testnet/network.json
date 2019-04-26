@@ -8,6 +8,7 @@
     "pubKeyHash": 66,
     "nethash": "527df5a4bf0fbd0dbe4b6c0a255c14a8451f4f3144afdf82bcb65b68ff963114",
     "wif": 187,
+    "slip44": 111,
     "aip20": 0,
     "client": {
         "token": "TPRSN",

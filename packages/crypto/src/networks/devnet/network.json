@@ -8,6 +8,7 @@
     "pubKeyHash": 31,
     "nethash": "5ceaa37839023de939cfd5702584aaac09e37a904dad49c8d928b6770019a8b5",
     "wif": 186,
+    "slip44": 111,
     "aip20": 0,
     "client": {
         "token": "DPRSN",

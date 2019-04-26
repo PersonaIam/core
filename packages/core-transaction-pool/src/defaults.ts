@@ -9,7 +9,7 @@ export const defaults = {
     maxTransactionsInPool: process.env.CORE_MAX_TRANSACTIONS_IN_POOL || 100000,
     maxTransactionsPerSender: process.env.CORE_TRANSACTION_POOL_MAX_PER_SENDER || 300,
     allowedSenders: [],
-    maxTransactionsPerRequest: process.env.CORE_TRANSACTION_POOL_MAX_PER_REQUEST || 40,
+    maxTransactionsPerRequest: process.env.CORE_TRANSACTION_POOL_MAX_PER_REQUEST || 150,
     maxTransactionBytes: process.env.CORE_TRANSACTION_POOL_MAX_TRANSACTIONS_SIZE || 1047876,
     maxTransactionAge: 21600,
     dynamicFees: {
