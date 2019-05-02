@@ -1,4 +1,4 @@
-# ARK Core - Forger
+# Persona Core - Forger
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

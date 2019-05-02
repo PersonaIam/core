@@ -1,4 +1,4 @@
-# ARK Core - Webhooks
+# Persona Core - Webhooks
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

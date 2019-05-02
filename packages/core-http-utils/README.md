@@ -1,4 +1,4 @@
-# ARK Core - HTTP Utilities
+# Persona Core - HTTP Utilities
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

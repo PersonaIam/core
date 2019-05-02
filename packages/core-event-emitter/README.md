@@ -1,4 +1,4 @@
-# ARK Core - Event Emitter
+# Persona Core - Event Emitter
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

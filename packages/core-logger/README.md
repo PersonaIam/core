@@ -1,4 +1,4 @@
-# ARK Core - Logger - Interface
+# Persona Core - Logger - Interface
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

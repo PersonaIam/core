@@ -1,4 +1,4 @@
-# ARK Core - Blockchain
+# Persona Core - Blockchain
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

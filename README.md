@@ -1,8 +1,5 @@
-# ARK Core
+# Persona Core
 
-<p align="center">
-    <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />
-</p>
 
 [![Build Status](https://badgen.now.sh/circleci/github/ARKEcosystem/core)](https://circleci.com/gh/ARKEcosystem/core)
 [![Codecov](https://badgen.now.sh/codecov/c/github/arkecosystem/core)](https://codecov.io/gh/arkecosystem/core)
@@ -10,10 +7,7 @@
 
 ## Introduction
 
-> This repository contains all plugins that make up the ARK Core.
-
-Check our [dedicated documentation site](https://docs.ark.io/guidebook/core/plugins/) for information about all available plugins and [How to write a Core Plugin
-](https://docs.ark.io/tutorials/core/plugins/how-to-write-a-core-plugin.html) if you want to get started with developing your own plugins.
+This repository contains all plugins that make up the Persona Core.
 
 ## Documentation
 

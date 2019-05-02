@@ -1,4 +1,4 @@
-# ARK Core - Error Tracker - Sentry
+# Persona Core - Error Tracker - Sentry
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

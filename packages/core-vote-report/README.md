@@ -1,4 +1,4 @@
-# ARK Core - Vote Report
+# Persona Core - Vote Report
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />
