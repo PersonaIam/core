@@ -9,6 +9,7 @@ export class DelegatesRepository implements Database.IDelegatesBusinessRepositor
      * Create a new delegate repository instance.
      * @param databaseServiceProvider
      */
+    // @ts-ignore
     public constructor(private databaseServiceProvider : () => Database.IDatabaseService) {}
 
     /**

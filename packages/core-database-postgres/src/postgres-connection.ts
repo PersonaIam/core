@@ -20,6 +20,9 @@ export class PostgresConnection implements Database.IDatabaseConnection {
     public models: { [key: string]: Model } = {};
     public query: QueryExecutor;
     public db: any;
+    // @ts-ignore
+    public attributesRepository: Database.IAttributesRepository;
+    public attributeValidationsRepository: Database.IAttributeValidationsRepository;
     public blocksRepository: Database.IBlocksRepository;
     public roundsRepository: Database.IRoundsRepository;
     public transactionsRepository: Database.ITransactionsRepository;
@@ -95,6 +98,7 @@ export class PostgresConnection implements Database.IDatabaseConnection {
         this.db = this.pgp(this.options.connection);
     }
 
+    // @ts-ignore
     public async deleteBlock(block: models.Block) {
         try {
             const queries = [this.transactionsRepository.deleteByBlockId(block.data.id), this.blocksRepository.delete(block.data.id)];
@@ -123,7 +127,7 @@ export class PostgresConnection implements Database.IDatabaseConnection {
         this.emitter.emit(Database.DatabaseEvents.POST_DISCONNECT);
         this.logger.debug("Disconnected from database");
     }
-
+// @ts-ignore
     public enqueueDeleteBlock(block: models.Block): any {
         const queries = [this.transactionsRepository.deleteByBlockId(block.data.id), this.blocksRepository.delete(block.data.id)];
 
@@ -137,7 +141,7 @@ export class PostgresConnection implements Database.IDatabaseConnection {
             this.enqueueQueries([this.roundsRepository.delete(nextRound)]);
         }
     }
-
+// @ts-ignore
     public enqueueSaveBlock(block: models.Block): any {
         const queries = [this.blocksRepository.insert(block.data)];
 
@@ -166,7 +170,7 @@ export class PostgresConnection implements Database.IDatabaseConnection {
             await this.registerModels();
             this.logger.debug("Connected to database.");
             this.emitter.emit(Database.DatabaseEvents.POST_CONNECT);
-
+            // @ts-ignore
             return this;
         } catch (error) {
             app.forceExit("Unable to connect to the database!", error);
@@ -174,7 +178,7 @@ export class PostgresConnection implements Database.IDatabaseConnection {
 
         return null;
     }
-
+// @ts-ignore
     public async saveBlock(block: models.Block) {
         try {
             const queries = [this.blocksRepository.insert(block.data)];
@@ -182,6 +186,55 @@ export class PostgresConnection implements Database.IDatabaseConnection {
             if (block.transactions.length > 0) {
                 queries.push(this.transactionsRepository.insert(block.transactions));
             }
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async saveAttribute(attribute: models.Attribute) {
+        try {
+            const queries = [this.attributesRepository.insert(attribute)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async saveAttributeValidationRequest(attributeValidation: models.AttributeValidation) {
+        try {
+            const queries = [this.attributeValidationsRepository.insert(attributeValidation)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateAttributeValidationRequest(validation: models.AttributeValidation) {
+        try {
+            const queries = [this.attributeValidationsRepository.updateOrCreate(validation)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getAttributeValidationScore(parameters: Object) {
+        try {
+            const queries = [this.attributeValidationsRepository.getAttributeValidationScore(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateOrCreate(attribute: models.Attribute) {
+        try {
+            const queries = [this.attributesRepository.updateOrCreate(attribute)];
 
             await this.db.tx(t => t.batch(queries));
         } catch (err) {
@@ -266,6 +319,8 @@ export class PostgresConnection implements Database.IDatabaseConnection {
     }
 
     private exposeRepositories() {
+        this.attributesRepository = this.db.attributes;
+        this.attributeValidationsRepository = this.db.attributeValidations;
         this.blocksRepository = this.db.blocks;
         this.transactionsRepository = this.db.transactions;
         this.roundsRepository = this.db.rounds;

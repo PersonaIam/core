@@ -11,7 +11,7 @@ import { WalletManager } from "./wallet-manager";
 const { Block, Transaction } = models;
 const { TransactionTypes } = constants;
 
-
+// @ts-ignore
 export class DatabaseService implements Database.IDatabaseService {
 
     public connection: Database.IDatabaseConnection;
@@ -342,6 +342,11 @@ export class DatabaseService implements Database.IDatabaseService {
     public async saveBlock(block: models.Block) {
         await this.connection.saveBlock(block);
     }
+
+    // public async saveAttribute(attribute: object) {
+    //     // @ts-ignore
+    //     await this.connection.attributesRepository.insert(attribute);
+    // }
 
     public async saveRound(activeDelegates: any[]) {
         this.logger.info(`Saving round ${activeDelegates[0].round.toLocaleString()}`);

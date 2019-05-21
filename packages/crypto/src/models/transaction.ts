@@ -4,6 +4,21 @@ import { TransactionDeserializer } from "../deserializers";
 import { TransactionSerializer } from "../serializers";
 import { Bignum, isException } from "../utils";
 
+export interface IAttributeElement {
+    owner ?: string;
+    type ?: string;
+    value ?: string;
+    id ?: number;
+    expire_timestamp ?: number;
+}
+
+export interface IAttributeValidationElement {
+    owner ?: string;
+    validator ?: string;
+    type ?: string;
+    attributeId ?: number;
+}
+
 export interface ITransactionAsset {
     signature?: {
         publicKey: string;
@@ -12,6 +27,8 @@ export interface ITransactionAsset {
         username: string;
         publicKey?: string;
     };
+    attribute?: IAttributeElement[];
+    validation?: IAttributeValidationElement[];
     votes?: string[];
     multisignature?: IMultiSignatureAsset;
     ipfs?: {
@@ -132,9 +149,8 @@ export class Transaction implements ITransactionData {
         } else {
             this.serialized = Transaction.serialize(data).toString("hex");
         }
-
         this.data = Transaction.deserialize(this.serialized);
-        this.verified = (this.data.type < 4 && crypto.verify(this.data)) || isException(this.data);
+        this.verified = (this.data.type < 1000 && crypto.verify(this.data)) || isException(this.data);
 
         // TODO: remove this
         [

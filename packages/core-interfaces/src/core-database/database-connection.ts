@@ -1,4 +1,4 @@
-import { IBlocksRepository } from "./database-repository";
+import { IAttributesRepository, IBlocksRepository, IAttributeValidationsRepository } from "./database-repository";
 import { IRoundsRepository } from "./database-repository";
 import { ITransactionsRepository } from "./database-repository";
 import { IWalletsRepository } from "./database-repository";
@@ -9,6 +9,8 @@ export interface IDatabaseConnection {
 
     options: any;
 
+    attributesRepository : IAttributesRepository;
+    attributeValidationsRepository : IAttributeValidationsRepository;
     blocksRepository : IBlocksRepository;
     walletsRepository: IWalletsRepository;
     roundsRepository: IRoundsRepository;
@@ -28,6 +30,13 @@ export interface IDatabaseConnection {
     saveWallets(wallets: any[], force?: boolean) : Promise<void>;
 
     saveBlock(block: models.Block): Promise<any>;
+
+    saveAttribute(attribute: object): Promise<any>;
+    updateAttribute(attribute: object): Promise<any>;
+
+    saveAttributeValidationRequest(validation: object): Promise<any>;
+    updateAttributeValidationRequest(validation: object): Promise<any>;
+    getAttributeValidationScore(parameters: object): Promise<any>;
 
     deleteBlock(block: models.Block): Promise<any>;
 

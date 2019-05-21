@@ -19,6 +19,10 @@ export abstract class Model {
      */
     public abstract getColumnSet(): any;
 
+    public getColumnSetForUpdate(): any {
+        return this.getColumnSet()
+    }
+
     /**
      * Return the model & table definition.
      * @return {Object}

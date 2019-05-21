@@ -1,3 +1,6 @@
+export * from "./attribute";
+export * from "./attributeType";
+export * from "./attributeValidation";
 export * from "./model";
 export * from "./block";
 export * from "./migration";

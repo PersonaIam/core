@@ -63,6 +63,16 @@ export abstract class Repository implements Database.IRepository {
     }
 
     /**
+     * Generate an "INSERT" query for the given data.
+     * @param  {Array|Object} data
+     * @param  {Array|Object} columnSet
+     * @return {String}
+     */
+    public __insertQueryWithColumnSet(data, columnSet) {
+        return this.pgp.helpers.insert(data, columnSet);
+    }
+
+    /**
      * Generate an "UPDATE" query for the given data.
      * @param  {Array|Object} data
      * @return {String}

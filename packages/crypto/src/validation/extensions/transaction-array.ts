@@ -11,6 +11,14 @@ export const transactionArray = joi => ({
                     joi.delegateRegistration(),
                     joi.vote(),
                     joi.multiSignature(),
+                    joi.createAttribute(),
+                    joi.updateAttribute(),
+                    joi.requestAttributeValidation(),
+                    joi.approveAttributeValidationRequest(),
+                    joi.declineAttributeValidationRequest(),
+                    joi.notarizeAttributeValidationRequest(),
+                    joi.rejectAttributeValidationRequest(),
+                    joi.cancelAttributeValidationRequest()
                 ),
         ),
 });

@@ -11,6 +11,7 @@ const { Transaction } = models;
  */
 export class Storage {
     private table: string;
+    // @ts-ignore
     private db: BetterSqlite3;
 
     /**

@@ -1,24 +1,32 @@
 import "jest-extended";
+import axios from 'axios';
 
 export class ApiHelpers {
-    public static async request(server, method, url, headers, params = {}) {
-        // Build URL params from _params_ object for GET / DELETE requests
-        const getParams = Object.entries(params)
-            .map(([key, val]) => `${key}=${val}`)
-            .join("&");
-
-        // Injecting the request into Hapi server instead of using axios
-        const injectOptions = {
-            method,
-            url: ["GET", "DELETE"].includes(method) ? `${url}?${getParams}` : url,
-            headers,
-            payload: ["GET", "DELETE"].includes(method) ? {} : params,
-        };
-
-        const response = await server.inject(injectOptions);
-        const data = typeof response.result === "string" ? JSON.parse(response.result) : response.result;
-        Object.assign(response, { data, status: response.statusCode });
-        return response;
+    public static async request(method, url, headers, params = {}) {
+        let url1 = `${url}`;
+        let result = {};
+        if (method === 'GET') {
+            try {
+                result = await axios.get(url1);
+            } catch (e) {
+                result = e.response;
+            }
+        }
+        if (method === 'POST') {
+            try {
+                result = await axios.post(url1, params);
+            } catch (e) {
+                result = e.response;
+            }
+        }
+        if (method === 'PUT') {
+            try {
+                result = await axios.put(url1, params);
+            } catch (e) {
+                result = e.response;
+            }
+        }
+        return Object.assign(result);
     }
 
     public static expectJson(response) {

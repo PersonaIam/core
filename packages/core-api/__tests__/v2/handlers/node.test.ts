@@ -1,13 +1,12 @@
 import "@arkecosystem/core-test-utils";
-import { setUp, tearDown } from "../../__support__/setup";
 import { utils } from "../utils";
 
 beforeAll(async () => {
-    await setUp();
+    // await setUp();
 });
 
 afterAll(async () => {
-    await tearDown();
+    // await tearDown();
 });
 
 describe("API 2.0 - Loader", () => {
@@ -16,7 +15,7 @@ describe("API 2.0 - Loader", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET the node status", async () => {
-                    const response = await utils[request]("GET", "node/status");
+                    const response = await utils[request]("GET", "v2/node/status");
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
 
@@ -33,7 +32,7 @@ describe("API 2.0 - Loader", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET the node syncing status", async () => {
-                    const response = await utils[request]("GET", "node/syncing");
+                    const response = await utils[request]("GET", "v2/node/syncing");
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
 
@@ -51,7 +50,7 @@ describe("API 2.0 - Loader", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET the node configuration", async () => {
-                    const response = await utils[request]("GET", "node/configuration");
+                    const response = await utils[request]("GET", "v2/node/configuration");
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
 

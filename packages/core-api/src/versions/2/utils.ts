@@ -1,6 +1,6 @@
 import Boom from "boom";
 import Hapi from "hapi";
-import { transformerService } from "../../services/transformer";
+import { transformerService } from "../../services";
 
 function paginate(request: Hapi.Request): any {
     const pagination = {
@@ -33,7 +33,7 @@ function respondWithCache(data, h): any {
     const { value, cached } = data;
     const lastModified = cached ? new Date(cached.stored) : new Date();
 
-    return value.isBoom
+    return value && value.isBoom
         ? h.response(value.output.payload).code(value.output.statusCode)
         : h.response(value).header("Last-modified", lastModified.toUTCString());
 }

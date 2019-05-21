@@ -8,6 +8,7 @@ export class WalletsRepository implements Database.IWalletsBusinessRepository {
      * Create a new wallet repository instance.
      * @param  {DatabaseConnection} databaseService
      */
+    // @ts-ignore
     public constructor(private databaseServiceProvider : () => Database.IDatabaseService) {}
 
     /**

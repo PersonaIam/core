@@ -20,7 +20,15 @@
                 "ipfs": 0,
                 "timelockTransfer": 0,
                 "multiPayment": 0,
-                "delegateResignation": 0
+                "delegateResignation": 0,
+                "createAttribute" : 1,
+                "updateAttribute" : 1,
+                "requestAttributeValidation" : 1,
+                "approveAttributeValidationRequest" : 1,
+                "declineAttributeValidationRequest" : 1,
+                "notarizeAttributeValidationRequest" : 1,
+                "rejectAttributeValidationRequest" : 1,
+                "cancelAttributeValidationRequest" : 1
             }
         }
     },

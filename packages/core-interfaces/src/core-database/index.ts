@@ -1,3 +1,5 @@
+export * from "./database-repository/attributes-repository";
+export * from "./database-repository/attribute-validations-repository";
 export * from "./database-repository";
 export * from "./business-repository";
 export * from "./database-connection";

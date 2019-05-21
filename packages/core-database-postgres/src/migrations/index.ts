@@ -11,4 +11,6 @@ export const migrations = [
     loadQueryFile(__dirname, "./20181204200000-add-timestamp-index-to-blocks-table.sql"),
     loadQueryFile(__dirname, "./20181204300000-add-sender_public_key-index-to-transactions-table.sql"),
     loadQueryFile(__dirname, "./20181204400000-add-recipient_id-index-to-transactions-table.sql"),
+    loadQueryFile(__dirname, "./20190411000000-create-attributes-table.sql"),
+    loadQueryFile(__dirname, "./20190412000000-attributetypes.sql"),
 ];

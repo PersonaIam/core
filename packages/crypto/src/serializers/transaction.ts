@@ -66,7 +66,23 @@ class TransactionSerializer {
             this.serializeMultiPayment(transaction, buffer);
         } else if (transaction.type === TransactionTypes.DelegateResignation) {
             this.serializeDelegateResignation(transaction, buffer);
-        } else {
+        } else if (transaction.type === TransactionTypes.CreateAttribute) {
+            this.serializeCreateAttribute(transaction, buffer);
+        }  else if (transaction.type === TransactionTypes.UpdateAttribute) {
+            this.serializeUpdateAttribute(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.RequestAttributeValidation) {
+            this.serializeCreateAttributeValidationRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.ApproveAttributeValidationRequest) {
+            this.serializeApproveAttributeValidationRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.DeclineAttributeValidationRequest) {
+            this.serializeDeclineAttributeValidationRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.NotarizeAttributeValidationRequest) {
+            this.serializeNotarizeAttributeValidationRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.RejectAttributeValidationRequest) {
+            this.serializeRejectAttributeValidationRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.CancelAttributeValidationRequest) {
+            this.serializeCancelAttributeValidationRequest(transaction, buffer);
+        }  else {
             throw new TransactionTypeError(transaction.type);
         }
     }
@@ -131,6 +147,133 @@ class TransactionSerializer {
 
     private serializeDelegateResignation(transaction: ITransactionData, buffer: ByteBuffer): void {
         return;
+    }
+
+    serializeCreateAttribute(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.attribute[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let type = Buffer.from(transaction.asset.attribute[0].type, "utf8");
+        buffer.writeByte(type.length);
+        buffer.append(type, "hex");
+        let value = Buffer.from(transaction.asset.attribute[0].value, "utf8");
+        buffer.writeByte(value.length);
+        buffer.append(value, "hex");
+    }
+
+    serializeUpdateAttribute(transaction, buffer) {
+        buffer.writeUInt32(transaction.asset.attribute[0].id)
+        let owner = Buffer.from(transaction.asset.attribute[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let type = Buffer.from(transaction.asset.attribute[0].type, "utf8");
+        buffer.writeByte(type.length);
+        buffer.append(type, "hex");
+        let value = Buffer.from(transaction.asset.attribute[0].value, "utf8");
+        buffer.writeByte(value.length);
+        buffer.append(value, "hex");
+    }
+
+    serializeCreateAttributeValidationRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.validation[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let validator = Buffer.from(transaction.asset.validation[0].validator, "utf8");
+        buffer.writeByte(validator.length);
+        buffer.append(validator, "hex");
+        let type = Buffer.from(transaction.asset.validation[0].type, "utf8");
+        buffer.writeByte(type.length);
+        buffer.append(type, "hex");
+        if (transaction.asset.validation[0].attributeId) {
+            buffer.writeUInt32(transaction.asset.validation[0].attributeId);
+        } else {
+            buffer.writeUInt32(0);
+        }
+    }
+
+    serializeApproveAttributeValidationRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.validation[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let validator = Buffer.from(transaction.asset.validation[0].validator, "utf8");
+        buffer.writeByte(validator.length);
+        buffer.append(validator, "hex");
+        let type = Buffer.from(transaction.asset.validation[0].type, "utf8");
+        buffer.writeByte(type.length);
+        buffer.append(type, "hex");
+        if (transaction.asset.validation[0].attributeId) {
+            buffer.writeUInt32(transaction.asset.validation[0].attributeId);
+        } else {
+            buffer.writeUInt32(0);
+        }
+    }
+
+    serializeDeclineAttributeValidationRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.validation[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let validator = Buffer.from(transaction.asset.validation[0].validator, "utf8");
+        buffer.writeByte(validator.length);
+        buffer.append(validator, "hex");
+        let type = Buffer.from(transaction.asset.validation[0].type, "utf8");
+        buffer.writeByte(type.length);
+        buffer.append(type, "hex");
+        if (transaction.asset.validation[0].attributeId) {
+            buffer.writeUInt32(transaction.asset.validation[0].attributeId);
+        } else {
+            buffer.writeUInt32(0);
+        }
+    }
+
+    serializeNotarizeAttributeValidationRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.validation[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let validator = Buffer.from(transaction.asset.validation[0].validator, "utf8");
+        buffer.writeByte(validator.length);
+        buffer.append(validator, "hex");
+        let type = Buffer.from(transaction.asset.validation[0].type, "utf8");
+        buffer.writeByte(type.length);
+        buffer.append(type, "hex");
+        if (transaction.asset.validation[0].attributeId) {
+            buffer.writeUInt32(transaction.asset.validation[0].attributeId);
+        } else {
+            buffer.writeUInt32(0);
+        }
+    }
+
+    serializeCancelAttributeValidationRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.validation[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let validator = Buffer.from(transaction.asset.validation[0].validator, "utf8");
+        buffer.writeByte(validator.length);
+        buffer.append(validator, "hex");
+        let type = Buffer.from(transaction.asset.validation[0].type, "utf8");
+        buffer.writeByte(type.length);
+        buffer.append(type, "hex");
+        if (transaction.asset.validation[0].attributeId) {
+            buffer.writeUInt32(transaction.asset.validation[0].attributeId);
+        } else {
+            buffer.writeUInt32(0);
+        }
+    }
+
+    serializeRejectAttributeValidationRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.validation[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let validator = Buffer.from(transaction.asset.validation[0].validator, "utf8");
+        buffer.writeByte(validator.length);
+        buffer.append(validator, "hex");
+        let type = Buffer.from(transaction.asset.validation[0].type, "utf8");
+        buffer.writeByte(type.length);
+        buffer.append(type, "hex");
+        if (transaction.asset.validation[0].attributeId) {
+            buffer.writeUInt32(transaction.asset.validation[0].attributeId);
+        } else {
+            buffer.writeUInt32(0);
+        }
     }
 
     private serializeSignatures(transaction: ITransactionData, buffer: ByteBuffer): void {

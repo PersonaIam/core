@@ -250,6 +250,22 @@ export class TransactionGuard implements transactionPool.ITransactionGuard {
             case TransactionTypes.TimelockTransfer:
             case TransactionTypes.MultiPayment:
             case TransactionTypes.DelegateResignation:
+            // @ts-ignore
+            case TransactionTypes.CreateAttribute: break;
+            // @ts-ignore
+            case TransactionTypes.UpdateAttribute: break;
+            // @ts-ignore
+            case TransactionTypes.RequestAttributeValidation: break;
+            // @ts-ignore
+            case TransactionTypes.ApproveAttributeValidationRequest: break;
+            // @ts-ignore
+            case TransactionTypes.DeclineAttributeValidationRequest: break;
+            // @ts-ignore
+            case TransactionTypes.NotarizeAttributeValidationRequest: break;
+            // @ts-ignore
+            case TransactionTypes.RejectAttributeValidationRequest: break;
+            // @ts-ignore
+            case TransactionTypes.CancelAttributeValidationRequest: break;
             default:
                 this.__pushError(
                     transaction,

@@ -1,6 +1,7 @@
 import { app } from "@arkecosystem/core-container";
 import { Database, Logger } from "@arkecosystem/core-interfaces";
 import { roundCalculator } from "@arkecosystem/core-utils";
+// @ts-ignore
 import { Bignum, constants, crypto, formatArktoshi, isException, models } from "@arkecosystem/crypto";
 import pluralize from "pluralize";
 
@@ -464,7 +465,7 @@ export class WalletManager implements Database.IWalletManager {
             // Update vote balance of the sender's delegate
             if (sender.vote) {
                 const delegate = this.findByPublicKey(sender.vote);
-                const total = transaction.amount.plus(transaction.fee);
+                const total = transaction.amount + transaction.fee;
                 delegate.voteBalance = revert ? delegate.voteBalance.plus(total) : delegate.voteBalance.minus(total);
             }
 

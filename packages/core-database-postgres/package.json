@@ -14,7 +14,7 @@
     "scripts": {
         "prepublishOnly": "yarn test && yarn build",
         "pretest": "bash ../../scripts/pre-test.sh",
-        "compile": "../../node_modules/typescript/bin/tsc",
+        "compile": "tsc",
         "build": "yarn clean && yarn copy && yarn compile",
         "build:watch": "yarn clean && yarn copy && yarn compile -w",
         "clean": "del dist",
@@ -25,7 +25,7 @@
         "test:debug": "cross-env CORE_ENV=test node --inspect-brk ../../node_modules/.bin/jest --runInBand",
         "test:watch": "cross-env CORE_ENV=test jest --runInBand --watch",
         "test:watch:all": "cross-env CORE_ENV=test jest --runInBand --watchAll",
-        "copy": "cd src/ && cpy './**/*.sql' --parents ../dist/ && cd ../",
+        "copy": "cd src/ && copy './**/*.sql' --parents ../dist/ && cd ../",
         "updates": "../../node_modules/npm-check-updates/bin/npm-check-updates -a"
     },
     "dependencies": {
@@ -35,9 +35,15 @@
         "@arkecosystem/core-interfaces": "=2.1.0",
         "@arkecosystem/core-utils": "=2.1.0",
         "@arkecosystem/crypto": "file:../crypto",
+        "@types/babel__generator": "^7.0.2",
+        "@types/babel__template": "^7.0.2",
+        "@types/babel__traverse": "^7.0.6",
         "@types/bluebird": "^3.5.25",
+        "@types/istanbul-lib-coverage": "^2.0.0",
         "@types/lodash.chunk": "^4.2.4",
         "@types/pluralize": "^0.0.29",
+        "@types/stack-utils": "^1.0.1",
+        "@types/yargs": "^13.0.0",
         "bluebird": "^3.5.3",
         "cpy-cli": "^2.0.0",
         "lodash.chunk": "^4.2.0",

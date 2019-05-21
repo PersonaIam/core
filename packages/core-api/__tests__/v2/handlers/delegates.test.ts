@@ -1,14 +1,6 @@
 import "@arkecosystem/core-test-utils";
-import { calculateRanks, setUp, tearDown } from "../../__support__/setup";
 import { utils } from "../utils";
-
-import { blocks2to100 } from "../../../../core-test-utils/src/fixtures/testnet/blocks2to100";
-
 import { models } from "@arkecosystem/crypto";
-const { Block } = models;
-
-import { app } from "@arkecosystem/core-container";
-import { Database } from "@arkecosystem/core-interfaces";
 
 const delegate = {
     username: "genesis_9",
@@ -17,12 +9,9 @@ const delegate = {
 };
 
 beforeAll(async () => {
-    await setUp();
-    await calculateRanks();
 });
 
 afterAll(async () => {
-    await tearDown();
 });
 
 describe("API 2.0 - Delegates", () => {
@@ -31,7 +20,7 @@ describe("API 2.0 - Delegates", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET all the delegates", async () => {
-                    const response = await utils[request]("GET", "delegates");
+                    const response = await utils[request]("GET", "v2/delegates");
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeArray();
 
@@ -45,7 +34,7 @@ describe("API 2.0 - Delegates", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET all the delegates ordered by descending rank", async () => {
-                    const response = await utils[request]("GET", "delegates", { orderBy: "rank:desc" });
+                    const response = await utils[request]("GET", "v2/delegates", { orderBy: "rank:desc" });
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeArray();
 
@@ -59,7 +48,7 @@ describe("API 2.0 - Delegates", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET all the delegates ordered by descending productivity", async () => {
-                    const response = await utils[request]("GET", "delegates", { orderBy: "productivity:desc" });
+                    const response = await utils[request]("GET", "v2/delegates", { orderBy: "productivity:desc" });
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeArray();
 
@@ -75,7 +64,7 @@ describe("API 2.0 - Delegates", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET all the delegates ordered by descending approval", async () => {
-                    const response = await utils[request]("GET", "delegates", { orderBy: "approval:desc" });
+                    const response = await utils[request]("GET", "v2/delegates", { orderBy: "approval:desc" });
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeArray();
 
@@ -93,7 +82,7 @@ describe("API 2.0 - Delegates", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET a delegate by the given username", async () => {
-                    const response = await utils[request]("GET", `delegates/${delegate.username}`);
+                    const response = await utils[request]("GET", `v2/delegates/${delegate.username}`);
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
 
@@ -106,7 +95,7 @@ describe("API 2.0 - Delegates", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET a delegate by the given address", async () => {
-                    const response = await utils[request]("GET", `delegates/${delegate.address}`);
+                    const response = await utils[request]("GET", `v2/delegates/${delegate.address}`);
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
 
@@ -119,7 +108,7 @@ describe("API 2.0 - Delegates", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET a delegate by the given public key", async () => {
-                    const response = await utils[request]("GET", `delegates/${delegate.publicKey}`);
+                    const response = await utils[request]("GET", `v2/delegates/${delegate.publicKey}`);
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
 
@@ -134,7 +123,7 @@ describe("API 2.0 - Delegates", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for delegates with a username that matches the given string", async () => {
-                    const response = await utils[request]("POST", "delegates/search", {
+                    const response = await utils[request]("POST", "v2/delegates/search", {
                         username: delegate.username,
                     });
                     expect(response).toBeSuccessfulResponse();
@@ -148,36 +137,12 @@ describe("API 2.0 - Delegates", () => {
         );
     });
 
-    describe("GET /delegates/:id/blocks", () => {
-        describe.each([["API-Version", "request"], ["Accept", "requestWithAcceptHeader"]])(
-            "using the %s header",
-            (header, request) => {
-                it("should GET all blocks for a delegate by the given identifier", async () => {
-                    // save a new block so that we can make the request with generatorPublicKey
-                    const block2 = new Block(blocks2to100[0]);
-                    const databaseService = app.resolvePlugin<Database.IDatabaseService>("database");
-                    await databaseService.saveBlock(block2);
-
-                    const response = await utils[request](
-                        "GET",
-                        `delegates/${blocks2to100[0].generatorPublicKey}/blocks`,
-                    );
-                    expect(response).toBeSuccessfulResponse();
-                    expect(response.data.data).toBeArray();
-                    utils.expectBlock(response.data.data[0]);
-
-                    await databaseService.deleteBlock(block2); // reset to genesis block
-                });
-            },
-        );
-    });
-
     describe("GET /delegates/:id/voters", () => {
         describe.each([["API-Version", "request"], ["Accept", "requestWithAcceptHeader"]])(
             "using the %s header",
             (header, request) => {
                 it("should GET all voters (wallets) for a delegate by the given identifier", async () => {
-                    const response = await utils[request]("GET", `delegates/${delegate.publicKey}/voters`);
+                    const response = await utils[request]("GET", `v2/delegates/${delegate.publicKey}/voters`);
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeArray();
 
@@ -186,4 +151,5 @@ describe("API 2.0 - Delegates", () => {
             },
         );
     });
+
 });

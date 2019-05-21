@@ -9,6 +9,14 @@ import { MultiSignatureHandler } from "./multi-signature";
 import { SecondSignatureHandler } from "./second-signature";
 import { TimelockTransferHandler } from "./timelock-transfer";
 import { TransferHandler } from "./transfer";
+import { CreateAttributeHandler } from "./create-attribute";
+import { UpdateAttributeHandler } from "./update-attribute";
+import { RequestAttributeValidationHandler } from "./attribute-validation-request";
+import { RequestAttributeValidationApproveHandler } from "./attribute-validation-request-approve";
+import { RequestAttributeValidationDeclineHandler } from "./attribute-validation-request-decline";
+import { RequestAttributeValidationRejectHandler } from "./attribute-validation-request-reject";
+import { RequestAttributeValidationNotarizeHandler } from "./attribute-validation-request-notarize";
+import { RequestAttributeValidationCancelHandler } from "./attribute-validation-request-cancel";
 import { VoteHandler } from "./vote";
 
 class TransactionHandler {
@@ -25,6 +33,14 @@ class TransactionHandler {
             [TransactionTypes.TimelockTransfer]: TimelockTransferHandler,
             [TransactionTypes.MultiPayment]: MultiPaymentHandler,
             [TransactionTypes.DelegateResignation]: DelegateResignationHandler,
+            [TransactionTypes.CreateAttribute]: CreateAttributeHandler,
+            [TransactionTypes.UpdateAttribute]: UpdateAttributeHandler,
+            [TransactionTypes.RequestAttributeValidation]: RequestAttributeValidationHandler,
+            [TransactionTypes.ApproveAttributeValidationRequest]: RequestAttributeValidationApproveHandler,
+            [TransactionTypes.DeclineAttributeValidationRequest]: RequestAttributeValidationDeclineHandler,
+            [TransactionTypes.RejectAttributeValidationRequest]: RequestAttributeValidationRejectHandler,
+            [TransactionTypes.NotarizeAttributeValidationRequest]: RequestAttributeValidationNotarizeHandler,
+            [TransactionTypes.CancelAttributeValidationRequest]: RequestAttributeValidationCancelHandler,
         };
     }
 

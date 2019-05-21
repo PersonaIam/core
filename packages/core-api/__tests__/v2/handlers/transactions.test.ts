@@ -1,6 +1,4 @@
 import "@arkecosystem/core-test-utils";
-import { constants } from "@arkecosystem/crypto";
-import { setUp, tearDown } from "../../__support__/setup";
 import { utils } from "../utils";
 
 import genesisBlock from "../../../../core-test-utils/src/config/testnet/genesisBlock.json";
@@ -32,8 +30,6 @@ let feeFrom;
 let feeTo;
 
 beforeAll(async () => {
-    await setUp();
-
     genesisTransactions = genesisBlock.transactions;
     genesisTransaction = genesisTransactions[0];
 
@@ -57,7 +53,6 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    await tearDown();
 });
 
 describe("API 2.0 - Transactions", () => {
@@ -66,7 +61,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET all the transactions", async () => {
-                    const response = await utils[request]("GET", "transactions");
+                    const response = await utils[request]("GET", "v2/transactions");
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeArray();
 
@@ -81,7 +76,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET a transaction by the given identifier", async () => {
-                    const response = await utils[request]("GET", `transactions/${transactionId}`);
+                    const response = await utils[request]("GET", `v2/transactions/${transactionId}`);
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
 
@@ -100,7 +95,7 @@ describe("API 2.0 - Transactions", () => {
                 it("should GET all the unconfirmed transactions", async () => {
                     await utils.createTransaction();
 
-                    const response = await utils[request]("GET", "transactions/unconfirmed");
+                    const response = await utils[request]("GET", "v2/transactions/unconfirmed");
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeArray();
                     expect(response.data.data).not.toBeEmpty();
@@ -116,7 +111,7 @@ describe("API 2.0 - Transactions", () => {
                 it("should GET an unconfirmed transaction by the given identifier", async () => {
                     const transaction = await utils.createTransaction();
 
-                    const response = await utils[request]("GET", `transactions/unconfirmed/${transaction.id}`);
+                    const response = await utils[request]("GET", `v2/transactions/unconfirmed/${transaction.id}`);
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
                     expect(response.data.data).toHaveProperty("id", transaction.id);
@@ -130,7 +125,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should GET transaction types", async () => {
-                    const response = await utils[request]("GET", "transactions/types");
+                    const response = await utils[request]("GET", "v2/transactions/types");
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data.data).toBeObject();
                     expect(response.data.data).toEqual({
@@ -154,7 +149,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified transactionId", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         id: transactionId,
                     });
                     expect(response).toBeSuccessfulResponse();
@@ -173,7 +168,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified blockId", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         blockId,
                     });
                     expect(response).toBeSuccessfulResponse();
@@ -192,7 +187,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified type", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         type,
                     });
                     expect(response).toBeSuccessfulResponse();
@@ -211,7 +206,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified version", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         version,
                     });
                     expect(response).toBeSuccessfulResponse();
@@ -230,7 +225,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified senderPublicKey", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         senderPublicKey,
                     });
 
@@ -248,7 +243,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified senderId", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         senderId: senderAddress,
                     });
 
@@ -266,7 +261,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified recipientId (Address)", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         recipientId: recipientAddress,
                     });
                     expect(response).toBeSuccessfulResponse();
@@ -285,7 +280,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the any of the specified addresses", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         addresses: [genesisTransactions[3].recipientId, genesisTransactions[8].recipientId],
                     });
 
@@ -305,7 +300,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified timestamp", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         timestamp: {
                             from: timestamp,
                             to: timestamp,
@@ -328,7 +323,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the specified timestamp range", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         timestamp: {
                             from: timestampFrom,
                             to: timestampTo,
@@ -352,7 +347,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified amount", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         amount: {
                             from: amount,
                             to: amount,
@@ -375,7 +370,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the specified amount range", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         amount: {
                             from: amountFrom,
                             to: amountTo,
@@ -399,7 +394,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the exact specified fee", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         fee: {
                             from: fee,
                             to: fee,
@@ -422,7 +417,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the specified fee range", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         fee: {
                             from: feeFrom,
                             to: feeTo,
@@ -450,7 +445,7 @@ describe("API 2.0 - Transactions", () => {
                     const hexify = (value: string) => Buffer.from(value, "utf8").toString("hex");
 
                     const vendorFieldHex = hexify(dummyTransaction.vendorField);
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         vendorFieldHex,
                     });
 
@@ -471,7 +466,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the wrong specified type", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         id: transactionId,
                         type: wrongType,
                     });
@@ -486,7 +481,7 @@ describe("API 2.0 - Transactions", () => {
             "using the %s header",
             (header, request) => {
                 it("should POST a search for transactions with the specific criteria", async () => {
-                    const response = await utils[request]("POST", "transactions/search", {
+                    const response = await utils[request]("POST", "v2/transactions/search", {
                         senderPublicKey,
                         type,
                         timestamp: {
@@ -516,22 +511,22 @@ describe("API 2.0 - Transactions", () => {
                 );
 
                 it("should POST all the transactions", async () => {
-                    const response = await utils[request]("POST", "transactions", {
+                    const response = await utils[request]("POST", "v2/transactions", {
                         transactions,
                     });
                     expect(response).toBeSuccessfulResponse();
                 });
 
-                it("should not POST all the transactions", async () => {
-                    const response = await utils[request]("POST", "transactions", {
-                        transactions: transactions.concat(transactions),
-                    });
-
-                    expect(response.data.statusCode).toBe(400);
-                    expect(response.data.message).toBe(
-                        'child "transactions" fails because ["transactions" must contain less than or equal to 40 items]',
-                    );
-                });
+                // it("should not POST all the transactions", async () => {
+                //     const response = await utils[request]("POST", "v2/transactions", {
+                //         transactions: transactions.concat(transactions),
+                //     });
+                //
+                //     expect(response.data.statusCode).toBe(400);
+                //     expect(response.data.message).toBe(
+                //         'child "transactions" fails because ["transactions" must contain less than or equal to 40 items]',
+                //     );
+                // });
             },
         );
 
@@ -544,7 +539,7 @@ describe("API 2.0 - Transactions", () => {
                 2,
                 true,
             );
-            const response = await utils.requestWithAcceptHeader("POST", "transactions", {
+            const response = await utils.requestWithAcceptHeader("POST", "v2/transactions", {
                 transactions,
             });
 
@@ -587,7 +582,7 @@ describe("API 2.0 - Transactions", () => {
 
             const allTransactions = transactions.concat(lastTransaction);
 
-            const response = await utils.requestWithAcceptHeader("POST", "transactions", {
+            const response = await utils.requestWithAcceptHeader("POST", "v2/transactions", {
                 transactions: allTransactions,
             });
 
@@ -628,7 +623,7 @@ describe("API 2.0 - Transactions", () => {
 
                 const allTransactions = transactions.concat(lastTransaction);
 
-                const response = await utils.requestWithAcceptHeader("POST", "transactions", {
+                const response = await utils.requestWithAcceptHeader("POST", "v2/transactions", {
                     transactions: allTransactions,
                 });
 

@@ -11,10 +11,7 @@ class Helpers {
             "API-Version": 2,
             "Content-Type": "application/json",
         };
-
-        const server = app.resolvePlugin("api");
-
-        return ApiHelpers.request(server.http, method, url, headers, params);
+        return ApiHelpers.request(method, url, headers, params);
     }
 
     public async requestWithAcceptHeader(method, path, params = {}) {
@@ -24,9 +21,7 @@ class Helpers {
             "Content-Type": "application/json",
         };
 
-        const server = app.resolvePlugin("api");
-
-        return ApiHelpers.request(server.http, method, url, headers, params);
+        return ApiHelpers.request(method, url, headers, params);
     }
 
     public expectJson(response) {
@@ -97,20 +92,52 @@ class Helpers {
         expect(block).toBeObject();
         expect(block.id).toBeString();
         expect(block.version).toBeNumber();
+        expect(block.payloadHash).toBeString();
+        expect(block.payloadLength).toBeNumber();
+        expect(block.numberOfTransactions).toBeNumber();
         expect(block.height).toBeNumber();
-        expect(block).toHaveProperty("previous"); // `null` or String
-        expect(block).toHaveProperty("forged");
+        expect(block.reward).toBeNumber();
+        expect(block.timestamp).toBeNumber();
+        expect(block.totalFee).toBeNumber();
+        expect(block.totalAmount).toBeNumber();
+        expect(block.totalForged).toBeNumber();
+
+        expect(block).toHaveProperty("previousBlock");
+        expect(block).toHaveProperty("generatorPublicKey");
+        expect(block).toHaveProperty("blockSignature");
+        expect(block).toHaveProperty("confirmations");
+        expect(block.confirmations).toBeNumber();
+
+        Object.keys(expected || {}).forEach(attr => {
+            expect(block[attr]).toEqual(expected[attr]);
+        });
+    }
+
+    public expectBlockV2(block, expected: any = {}) {
+        expect(block).toBeObject();
+        expect(block.id).toBeString();
+        expect(block.version).toBeNumber();
+        expect(block.height).toBeNumber();
+        expect(block.payload).toBeObject();
+        expect(block.payload.hash).toBeString();
+        expect(block.payload.length).toBeNumber();
+        expect(block.transactions).toBeNumber();
+        expect(block.signature).toBeString();
+
+        expect(block.timestamp).toBeObject();
+        expect(block.timestamp.epoch).toBeNumber();
+        expect(block.timestamp.unix).toBeNumber();
+        expect(block.timestamp.human).toBeString();
+        expect(block.forged).toBeObject();
         expect(block.forged.reward).toBeNumber();
         expect(block.forged.fee).toBeNumber();
         expect(block.forged.total).toBeNumber();
         expect(block.forged.amount).toBeNumber();
-        expect(block).toHaveProperty("payload");
-        expect(block.payload.length).toBeNumber();
-        expect(block.payload.hash).toBeString();
-        expect(block).toHaveProperty("generator");
+
+        expect(block.generator).toBeObject();
+        expect(block.generator.address).toBeString();
         expect(block.generator.publicKey).toBeString();
-        expect(block.signature).toBeString();
-        expect(block.transactions).toBeNumber();
+
 
         Object.keys(expected || {}).forEach(attr => {
             expect(block[attr]).toEqual(expected[attr]);
@@ -156,7 +183,7 @@ class Helpers {
             .amount(1 * 1e8)
             .recipientId("AZFEPTWnn2Sn8wDZgCRF8ohwKkrmk2AZi1")
             .vendorField("test")
-            .sign("prison tobacco acquire stone dignity palace note decade they current lesson robot")
+            .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire")
             .getStruct();
 
         await axios.post(
