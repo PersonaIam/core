@@ -12,6 +12,17 @@ export interface IAttributeElement {
     expire_timestamp ?: number;
 }
 
+export interface IServiceElement {
+    name ?: string;
+    provider ?: string;
+    description ?: string;
+    attribute_types ?: string;
+    validations_required ?: number;
+    status ?: string;
+    id ?: number;
+    timestamp ?: number;
+}
+
 export interface IAttributeValidationElement {
     owner ?: string;
     validator ?: string;
@@ -28,6 +39,7 @@ export interface ITransactionAsset {
         publicKey?: string;
     };
     attribute?: IAttributeElement[];
+    service?: IServiceElement;
     validation?: IAttributeValidationElement[];
     votes?: string[];
     multisignature?: IMultiSignatureAsset;

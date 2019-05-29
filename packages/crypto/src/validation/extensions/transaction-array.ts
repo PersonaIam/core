@@ -18,7 +18,10 @@ export const transactionArray = joi => ({
                     joi.declineAttributeValidationRequest(),
                     joi.notarizeAttributeValidationRequest(),
                     joi.rejectAttributeValidationRequest(),
-                    joi.cancelAttributeValidationRequest()
+                    joi.cancelAttributeValidationRequest(),
+                    joi.createService(),
+                    joi.activateService(),
+                    joi.inactivateService()
                 ),
         ),
 });

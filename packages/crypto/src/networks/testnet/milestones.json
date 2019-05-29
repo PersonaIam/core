@@ -28,7 +28,10 @@
                 "declineAttributeValidationRequest" : 1,
                 "notarizeAttributeValidationRequest" : 1,
                 "rejectAttributeValidationRequest" : 1,
-                "cancelAttributeValidationRequest" : 1
+                "cancelAttributeValidationRequest" : 1,
+                "createService" : 1,
+                "inactivateService" : 1,
+                "activateService" : 1
             }
         }
     },

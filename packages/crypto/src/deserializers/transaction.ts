@@ -83,6 +83,12 @@ class TransactionDeserializer {
             this.deserializeRejectAttributeValidationRequest(transaction, buf);
         } else if (transaction.type === TransactionTypes.CancelAttributeValidationRequest) {
             this.deserializeCancelAttributeValidationRequest(transaction, buf);
+        } else if (transaction.type === TransactionTypes.CreateService) {
+            this.deserializeCreateService(transaction, buf);
+        } else if (transaction.type === TransactionTypes.ActivateService) {
+            this.deserializeActivateService(transaction, buf);
+        } else if (transaction.type === TransactionTypes.InactivateService) {
+            this.deserializeInactivateService(transaction, buf);
         } else {
             throw new TransactionTypeError(transaction.type);
         }
@@ -161,6 +167,59 @@ class TransactionDeserializer {
         transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
     }
 
+    private deserializeCreateService(transaction: ITransactionData, buf: ByteBuffer): void {
+        transaction.asset = { service : {} }
+        transaction.asset.service = {}
+
+        let nameLength = buf.readUint8()
+        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex")
+
+        let providerLength = buf.readUint8()
+        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex")
+
+        let descriptionLength = buf.readUint8()
+        transaction.asset.service.description = buf.readBytes(descriptionLength).toString("hex")
+
+        let attributeTypesLength = buf.readUint8()
+        transaction.asset.service.attribute_types = buf.readBytes(attributeTypesLength).toString("hex")
+
+        transaction.asset.service.validations_required = buf.readInt32();
+
+        transaction.fee = 1;
+        transaction.amount = 0;
+        transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+    }
+
+    private deserializeActivateService(transaction: ITransactionData, buf: ByteBuffer): void {
+        transaction.asset = { service : {} }
+        transaction.asset.service = {}
+
+        let nameLength = buf.readUint8()
+        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex")
+
+        let providerLength = buf.readUint8()
+        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex")
+
+        transaction.fee = 1;
+        transaction.amount = 0;
+        transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+    }
+
+    private deserializeInactivateService(transaction: ITransactionData, buf: ByteBuffer): void {
+        transaction.asset = { service : {} }
+        transaction.asset.service = {}
+
+        let nameLength = buf.readUint8()
+        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex")
+
+        let providerLength = buf.readUint8()
+        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex")
+
+        transaction.fee = 1;
+        transaction.amount = 0;
+        transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+    }
+
     private deserializeUpdateAttribute(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { attribute: [] };
         transaction.asset.attribute[0] = {}
@@ -175,7 +234,8 @@ class TransactionDeserializer {
         let valueLength = buf.readUint8()
         transaction.asset.attribute[0].value = buf.readBytes(valueLength).toString("hex")
 
-        transaction.fee = 2;
+        transaction.asset.attribute[0].expire_timestamp = buf.readInt32();
+        transaction.fee = 1;
         transaction.amount = 0;
         transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
     }

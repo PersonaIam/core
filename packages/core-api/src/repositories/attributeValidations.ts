@@ -89,7 +89,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
         try {
             let validation = parameters.asset.validation[0]
             const transaction = crypto.transactionBuilder
-                .createAttributeValidationRequest()
+                .requestAttributeValidation()
                 .validationAsset(parameters.asset.validation)
                 .amount(0)
                 .recipientId(validation.owner)
@@ -119,7 +119,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                     validation.expire_timestamp = null;
                 }
                 validation.status = 'PENDING_APPROVAL';
-                const repo1 = await this.databaseService.connection.saveAttributeValidationRequest(validation);
+                const result = await this.databaseService.connection.saveAttributeValidationRequest(validation);
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -171,6 +171,11 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 }
                 validation.status = 'IN_PROGRESS';
                 const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                    id : validation.id,
+                    action : 'APPROVE',
+                    timestamp : transaction.timestamp
+                });
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -222,6 +227,11 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 }
                 validation.status = 'DECLINED';
                 const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                    id : validation.id,
+                    action : 'DECLINE',
+                    timestamp : transaction.timestamp
+                });
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -273,6 +283,11 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 }
                 validation.status = 'CANCELED';
                 const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                    id : validation.id,
+                    action : 'CANCEL',
+                    timestamp : transaction.timestamp
+                });
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -324,6 +339,11 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 }
                 validation.status = 'COMPLETED';
                 const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                    id : validation.id,
+                    action : 'NOTARIZE',
+                    timestamp : transaction.timestamp
+                });
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -375,6 +395,11 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 }
                 validation.status = 'REJECTED';
                 const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                    id : validation.id,
+                    action : 'REJECT',
+                    timestamp : transaction.timestamp
+                });
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -396,6 +421,22 @@ export class AttributeValidationsRepository extends Repository implements IRepos
         try {
             const result = await this.databaseService.connection.getAttributeValidationScore(parameters);
             return { "result": result };
+
+        } catch (err) {
+            console.log(err);
+            return { "error": err };
+        }
+    }
+
+    /**
+     * getAttributeValidationScore.
+     * @param  {Object}  parameters
+     * @return {Object}
+     */
+    async getAttributeValidationRequests(parameters = <any>{}) {
+
+        try {
+            return await this.databaseService.connection.getAttributeValidationRequests(parameters);
 
         } catch (err) {
             console.log(err);

@@ -6,6 +6,10 @@ import { DeclineAttributeValidationBuilder } from "./transactions/decline-attrib
 import { NotarizeAttributeValidationBuilder } from "./transactions/notarize-attribute-validation";
 import { CancelAttributeValidationBuilder } from "./transactions/cancel-attribute-validation";
 import { CreateAttributeValidationBuilder } from "./transactions/create-attribute-validation";
+import { CreateServiceBuilder } from "./transactions/create-service";
+import { ActivateServiceBuilder } from "./transactions/activate-service";
+import { InactivateServiceBuilder } from "./transactions/inactivate-service";
+
 import { DelegateRegistrationBuilder } from "./transactions/delegate-registration";
 import { DelegateResignationBuilder } from "./transactions/delegate-resignation";
 import { IPFSBuilder } from "./transactions/ipfs";
@@ -97,7 +101,7 @@ export class TransactionBuilderFactory {
     /**
      * Create new create attribute validation request transaction type.
      */
-    public createAttributeValidationRequest(): CreateAttributeValidationBuilder {
+    public requestAttributeValidation(): CreateAttributeValidationBuilder {
         return new CreateAttributeValidationBuilder();
     }
 
@@ -134,6 +138,27 @@ export class TransactionBuilderFactory {
      */
     public cancelAttributeValidationRequest(): CancelAttributeValidationBuilder {
         return new CancelAttributeValidationBuilder();
+    }
+
+    /**
+     * Create new create service transaction type.
+     */
+    public createService(): CreateServiceBuilder {
+        return new CreateServiceBuilder();
+    }
+
+    /**
+     * Create new activate service transaction type.
+     */
+    public activateService(): ActivateServiceBuilder {
+        return new ActivateServiceBuilder();
+    }
+
+    /**
+     * Create new inactivate service transaction type.
+     */
+    public inactivateService(): InactivateServiceBuilder {
+        return new InactivateServiceBuilder();
     }
 }
 

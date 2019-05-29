@@ -75,7 +75,7 @@ const REASON_FOR_REJECT_1025_TOO_LONG =
 
 describe("API 2.0", () => {
 
-    describe("Preparations - Create Attribute", () => {
+    describe("Preparations - Create Attributes", () => {
         describe.each([["Accept", "requestWithAcceptHeader"]])(
             "Create Attribute",
             (header, request) => {

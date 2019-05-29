@@ -82,7 +82,13 @@ class TransactionSerializer {
             this.serializeRejectAttributeValidationRequest(transaction, buffer);
         } else if (transaction.type === TransactionTypes.CancelAttributeValidationRequest) {
             this.serializeCancelAttributeValidationRequest(transaction, buffer);
-        }  else {
+        } else if (transaction.type === TransactionTypes.CreateService) {
+            this.serializeCreateService(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.ActivateService) {
+            this.serializeActivateService(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.InactivateService) {
+            this.serializeInactivateService(transaction, buffer);
+        } else {
             throw new TransactionTypeError(transaction.type);
         }
     }
@@ -161,6 +167,41 @@ class TransactionSerializer {
         buffer.append(value, "hex");
     }
 
+    serializeCreateService(transaction, buffer) {
+        let name = Buffer.from(transaction.asset.service.name, "utf8");
+        buffer.writeByte(name.length);
+        buffer.append(name, "hex");
+        let provider = Buffer.from(transaction.asset.service.provider, "utf8");
+        buffer.writeByte(provider.length);
+        buffer.append(provider, "hex");
+        let description = Buffer.from(transaction.asset.service.description, "utf8");
+        buffer.writeByte(description.length);
+        buffer.append(description, "hex");
+        let attributeTypes = Buffer.from(transaction.asset.service.attribute_types, "utf8");
+        buffer.writeByte(attributeTypes.length);
+        buffer.append(attributeTypes, "hex");
+
+        buffer.writeUInt32(transaction.asset.service.validations_required);
+    }
+
+    serializeActivateService(transaction, buffer) {
+        let name = Buffer.from(transaction.asset.service.name, "utf8");
+        buffer.writeByte(name.length);
+        buffer.append(name, "hex");
+        let provider = Buffer.from(transaction.asset.service.provider, "utf8");
+        buffer.writeByte(provider.length);
+        buffer.append(provider, "hex");
+    }
+
+    serializeInactivateService(transaction, buffer) {
+        let name = Buffer.from(transaction.asset.service.name, "utf8");
+        buffer.writeByte(name.length);
+        buffer.append(name, "hex");
+        let provider = Buffer.from(transaction.asset.service.provider, "utf8");
+        buffer.writeByte(provider.length);
+        buffer.append(provider, "hex");
+    }
+
     serializeUpdateAttribute(transaction, buffer) {
         buffer.writeUInt32(transaction.asset.attribute[0].id)
         let owner = Buffer.from(transaction.asset.attribute[0].owner, "utf8");
@@ -172,6 +213,7 @@ class TransactionSerializer {
         let value = Buffer.from(transaction.asset.attribute[0].value, "utf8");
         buffer.writeByte(value.length);
         buffer.append(value, "hex");
+        buffer.writeUInt32(transaction.asset.attribute[0].expire_timestamp)
     }
 
     serializeCreateAttributeValidationRequest(transaction, buffer) {

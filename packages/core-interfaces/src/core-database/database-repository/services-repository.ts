@@ -1,7 +1,7 @@
 import { Bignum } from "@arkecosystem/crypto";
 import { IRepository } from "./repository";
 
-export interface IAttributeValidationsRepository extends IRepository {
+export interface IServicesRepository extends IRepository {
 
     /**
      * Find a block by its ID.
@@ -51,11 +51,6 @@ export interface IAttributeValidationsRepository extends IRepository {
      */
     delete(id: string): Promise<void>;
 
-    updateOrCreate(attribute: any): Promise<void>;
-
-    getAttributeValidationScore(parameters : any) : Promise<void>;
-
-    addAttributeValidationRequestAction(parameters : any) : Promise<void>;
-
-    getAttributeValidationRequests(parameters : any) : Promise<void>;
+    updateOrCreate(service: any): Promise<void>;
+    updateServiceStatus(service: any): Promise<void>;
 }

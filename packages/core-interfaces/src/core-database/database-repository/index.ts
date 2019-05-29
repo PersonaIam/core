@@ -1,4 +1,5 @@
 export * from "./attributes-repository";
+export * from "./services-repository";
 export * from "./attribute-validations-repository";
 export * from "./transactions-repository";
 export * from "./rounds-repository";

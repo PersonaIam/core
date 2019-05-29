@@ -52,4 +52,6 @@ export interface IAttributesRepository extends IRepository {
     delete(id: string): Promise<void>;
 
     updateOrCreate(attribute: any): Promise<void>;
+
+    getAttributesWithValidationDetails(parameters: any) : Promise<void>;
 }

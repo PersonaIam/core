@@ -9,7 +9,12 @@ export function transformAttribute(attribute) {
         owner: attribute.owner,
         associations: attribute.associations,
         timestamp: attribute.timestamp,
-        expire_timestamp: attribute.expireTimestamp
+        expire_timestamp: attribute.expireTimestamp,
+        redFlags: attribute.redFlags,
+        yellowFlags: attribute.yellowFlags,
+        active: attribute.active,
+        rejected: attribute.rejected,
+        dangerOfRejection: attribute.dangerOfRejection
     };
 }
 

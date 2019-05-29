@@ -266,6 +266,12 @@ export class TransactionGuard implements transactionPool.ITransactionGuard {
             case TransactionTypes.RejectAttributeValidationRequest: break;
             // @ts-ignore
             case TransactionTypes.CancelAttributeValidationRequest: break;
+            // @ts-ignore
+            case TransactionTypes.CreateService: break;
+            // @ts-ignore
+            case TransactionTypes.ActivateService: break;
+            // @ts-ignore
+            case TransactionTypes.InactivateService: break;
             default:
                 this.__pushError(
                     transaction,

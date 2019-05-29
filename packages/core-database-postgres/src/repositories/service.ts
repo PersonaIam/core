@@ -1,13 +1,13 @@
 import { Database } from "@arkecosystem/core-interfaces";
-import { Attribute } from "../models";
+import { Service } from "../models";
 import { queries } from "../queries";
 import { Repository } from "./repository";
 
 const { blocks: sql } = queries;
 
-export class AttributesRepository extends Repository {
+export class ServicesRepository extends Repository {
     /**
-     * Find a block by its ID.
+     * Find a service by its ID.
      * @param  {Number} id
      * @return {Promise}
      */
@@ -86,7 +86,7 @@ export class AttributesRepository extends Repository {
     }
 
     /**
-     * Delete the block from the database.
+     * Delete the service from the database.
      * @param  {Number} id
      * @return {Promise}
      */
@@ -96,45 +96,31 @@ export class AttributesRepository extends Repository {
 
     /**
      * Get the model related to this repository.
-     * @return {Block}
+     * @return {Service}
      */
     public getModel() {
-        return new Attribute(this.pgp);
+        return new Service(this.pgp);
     }
 
     /**
-     * Create or update a record matching the attributes, and fill it with values.
-     * @param  {Object} attribute
+     * Create or update a record matching the service, and fill it with values.
+     * @param  {Object} service
      * @return {Promise}
      */
-    public async updateOrCreate(attribute) {
-        const query = `${this.__insertQueryWithColumnSet(attribute, this.model.getColumnSetForUpdate() )} 
+    public async updateOrCreate(service) {
+        const query = `${this.__insertQueryWithColumnSet(service, this.model.getColumnSetForUpdate() )} 
         ON CONFLICT(id) DO UPDATE SET ${this.pgp.helpers.sets(
-            attribute,
+            service,
             this.model.getColumnSetForUpdate(),
         )}`;
 
         return this.db.none(query);
     }
 
-    /**
-     * Get Attributes With Validation Details
-     * @param  {Object} parameters
-     * @return {Promise}
-     */
-    public async getAttributesWithValidationDetails(parameters) {
+    public async updateServiceStatus(service) {
+        const query = "UPDATE services set status =\'" + service.status + "' where id=" + service.id;
 
-        let query = 'SELECT a.id, a.type, at.data_type, avra.action, avra.timestamp from attributes a ' +
-            ' JOIN attribute_types at ON at.name = a.type ' +
-            ' JOIN attribute_validation_requests avr ON avr.attribute_id = a.id ' +
-            ' JOIN attribute_validation_request_actions avra on avra.attribute_validation_request_id = avr.id ' +
-            ' WHERE avra.timestamp > ' +  parameters.since +                                                    // checks that the notarization took place after the "since" timestamp
-            ' AND (a.expire_timestamp > ' + parameters.now + ' OR a.expire_timestamp IS NULL) ' +               // checks that the attribute is not expired
-            ' AND avra.action = ANY(ARRAY[' + parameters.action + ']) AND avr.status = ANY(ARRAY[' + parameters.status + ']) ' +  // checks the action and status
-            ' AND avra.timestamp > a.timestamp AND "owner" = \'' + parameters.owner + '\'' +
-            ' ORDER BY a.id, avra.timestamp';
-
-        return this.db.manyOrNone(query);
+        return this.db.none(query);
     }
 
 }

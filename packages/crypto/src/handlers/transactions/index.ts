@@ -17,6 +17,9 @@ import { RequestAttributeValidationDeclineHandler } from "./attribute-validation
 import { RequestAttributeValidationRejectHandler } from "./attribute-validation-request-reject";
 import { RequestAttributeValidationNotarizeHandler } from "./attribute-validation-request-notarize";
 import { RequestAttributeValidationCancelHandler } from "./attribute-validation-request-cancel";
+import { CreateServiceHandler } from "./create-service";
+import { ActivateServiceHandler } from "./activate-service";
+import { InactivateServiceHandler } from "./inactivate-service";
 import { VoteHandler } from "./vote";
 
 class TransactionHandler {
@@ -41,6 +44,9 @@ class TransactionHandler {
             [TransactionTypes.RejectAttributeValidationRequest]: RequestAttributeValidationRejectHandler,
             [TransactionTypes.NotarizeAttributeValidationRequest]: RequestAttributeValidationNotarizeHandler,
             [TransactionTypes.CancelAttributeValidationRequest]: RequestAttributeValidationCancelHandler,
+            [TransactionTypes.CreateService]: CreateServiceHandler,
+            [TransactionTypes.ActivateService]: ActivateServiceHandler,
+            [TransactionTypes.InactivateService]: InactivateServiceHandler
         };
     }
 

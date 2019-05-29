@@ -15,19 +15,13 @@ const getAttributeValidationRequest = async request => {
         return {"error" : messages.INCORRECT_VALIDATION_REQUEST_PARAMETERS, "success": false};
     }
 
-    //     if (!crypto.validateAddress(request.query.owner, configManager.get("pubKeyHash"))) {
-    //         return {"error" : messages.INVALID_OWNER_ADDRESS, "success": false};
-    //     }
-    request.query.attribute_id = request.query.attributeId;
-    const attributeValidationRequests = await attributeValidationsRepository.search({
-        ...request.payload,
-        ...request.query,
-        ...paginate(request),
-    });
+    const attributeValidationRequests = await attributeValidationsRepository.getAttributeValidationRequests(
+        request.query
+    );
 
-    let attributeValidationRequestsResult = attributeValidationRequests.rows.map(
+    let attributeValidationRequestsResult = attributeValidationRequests[0].map(
         attributeValidationRequest => transformAttributeValidationRequest(attributeValidationRequest));
-    return {"attribute_validation_requests" : attributeValidationRequestsResult, "count" : attributeValidationRequests.rows.length, "success": true}
+    return {"attribute_validation_requests" : attributeValidationRequestsResult, "count" : attributeValidationRequests[0].length, "success": true}
 };
 
 const createAttributeValidationRequest = async (request) => {

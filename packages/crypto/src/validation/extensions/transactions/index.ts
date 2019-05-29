@@ -15,6 +15,9 @@ import { declineAttributeValidationRequest} from "./decline-attribute-validation
 import { notarizeAttributeValidationRequest} from "./notarize-attribute-validation-request";
 import { rejectAttributeValidationRequest} from "./reject-attribute-validation-request";
 import { cancelAttributeValidationRequest} from "./cancel-attribute-validation-request";
+import { createService} from "./create-service";
+import { activateService} from "./activate-service";
+import { inactivateService} from "./inactivate-service";
 
 export const transactions = [
     transfer,
@@ -33,5 +36,8 @@ export const transactions = [
     declineAttributeValidationRequest,
     notarizeAttributeValidationRequest,
     rejectAttributeValidationRequest,
-    cancelAttributeValidationRequest
+    cancelAttributeValidationRequest,
+    createService,
+    activateService,
+    inactivateService,
 ];

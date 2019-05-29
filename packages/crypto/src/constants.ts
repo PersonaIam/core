@@ -24,7 +24,7 @@ export enum TransactionTypes {
     DeclineAttributeValidationRequest = 13,
     NotarizeAttributeValidationRequest = 14,
     RejectAttributeValidationRequest = 15,
-    CancelAttributeValidationRequest = 16
+    CancelAttributeValidationRequest = 16,
     // RequestIdentityUse = 108,
     // ApproveIdentityUseRequest = 109,
     // EndIdentityUseRequest = 110,
@@ -34,7 +34,7 @@ export enum TransactionTypes {
     // RunRewardRound = 114,
     // Reward = 115,
     // UpdateRewardRoundToComplete = 116,
-    // CreateService = 117,
-    // InactivateService = 118,
-    // ActivateService = 119
+    CreateService = 17,
+    ActivateService = 18,
+    InactivateService = 19
 }

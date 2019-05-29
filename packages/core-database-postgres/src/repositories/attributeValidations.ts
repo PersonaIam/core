@@ -1,23 +1,10 @@
 import { Database } from "@arkecosystem/core-interfaces";
 import { AttributeValidation } from "../models";
 import { queries } from "../queries";
+import { QueriesValidation } from "../queries/attributeValidation/search";
 import { Repository } from "./repository";
 
 const { blocks: sql } = queries;
-
-let getAttributeValidationsForAttributeAndStatusQuery =
-    'SELECT a.owner,a.type,avr.id,avr.attribute_id,avr.status,avr.validator,avr.validation_type,avr.reason,avr.timestamp as timestamp,avra.timestamp as last_update_timestamp ' +
-    'FROM attribute_validation_requests avr ' +
-    'JOIN attributes a ON a.id = avr.attribute_id ' +
-    'LEFT OUTER JOIN attribute_validation_request_actions avra ON avr.id = avra.attribute_validation_request_id AND avra.timestamp = (SELECT MAX(timestamp) from attribute_validation_request_actions avra1 WHERE avra1.attribute_validation_request_id = avr.id) ' +
-    'WHERE "attribute_id" = ${attribute_id} AND "status" = ${status} AND avr.timestamp > a.timestamp AND avr.timestamp > ${timespan}';
-
-let getAttributeValidationsForOwnerAndStatus =
-    'SELECT a.owner,a.type,avr.id,avr.attribute_id,avr.status,avr.validator,avr.validation_type,avr.reason,avr.timestamp as timestamp,avra.timestamp as last_update_timestamp ' +
-    'FROM attribute_validation_requests avr ' +
-    'JOIN attributes a ON a.id = avr.attribute_id ' +
-    'LEFT OUTER JOIN attribute_validation_request_actions avra ON avr.id = avra.attribute_validation_request_id AND avra.timestamp = (SELECT MAX(timestamp) from attribute_validation_request_actions avra1 WHERE avra1.attribute_validation_request_id = avr.id) ' +
-    'WHERE "owner" = ${owner} AND "status" = ${status} AND avr.timestamp > a.timestamp AND avr.timestamp > ${timespan}';
 
 export class AttributeValidationsRepository extends Repository {
     /**
@@ -140,13 +127,13 @@ export class AttributeValidationsRepository extends Repository {
     public async getAttributeValidationScore(parameters) {
         let tempQuery = "";
         if (parameters.attributeId) {
-            tempQuery = getAttributeValidationsForAttributeAndStatusQuery
-                .replace('${attribute_id}', parameters.attributeId)
+            tempQuery = QueriesValidation.getAttributeValidationsForAttributeAndStatusQuery
+                .replace('${attributeId}', parameters.attributeId)
                 .replace('${status}', '\'' + parameters.status + '\'')
                 .replace('${timespan}', parameters.timespan);
         } else if (parameters.owner) {
-            tempQuery = getAttributeValidationsForAttributeAndStatusQuery
-                .replace('${owner}', parameters.owner)
+            tempQuery = QueriesValidation.getAttributeValidationsForAttributeAndStatusQuery
+                .replace('${owner}', '\'' + parameters.owner + '\'')
                 .replace('${status}', '\'' + parameters.status + '\'')
                 .replace('${timespan}', parameters.timespan);
         } else {
@@ -154,5 +141,55 @@ export class AttributeValidationsRepository extends Repository {
         }
         return this.db.any(tempQuery, {});
     }
+
+    /**
+     * add entry in attribute_validation_request_actions.
+     * @param  {Object} parameters
+     * @return {Promise}
+     */
+
+    public async addAttributeValidationRequestAction(parameters) {
+
+        const query = `INSERT INTO attribute_validation_request_actions (attribute_validation_request_id,timestamp,action) VALUES (` +
+            parameters.id + ',' + parameters.timestamp + ', \'' + parameters.action + '\')';
+
+        return this.db.none(query);
+    }
+
+    /**
+     * getAttributeValidationScore.
+     * @param  {Object} filter
+     * @return {Promise}
+     */
+
+    public async getAttributeValidationRequests(filter) {
+        let query;
+        if (filter.attributeId && !filter.validator) {
+            query = QueriesValidation.getAttributeValidationRequestsForAttribute
+                .replace('${attributeId}', filter.attributeId)
+        } else {
+            if (filter.attributeId && filter.validator) {
+                query = QueriesValidation.getAttributeValidationRequestsForAttributeAndValidator
+                    .replace('${attributeId}', filter.attributeId)
+                    .replace('${validator}', '\'' + filter.validator + '\'')
+            } else {
+                if (!filter.validator && filter.owner) {
+                    query = QueriesValidation.getAttributeValidationRequestsForOwner
+                        .replace('${owner}', '\'' + filter.owner + '\'')
+                }
+                if (filter.validator && !filter.owner) {
+                    query = QueriesValidation.getAttributeValidationRequestsForValidator
+                        .replace('${validator}', '\'' + filter.validator + '\'')
+                }
+                if (filter.validator && filter.owner) {
+                    query = QueriesValidation.getAttributeValidationRequestsForOwnerAndValidator
+                        .replace('${validator}', '\'' + filter.validator + '\'')
+                        .replace('${owner}', '\'' + filter.owner + '\'')
+                }
+            }
+        }
+        return this.db.any(query, {});
+    }
+
 
 }

@@ -92,12 +92,13 @@ export const messages = {
     REQUIRED_SERVICE_ATTRIBUTES_ARE_MISSING_EXPIRED_OR_INACTIVE : 'Cannot create identity use request : some attributes are expired or are missing required validations',
     REQUIRED_SERVICE_ATTRIBUTES_VALUES_ARE_MISSING : 'Cannot create identity use request : some required attribute values are not provided in the request',
 
-    SERVICE_DESCRIPTION_TOO_LONG : 'The service description is limited to 2048 characters',
+    SERVICE_DESCRIPTION_TOO_LONG : 'The service description is limited to 128 characters',
     SERVICE_NOT_FOUND :'No service was found for the given parameters',
     SERVICE_ACTION_SENDER_IS_NOT_PROVIDER_ERROR : 'Only the service provider is allowed to perform actions on his own service',
 
     INVALID_OWNER_ADDRESS : 'Owner address is invalid',
     INVALID_VALIDATOR_ADDRESS : 'Validator address is invalid',
+    INVALID_PROVIDER_ADDRESS : 'Provider address is invalid',
     EMPTY_ASSOCIATIONS_ARRAY : 'If associations are specified, they must be provided',
 
     // INTERNAL - not exposed in the API

@@ -23,6 +23,7 @@ export class PostgresConnection implements Database.IDatabaseConnection {
     // @ts-ignore
     public attributesRepository: Database.IAttributesRepository;
     public attributeValidationsRepository: Database.IAttributeValidationsRepository;
+    public servicesRepository: Database.IServicesRepository;
     public blocksRepository: Database.IBlocksRepository;
     public roundsRepository: Database.IRoundsRepository;
     public transactionsRepository: Database.ITransactionsRepository;
@@ -203,6 +204,16 @@ export class PostgresConnection implements Database.IDatabaseConnection {
         }
     }
 
+    public async saveService(service: models.Service) {
+        try {
+            const queries = [this.servicesRepository.insert(service)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
     public async saveAttributeValidationRequest(attributeValidation: models.AttributeValidation) {
         try {
             const queries = [this.attributeValidationsRepository.insert(attributeValidation)];
@@ -223,9 +234,28 @@ export class PostgresConnection implements Database.IDatabaseConnection {
         }
     }
 
+    public async addAttributeValidationRequestAction(parameters: Object) {
+        try {
+            const queries = [this.attributeValidationsRepository.addAttributeValidationRequestAction(parameters)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
     public async getAttributeValidationScore(parameters: Object) {
         try {
             const queries = [this.attributeValidationsRepository.getAttributeValidationScore(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getAttributeValidationRequests(parameters: Object) {
+        try {
+            const queries = [this.attributeValidationsRepository.getAttributeValidationRequests(parameters)];
             return await this.db.tx(t => t.batch(queries));
         } catch (err) {
             this.logger.error(err.message);
@@ -237,6 +267,26 @@ export class PostgresConnection implements Database.IDatabaseConnection {
             const queries = [this.attributesRepository.updateOrCreate(attribute)];
 
             await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getAttributesWithValidationDetails(parameters : any) {
+        try {
+            const queries = [this.attributesRepository.getAttributesWithValidationDetails(parameters)];
+
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateService(service: models.Service) {
+        try {
+            const queries = [this.servicesRepository.updateServiceStatus(service)];
+
+            return await this.db.tx(t => t.batch(queries));
         } catch (err) {
             this.logger.error(err.message);
         }
@@ -326,5 +376,6 @@ export class PostgresConnection implements Database.IDatabaseConnection {
         this.roundsRepository = this.db.rounds;
         this.walletsRepository = this.db.wallets;
         this.migrationsRepository = this.db.migrations;
+        this.servicesRepository = this.db.services;
     }
 }

@@ -1,23 +1,24 @@
+
 const crypto = require("@arkecosystem/crypto/dist/index");
 const axios = require("axios");
-
 
 import { IRepository } from "../interfaces";
 import { Repository } from "./repository";
 import { buildFilterQuery } from "./utils/build-filter-query";
 import { models } from "../../../crypto/dist";
+import { constants } from "../versions/2/constants";
 
-export class AttributesRepository extends Repository implements IRepository {
+export class ServicesRepository extends Repository implements IRepository {
     constructor() {
         super();
     }
 
     public getModel(): any {
-        return (this.databaseService.connection as any).models.attribute;
+        return (this.databaseService.connection as any).models.service;
     }
 
     /**
-     * Get all attributes for the given parameters.
+     * Get all services for the given parameters.
      * @param  {Object}  parameters
      * @return {Object}
      */
@@ -38,7 +39,7 @@ export class AttributesRepository extends Repository implements IRepository {
     }
 
     /**
-     * Search all attributes.
+     * Search all services.
      * @param  {Object} parameters
      * @return {Object}
      */
@@ -46,9 +47,8 @@ export class AttributesRepository extends Repository implements IRepository {
         const selectQuery = this.query.select().from(this.query);
 
         const conditions = buildFilterQuery(this._formatConditions(parameters), {
-            exact: ["id", "type", "owner"],
+            exact: ["id", "name", "provider", "status"],
             between: [
-                "expire_timestamp",
                 "timestamp"
             ],
         });
@@ -71,22 +71,22 @@ export class AttributesRepository extends Repository implements IRepository {
     }
 
     /**
-     * Create an attribute with the given parameters.
+     * Create an service with the given parameters.
      * @param  {Object}  parameters
      * @return {Object}
      */
-    async postAttribute(parameters = <any>{}) {
+    async postService(parameters = <any>{}) {
 
         try {
-            let attribute = parameters.asset.attribute[0]
+            let service = parameters.asset.service;
             const transaction = crypto.transactionBuilder
-                .createAttribute()
-                .attributesAsset(parameters.asset.attribute)
+                .createService()
+                .serviceAsset(parameters.asset.service)
                 .amount(0)
-                .recipientId(attribute.owner)
+                .recipientId(service.provider)
                 .sign(parameters.secret)
                 .getStruct();
-            // console.log('TRANSACTION = ' + JSON.stringify(transaction))
+            console.log('TRANSACTION = ' + JSON.stringify(transaction))
 
             let response = await axios.post(
                 "http://127.0.0.1:4003/api/v2/transactions",
@@ -99,8 +99,10 @@ export class AttributesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                attribute.timestamp = transaction.timestamp;
-                const repo1 = await this.databaseService.connection.saveAttribute(attribute);
+                service.timestamp = transaction.timestamp;
+                service.status = constants.serviceStatus.ACTIVE;
+                service.attribute_types = JSON.stringify(service.attribute_types);
+                const repo1 = await this.databaseService.connection.saveService(service);
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -113,20 +115,34 @@ export class AttributesRepository extends Repository implements IRepository {
     }
 
     /**
-     * Update an attribute with the given parameters.
+     * Update an service with the given parameters.
      * @param  {Object}  parameters
+     * @param  {String}  newStatus
      * @return {Object}
      */
-    public async putAttribute(parameters: any = {}): Promise<any> {
+    async putService(parameters = <any>{}, newStatus) {
+
         try {
-            let attribute = parameters.asset.attribute[0]
-            const transaction = crypto.transactionBuilder
-                .updateAttribute()
-                .attributesAsset(parameters.asset.attribute)
-                .amount(0)
-                .recipientId(attribute.owner)
-                .sign(parameters.secret)
-                .getStruct();
+            let service = parameters.asset.service;
+            let transaction = <any>{};
+            if (newStatus === 'ACTIVE') {
+                 transaction = crypto.transactionBuilder
+                    .activateService()
+                    .serviceAsset(parameters.asset.service)
+                    .amount(0)
+                    .recipientId(service.provider)
+                    .sign(parameters.secret)
+                    .getStruct();
+            } else {
+                 transaction = crypto.transactionBuilder
+                    .inactivateService()
+                    .serviceAsset(parameters.asset.service)
+                    .amount(0)
+                    .recipientId(service.provider)
+                    .sign(parameters.secret)
+                    .getStruct();
+            }
+            console.log('TRANSACTION = ' + JSON.stringify(transaction))
 
             let response = await axios.post(
                 "http://127.0.0.1:4003/api/v2/transactions",
@@ -139,9 +155,10 @@ export class AttributesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                attribute.timestamp = transaction.timestamp;
-                // @ts-ignore
-                const repo1 = await this.databaseService.connection.updateOrCreate(attribute);
+                service.timestamp = transaction.timestamp;
+                service.status = newStatus;
+                service.attribute_types = JSON.stringify(service.attribute_types);
+                const repo1 = await this.databaseService.connection.updateService(service);
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -153,9 +170,6 @@ export class AttributesRepository extends Repository implements IRepository {
         }
     }
 
-    public async getAttributesWithValidationDetails(attribute: any = {}): Promise<any> {
-        return await this.databaseService.connection.getAttributesWithValidationDetails(attribute);
-    }
 
     public __orderBy(parameters): string[] {
         if (!parameters.orderBy) {
