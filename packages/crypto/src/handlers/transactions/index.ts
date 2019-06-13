@@ -17,6 +17,11 @@ import { RequestAttributeValidationDeclineHandler } from "./attribute-validation
 import { RequestAttributeValidationRejectHandler } from "./attribute-validation-request-reject";
 import { RequestAttributeValidationNotarizeHandler } from "./attribute-validation-request-notarize";
 import { RequestAttributeValidationCancelHandler } from "./attribute-validation-request-cancel";
+import { RequestIdentityUseHandler } from "./identity-use-request";
+import { RequestIdentityUseApproveHandler } from "./identity-use-approve";
+import { RequestIdentityUseDeclineHandler } from "./identity-use-decline";
+import { RequestIdentityUseEndHandler } from "./identity-use-end";
+import { RequestIdentityUseCancelHandler } from "./identity-use-cancel";
 import { CreateServiceHandler } from "./create-service";
 import { ActivateServiceHandler } from "./activate-service";
 import { InactivateServiceHandler } from "./inactivate-service";
@@ -46,7 +51,12 @@ class TransactionHandler {
             [TransactionTypes.CancelAttributeValidationRequest]: RequestAttributeValidationCancelHandler,
             [TransactionTypes.CreateService]: CreateServiceHandler,
             [TransactionTypes.ActivateService]: ActivateServiceHandler,
-            [TransactionTypes.InactivateService]: InactivateServiceHandler
+            [TransactionTypes.InactivateService]: InactivateServiceHandler,
+            [TransactionTypes.RequestIdentityUse]: RequestIdentityUseHandler,
+            [TransactionTypes.ApproveIdentityUseRequest]: RequestIdentityUseApproveHandler,
+            [TransactionTypes.DeclineIdentityUseRequest]: RequestIdentityUseDeclineHandler,
+            [TransactionTypes.EndIdentityUseRequest]: RequestIdentityUseEndHandler,
+            [TransactionTypes.CancelIdentityUseRequest]: RequestIdentityUseCancelHandler,
         };
     }
 

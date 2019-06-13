@@ -4,6 +4,7 @@ import sleep from "sleep";
 import { messages } from "../../../src/versions/2/messages";
 import { delegates } from "../data";
 import { secrets } from "../data";
+import { constants } from "../../../src/versions/2/constants";
 
 const SUCCESS = "success";
 const TRANSACTION_ID = "transactionId";
@@ -24,13 +25,13 @@ const NON_EXISTING_SERVICE = 'Ursula';
 
 // Actors
 
-const OWNER = delegates[9].senderId;
-const SECRET = secrets[9];
-const PUBLIC_KEY = delegates[9].senderPublicKey;
+// const OWNER = delegates[10].senderId;
+const SECRET = secrets[10];
+const PUBLIC_KEY = delegates[10].senderPublicKey;
 
-const PROVIDER = delegates[10].senderId;
-const PROVIDER_SECRET = secrets[10];
-const PROVIDER_PUBLIC_KEY = delegates[10].senderPublicKey;
+const PROVIDER = delegates[11].senderId;
+const PROVIDER_SECRET = secrets[11];
+const PROVIDER_PUBLIC_KEY = delegates[11].senderPublicKey;
 
 const BIRTHPLACE = "birthplace";
 const ADDRESS = "address";
@@ -87,7 +88,6 @@ describe("API 2.0", () => {
                     param.attribute_types = ['birthplace'];
                     param.validations_required = 1;
                     let body = createServiceRequest(param);
-
                     const response = await utils[request]("POST", "v2/services", body);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
@@ -102,7 +102,6 @@ describe("API 2.0", () => {
                     param.description = DESCRIPTION;
                     param.validations_required = 1;
                     let body = createServiceRequest(param);
-
                     const response = await utils[request]("POST", "v2/services", body);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
@@ -117,13 +116,11 @@ describe("API 2.0", () => {
                     param.description = DESCRIPTION;
                     param.attribute_types = ['identity_card'];
                     let body = createServiceRequest(param);
-
                     const response = await utils[request]("POST", "v2/services", body);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.MISSING_NUMBER_OF_VALIDATIONS_REQUIRED);
-
                 });
 
                 it('As a PROVIDER, I want to Create a new Service successfully. ' +
@@ -133,7 +130,6 @@ describe("API 2.0", () => {
                     param.attribute_types = [BIRTHPLACE];
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
-
                     let body = createServiceRequest(param);
                     const response = await utils[request]("POST", "v2/services", body);
                     sleep.msleep(SLEEP_TIME);
@@ -182,7 +178,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.SERVICE_DESCRIPTION_TOO_LONG);
                 });
-                //
+
                 it('As a PROVIDER, I want to Create a new Service, with a description that is of maximum length. ' +
                     'EXPECTED : SUCCESS. RESULT : Transaction ID', async () => {
 
@@ -191,7 +187,6 @@ describe("API 2.0", () => {
                     param.description = descriptionMaxLength;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     param.name = SERVICE2_NAME;
-
                     let body = createServiceRequest(param);
                     const response = await utils[request]("POST", "v2/services", body);
                     sleep.msleep(SLEEP_TIME);
@@ -203,7 +198,6 @@ describe("API 2.0", () => {
                 it('Get the List of Services which belong to a given provider (multiple results). ' +
                     'EXPECTED : SUCCESS. RESULT : "services" list with 2 elements', async () => {
                     const response = await utils[request]("GET", "v2/services?provider=" + PROVIDER);
-
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
@@ -214,30 +208,27 @@ describe("API 2.0", () => {
                 it('As a PUBLIC user, I want to Get the List of Services that have a given name. ' +
                     'EXPECTED : SUCCESS. RESULT : 1 Service', async () => {
                     const response = await utils[request]("GET", "v2/services?name=" + SERVICE2_NAME);
-
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(SERVICES);
-                    expect(response.data.services.length).toBe(1);
+                    expect(response.data.services.length).toBeGreaterThanOrEqual(1);
                     expect(response.data.services[0].name).toBe(SERVICE2_NAME);
                 });
 
                 it('As a PUBLIC user, I want to Get the List of Services that are active. ' +
                     'EXPECTED : SUCCESS. RESULT : 2 results', async () => {
                     const response = await utils[request]("GET", "v2/services?status=ACTIVE");
-
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(SERVICES);
-                    expect(response.data.services.length).toBe(2);
+                    expect(response.data.services.length).toBeGreaterThanOrEqual(2);
                 });
 
                 it('As a PUBLIC user, I want to Get the List of Services that are active for a given provider. ' +
                     'EXPECTED : SUCCESS. RESULT : 2 results', async () => {
                     const response = await utils[request]("GET", "v2/services?status=ACTIVE&provider=" + PROVIDER);
-
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
@@ -248,25 +239,22 @@ describe("API 2.0", () => {
                 it('As a PUBLIC user, I want to Get the Attribute Types for a given service. ' +
                     'EXPECTED : SUCCESS. RESULT : 1 Result (BIRTHPLACE)', async () => {
                     const response = await utils[request]("GET", "v2/services/attributeTypes?name=" + SERVICE_NAME +"&provider=" + PROVIDER);
-
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(SERVICE_ATTRIBUTE_TYPES);
                     expect(response.data.service_attribute_types).toBeArray();
-                    expect(response.data.service_attribute_types[0]).toBe("birthplace");
+                    expect(response.data.service_attribute_types[0]).toBe(BIRTHPLACE);
                 });
 
                 it('As a PUBLIC user, I want to Get the Attribute Types for a service that does not exist. ' +
                     'EXPECTED : FAILURE. ERROR : SERVICE_NOT_FOUND', async () => {
                     const response = await utils[request]("GET", "v2/services/attributeTypes?name=" + NON_EXISTING_SERVICE +"&provider=" + PROVIDER);
-
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.SERVICE_NOT_FOUND);
                 });
-
             })
     });
 
@@ -303,6 +291,7 @@ describe("API 2.0", () => {
                     param.publicKey = PROVIDER_PUBLIC_KEY;
                     let body = serviceRequestAction(param);
                     const response = await utils[request]("PUT", "v2/services/inactivate", body);
+                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(TRANSACTION_ID);
@@ -311,7 +300,6 @@ describe("API 2.0", () => {
                 it("As a PUBLIC user, I want to Get the List of Services that are active for a given provider. " +
                     "EXPECTED : SUCCESS. RESULT : 1 result", async () => {
                     const response = await utils[request]("GET", "v2/services?status=ACTIVE&provider=" + PROVIDER);
-
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
@@ -322,18 +310,16 @@ describe("API 2.0", () => {
                 it("As a PUBLIC user, I want to Get the details of a service, based on name and provider. " +
                     "EXPECTED : SUCCESS. RESULT : 1 result, with status inactive", async () => {
                     const response = await utils[request]("GET", "v2/services?name=" + SERVICE_NAME + "&provider=" + PROVIDER);
-
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(SERVICES);
-                    expect(response.data.services[0].status).toBe("INACTIVE");
+                    expect(response.data.services[0].status).toBe(constants.serviceStatus.INACTIVE);
                 });
 
                 it("As a PUBLIC user, I want to Get the List of Services that are active for a given provider. " +
                     "EXPECTED : SUCCESS. RESULT : services array with 1 element", async () => {
                     const response = await utils[request]("GET", "v2/services?status=INACTIVE&provider=" + PROVIDER);
-
                     expect(response).toBeSuccessfulResponse();
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
@@ -401,6 +387,7 @@ describe("API 2.0", () => {
                     param.publicKey = PROVIDER_PUBLIC_KEY;
                     let body = serviceRequestAction(param);
                     const response = await utils[request]("PUT", "v2/services/activate", body);
+                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(TRANSACTION_ID);
@@ -474,7 +461,7 @@ function createServiceRequest(param) {
         request.asset.service.attribute_types = param.attribute_types;
     }
 
-    console.log('00000 ' + JSON.stringify(request));
+    console.log(JSON.stringify(request));
     return request;
 }
 

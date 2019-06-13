@@ -1,4 +1,3 @@
-import { Bignum } from "@arkecosystem/crypto";
 import { IRepository } from "./repository";
 
 export interface IAttributeValidationsRepository extends IRepository {

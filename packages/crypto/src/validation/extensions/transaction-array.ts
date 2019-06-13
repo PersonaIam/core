@@ -21,7 +21,12 @@ export const transactionArray = joi => ({
                     joi.cancelAttributeValidationRequest(),
                     joi.createService(),
                     joi.activateService(),
-                    joi.inactivateService()
+                    joi.inactivateService(),
+                    joi.requestIdentityUse(),
+                    joi.approveIdentityUseRequest(),
+                    joi.declineIdentityUseRequest(),
+                    joi.cancelIdentityUseRequest(),
+                    joi.endIdentityUseRequest()
                 ),
         ),
 });

@@ -31,7 +31,7 @@ export const messages = {
     ATTRIBUTE_ASSOCIATION_BASE_ATTRIBUTE_NOT_A_FILE : 'Incorrect association provided : The base attribute must be of data type file',
     ATTRIBUTE_ASSOCIATION_DOES_NOT_EXIST_FOR_CURRENT_OWNER : 'Incorrect association provided : one or more of the attributes to be associated does not exist or does not belong to the current owner',
     INCORRECT_VALIDATION_REQUEST_PARAMETERS : 'Either the attribute id, the validation request validator or the attribute owner must be provided',
-    INCORRECT_IDENTITY_USE_PARAMETERS : 'If the serviceName parameter is specified, the serviceProvider parameter must also be specified',
+    INCORRECT_IDENTITY_USE_PARAMETERS : 'Either the serviceName, serviceProvider or serviceId must be provided',
     INCORRECT_CREDIBILITY_PARAMETERS : 'Either the owner or the attributeId parameters must be provided',
     INCORRECT_MONTHS_VALUE : 'The "months" query parameter must be a positive integer',
     INCORRECT_VALIDATION_TYPE : 'Incorrect validation type',
@@ -61,9 +61,7 @@ export const messages = {
     MISSING_MONTHS : 'Missing required property: months',
 
     // reasons
-    REASON_TOO_BIG_DECLINE : 'The reason for declining a request is limited to 1024 characters',
-    REASON_TOO_BIG_REJECT : 'The reason for rejecting a request is limited to 1024 characters',
-    REASON_TOO_BIG_END : 'The reason for ending a request is limited to 1024 characters',
+    REASON_TOO_BIG : 'The reason for performing this action is limited to 1024 characters',
     REJECT_ATTRIBUTE_VALIDATION_REQUEST_NO_REASON : 'A reason must be specified when rejecting a validation request',
     DECLINE_ATTRIBUTE_VALIDATION_REQUEST_NO_REASON : 'A reason must be specified when declining a validation request',
     END_IDENTITY_USE_REQUEST_NO_REASON : 'A reason must be specified when ending an identity use request',
@@ -86,7 +84,10 @@ export const messages = {
     IDENTITY_USE_REQUEST_ACTION_FOR_INACTIVE_SERVICE : 'No action can be performed on an identity use request which belongs to an inactive service',
     DECLINE_IDENTITY_USE_REQUEST_NO_REASON : 'A reason must be specified when declining an identity use request',
     IDENTITY_USE_REQUEST_REJECTED_REASON : 'One of the attributes that is part of this identity use was rejected',
-    IDENTITY_USE_REQUEST_REJECTED_NO_ACTION : 'No action can be performed on a rejected identity use request',
+    IDENTITY_USE_REQUEST_CANCELED_NO_ACTION : 'No action can be performed on a canceled identity use request',
+    IDENTITY_USE_REQUEST_DECLINED_NO_ACTION : 'No action can be performed on a declined identity use request',
+    IDENTITY_USE_REQUEST_ENDED_NO_ACTION : 'No action can be performed on an ended identity use request',
+    IDENTITY_USE_REQUEST_REJECTED_NO_ACTION : 'No action can be performed on an rejected identity use request',
 
     REQUIRED_SERVICE_ATTRIBUTES_ARE_MISSING : 'Cannot create identity use request : missing required service attributes',
     REQUIRED_SERVICE_ATTRIBUTES_ARE_MISSING_EXPIRED_OR_INACTIVE : 'Cannot create identity use request : some attributes are expired or are missing required validations',
@@ -104,4 +105,4 @@ export const messages = {
     // INTERNAL - not exposed in the API
     UNKNOWN_VALIDATION_REQUEST_ANSWER : 'Unknown validation request answer',
     UNKNOWN_IDENTITY_USE_REQUEST_ANSWER : 'Unknown identity use request answer'
-}
+};

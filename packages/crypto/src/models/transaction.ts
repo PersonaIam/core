@@ -30,6 +30,13 @@ export interface IAttributeValidationElement {
     attributeId ?: number;
 }
 
+export interface IIdentityUseElement {
+    owner ?: string;
+    serviceName ?: string;
+    serviceProvider ?: string;
+    attributes ?: any;
+}
+
 export interface ITransactionAsset {
     signature?: {
         publicKey: string;
@@ -41,6 +48,7 @@ export interface ITransactionAsset {
     attribute?: IAttributeElement[];
     service?: IServiceElement;
     validation?: IAttributeValidationElement[];
+    identityuse?: IIdentityUseElement[];
     votes?: string[];
     multisignature?: IMultiSignatureAsset;
     ipfs?: {

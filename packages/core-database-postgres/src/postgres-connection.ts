@@ -24,6 +24,8 @@ export class PostgresConnection implements Database.IDatabaseConnection {
     public attributesRepository: Database.IAttributesRepository;
     public attributeValidationsRepository: Database.IAttributeValidationsRepository;
     public servicesRepository: Database.IServicesRepository;
+    public identityUsesRepository: Database.IIdentityUsesRepository;
+
     public blocksRepository: Database.IBlocksRepository;
     public roundsRepository: Database.IRoundsRepository;
     public transactionsRepository: Database.ITransactionsRepository;
@@ -262,6 +264,63 @@ export class PostgresConnection implements Database.IDatabaseConnection {
         }
     }
 
+    public async saveIdentityUseRequest(identityUse: models.IdentityUse) {
+        try {
+            const queries = [this.identityUsesRepository.insert(identityUse)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateIdentityUseRequest(identityUse: models.IdentityUse) {
+        try {
+            const queries = [this.identityUsesRepository.updateOrCreate(identityUse)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async addIdentityUseRequestAction(parameters: Object) {
+        try {
+            const queries = [this.identityUsesRepository.addIdentityUseRequestAction(parameters)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getIdentityUseRequests(parameters: Object) {
+        try {
+            const queries = [this.identityUsesRepository.getIdentityUseRequests(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getIdentityUseRequestWithValidationDetails(parameters: Object) {
+        try {
+            const queries = [this.identityUsesRepository.getIdentityUseRequestWithValidationDetails(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateIdentityUseWithReason(parameters: Object) {
+        try {
+            const queries = [this.identityUsesRepository.updateIdentityUseWithReason(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
     public async updateOrCreate(attribute: models.Attribute) {
         try {
             const queries = [this.attributesRepository.updateOrCreate(attribute)];
@@ -371,11 +430,13 @@ export class PostgresConnection implements Database.IDatabaseConnection {
     private exposeRepositories() {
         this.attributesRepository = this.db.attributes;
         this.attributeValidationsRepository = this.db.attributeValidations;
+        this.identityUsesRepository = this.db.identityUses;
+        this.servicesRepository = this.db.services;
+
         this.blocksRepository = this.db.blocks;
         this.transactionsRepository = this.db.transactions;
         this.roundsRepository = this.db.rounds;
         this.walletsRepository = this.db.wallets;
         this.migrationsRepository = this.db.migrations;
-        this.servicesRepository = this.db.services;
     }
 }

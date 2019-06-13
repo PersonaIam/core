@@ -5,8 +5,8 @@ import { crypto } from "../crypto";
 import { TransactionTypeError } from "../errors";
 import { configManager } from "../managers";
 import { Transaction } from "../models";
-import { IMultiSignatureAsset, ITransactionData } from "../models/transaction";
-import { Bignum } from "../utils/bignum";
+import { IMultiSignatureAsset, ITransactionData } from "../models";
+import { Bignum } from "../utils";
 
 const { transactionIdFixTable } = configManager.getPreset("mainnet").exceptions;
 
@@ -89,6 +89,16 @@ class TransactionDeserializer {
             this.deserializeActivateService(transaction, buf);
         } else if (transaction.type === TransactionTypes.InactivateService) {
             this.deserializeInactivateService(transaction, buf);
+        } else if (transaction.type === TransactionTypes.RequestIdentityUse) {
+            this.deserializeCreateIdentityUseRequest(transaction, buf);
+        } else if (transaction.type === TransactionTypes.ApproveIdentityUseRequest) {
+            this.deserializeApproveIdentityUseRequest(transaction, buf);
+        } else if (transaction.type === TransactionTypes.DeclineIdentityUseRequest) {
+            this.deserializeDeclineIdentityUseRequest(transaction, buf);
+        } else if (transaction.type === TransactionTypes.EndIdentityUseRequest) {
+            this.deserializeEndIdentityUseRequest(transaction, buf);
+        } else if (transaction.type === TransactionTypes.CancelIdentityUseRequest) {
+            this.deserializeCancelIdentityUseRequest(transaction, buf);
         } else {
             throw new TransactionTypeError(transaction.type);
         }
@@ -153,35 +163,35 @@ class TransactionDeserializer {
 
     private deserializeCreateAttribute(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { attribute: [] };
-        transaction.asset.attribute[0] = {}
-        let ownerLength = buf.readUint8()
-        transaction.asset.attribute[0].owner = buf.readBytes(ownerLength).toString("hex")
+        transaction.asset.attribute[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.attribute[0].owner = buf.readBytes(ownerLength).toString("hex");
 
-        let typeLength = buf.readUint8()
-        transaction.asset.attribute[0].type = buf.readBytes(typeLength).toString("hex")
+        let typeLength = buf.readUint8();
+        transaction.asset.attribute[0].type = buf.readBytes(typeLength).toString("hex");
 
-        let valueLength = buf.readUint8()
-        transaction.asset.attribute[0].value = buf.readBytes(valueLength).toString("hex")
+        let valueLength = buf.readUint8();
+        transaction.asset.attribute[0].value = buf.readBytes(valueLength).toString("hex");
         transaction.fee = 1;
         transaction.amount = 0;
         transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
     }
 
     private deserializeCreateService(transaction: ITransactionData, buf: ByteBuffer): void {
-        transaction.asset = { service : {} }
-        transaction.asset.service = {}
+        transaction.asset = { service : {} };
+        transaction.asset.service = {};
 
-        let nameLength = buf.readUint8()
-        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex")
+        let nameLength = buf.readUint8();
+        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex");
 
-        let providerLength = buf.readUint8()
-        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex")
+        let providerLength = buf.readUint8();
+        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex");
 
-        let descriptionLength = buf.readUint8()
-        transaction.asset.service.description = buf.readBytes(descriptionLength).toString("hex")
+        let descriptionLength = buf.readUint8();
+        transaction.asset.service.description = buf.readBytes(descriptionLength).toString("hex");
 
-        let attributeTypesLength = buf.readUint8()
-        transaction.asset.service.attribute_types = buf.readBytes(attributeTypesLength).toString("hex")
+        let attributeTypesLength = buf.readUint8();
+        transaction.asset.service.attribute_types = buf.readBytes(attributeTypesLength).toString("hex");
 
         transaction.asset.service.validations_required = buf.readInt32();
 
@@ -192,13 +202,13 @@ class TransactionDeserializer {
 
     private deserializeActivateService(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { service : {} }
-        transaction.asset.service = {}
+        transaction.asset.service = {};
 
-        let nameLength = buf.readUint8()
-        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex")
+        let nameLength = buf.readUint8();
+        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex");
 
-        let providerLength = buf.readUint8()
-        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex")
+        let providerLength = buf.readUint8();
+        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex");
 
         transaction.fee = 1;
         transaction.amount = 0;
@@ -206,14 +216,14 @@ class TransactionDeserializer {
     }
 
     private deserializeInactivateService(transaction: ITransactionData, buf: ByteBuffer): void {
-        transaction.asset = { service : {} }
-        transaction.asset.service = {}
+        transaction.asset = { service : {} };
+        transaction.asset.service = {};
 
-        let nameLength = buf.readUint8()
-        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex")
+        let nameLength = buf.readUint8();
+        transaction.asset.service.name = buf.readBytes(nameLength).toString("hex");
 
-        let providerLength = buf.readUint8()
-        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex")
+        let providerLength = buf.readUint8();
+        transaction.asset.service.provider = buf.readBytes(providerLength).toString("hex");
 
         transaction.fee = 1;
         transaction.amount = 0;
@@ -222,17 +232,17 @@ class TransactionDeserializer {
 
     private deserializeUpdateAttribute(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { attribute: [] };
-        transaction.asset.attribute[0] = {}
+        transaction.asset.attribute[0] = {};
 
         transaction.asset.attribute[0].id = buf.readInt32();
-        let ownerLength = buf.readUint8()
-        transaction.asset.attribute[0].owner = buf.readBytes(ownerLength).toString("hex")
+        let ownerLength = buf.readUint8();
+        transaction.asset.attribute[0].owner = buf.readBytes(ownerLength).toString("hex");
 
-        let typeLength = buf.readUint8()
-        transaction.asset.attribute[0].type = buf.readBytes(typeLength).toString("hex")
+        let typeLength = buf.readUint8();
+        transaction.asset.attribute[0].type = buf.readBytes(typeLength).toString("hex");
 
-        let valueLength = buf.readUint8()
-        transaction.asset.attribute[0].value = buf.readBytes(valueLength).toString("hex")
+        let valueLength = buf.readUint8();
+        transaction.asset.attribute[0].value = buf.readBytes(valueLength).toString("hex");
 
         transaction.asset.attribute[0].expire_timestamp = buf.readInt32();
         transaction.fee = 1;
@@ -242,15 +252,15 @@ class TransactionDeserializer {
 
     private deserializeCreateAttributeValidationRequest(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { validation: [] };
-        transaction.asset.validation[0] = {}
-        let ownerLength = buf.readUint8()
-        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex")
+        transaction.asset.validation[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex");
 
-        let validatorLength = buf.readUint8()
-        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex")
+        let validatorLength = buf.readUint8();
+        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex");
 
-        let typeLength = buf.readUint8()
-        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex")
+        let typeLength = buf.readUint8();
+        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex");
         let attributeId = buf.readInt32();
         if (attributeId !== 0) {
             transaction.asset.validation[0].attributeId = attributeId;
@@ -262,15 +272,15 @@ class TransactionDeserializer {
 
     private deserializeApproveAttributeValidationRequest(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { validation: [] };
-        transaction.asset.validation[0] = {}
-        let ownerLength = buf.readUint8()
-        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex")
+        transaction.asset.validation[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex");
 
-        let validatorLength = buf.readUint8()
-        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex")
+        let validatorLength = buf.readUint8();
+        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex");
 
-        let typeLength = buf.readUint8()
-        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex")
+        let typeLength = buf.readUint8();
+        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex");
         let attributeId = buf.readInt32();
         if (attributeId !== 0) {
             transaction.asset.validation[0].attributeId = attributeId;
@@ -282,15 +292,15 @@ class TransactionDeserializer {
 
     private deserializeDeclineAttributeValidationRequest(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { validation: [] };
-        transaction.asset.validation[0] = {}
-        let ownerLength = buf.readUint8()
-        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex")
+        transaction.asset.validation[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex");
 
-        let validatorLength = buf.readUint8()
-        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex")
+        let validatorLength = buf.readUint8();
+        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex");
 
-        let typeLength = buf.readUint8()
-        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex")
+        let typeLength = buf.readUint8();
+        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex");
         let attributeId = buf.readInt32();
         if (attributeId !== 0) {
             transaction.asset.validation[0].attributeId = attributeId;
@@ -302,15 +312,15 @@ class TransactionDeserializer {
 
     private deserializeNotarizeAttributeValidationRequest(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { validation: [] };
-        transaction.asset.validation[0] = {}
-        let ownerLength = buf.readUint8()
-        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex")
+        transaction.asset.validation[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex");
 
-        let validatorLength = buf.readUint8()
-        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex")
+        let validatorLength = buf.readUint8();
+        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex");
 
-        let typeLength = buf.readUint8()
-        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex")
+        let typeLength = buf.readUint8();
+        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex");
         let attributeId = buf.readInt32();
         if (attributeId !== 0) {
             transaction.asset.validation[0].attributeId = attributeId;
@@ -322,15 +332,15 @@ class TransactionDeserializer {
 
     private deserializeRejectAttributeValidationRequest(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { validation: [] };
-        transaction.asset.validation[0] = {}
-        let ownerLength = buf.readUint8()
-        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex")
+        transaction.asset.validation[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex");
 
-        let validatorLength = buf.readUint8()
-        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex")
+        let validatorLength = buf.readUint8();
+        transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex");
 
-        let typeLength = buf.readUint8()
-        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex")
+        let typeLength = buf.readUint8();
+        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex");
         let attributeId = buf.readInt32();
         if (attributeId !== 0) {
             transaction.asset.validation[0].attributeId = attributeId;
@@ -342,19 +352,104 @@ class TransactionDeserializer {
 
     private deserializeCancelAttributeValidationRequest(transaction: ITransactionData, buf: ByteBuffer): void {
         transaction.asset = { validation: [] };
-        transaction.asset.validation[0] = {}
-        let ownerLength = buf.readUint8()
-        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex")
+        transaction.asset.validation[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex");
 
-        let validatorLength = buf.readUint8()
+        let validatorLength = buf.readUint8();
         transaction.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex")
 
-        let typeLength = buf.readUint8()
-        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex")
+        let typeLength = buf.readUint8();
+        transaction.asset.validation[0].type = buf.readBytes(typeLength).toString("hex");
         let attributeId = buf.readInt32();
         if (attributeId !== 0) {
             transaction.asset.validation[0].attributeId = attributeId;
         }
+        transaction.fee = 1;
+        transaction.amount = 0;
+        transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+    }
+
+    private deserializeCreateIdentityUseRequest(transaction: ITransactionData, buf: ByteBuffer): void {
+        transaction.asset = { identityuse: [] };
+        transaction.asset.identityuse[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.identityuse[0].owner = buf.readBytes(ownerLength).toString("hex");
+
+        let serviceProviderLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceProvider = buf.readBytes(serviceProviderLength).toString("hex");
+
+        let serviceNameLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceName = buf.readBytes(serviceNameLength).toString("hex");
+
+        transaction.fee = 1;
+        transaction.amount = 0;
+        transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+    }
+
+    private deserializeApproveIdentityUseRequest(transaction: ITransactionData, buf: ByteBuffer): void {
+        transaction.asset = { identityuse: [] };
+        transaction.asset.identityuse[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.identityuse[0].owner = buf.readBytes(ownerLength).toString("hex");
+
+        let serviceProviderLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceProvider = buf.readBytes(serviceProviderLength).toString("hex");
+
+        let serviceNameLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceName = buf.readBytes(serviceNameLength).toString("hex");
+
+        transaction.fee = 1;
+        transaction.amount = 0;
+        transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+    }
+
+    private deserializeDeclineIdentityUseRequest(transaction: ITransactionData, buf: ByteBuffer): void {
+        transaction.asset = { identityuse: [] };
+        transaction.asset.identityuse[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.identityuse[0].owner = buf.readBytes(ownerLength).toString("hex");
+
+        let serviceProviderLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceProvider = buf.readBytes(serviceProviderLength).toString("hex");
+
+        let serviceNameLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceName = buf.readBytes(serviceNameLength).toString("hex")
+
+        transaction.fee = 1;
+        transaction.amount = 0;
+        transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+    }
+
+    private deserializeEndIdentityUseRequest(transaction: ITransactionData, buf: ByteBuffer): void {
+        transaction.asset = { identityuse: [] };
+        transaction.asset.identityuse[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.identityuse[0].owner = buf.readBytes(ownerLength).toString("hex");
+
+        let serviceProviderLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceProvider = buf.readBytes(serviceProviderLength).toString("hex");
+
+        let serviceNameLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceName = buf.readBytes(serviceNameLength).toString("hex");
+
+        transaction.fee = 1;
+        transaction.amount = 0;
+        transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+    }
+
+    private deserializeCancelIdentityUseRequest(transaction: ITransactionData, buf: ByteBuffer): void {
+        transaction.asset = { identityuse: [] };
+        transaction.asset.identityuse[0] = {};
+        let ownerLength = buf.readUint8();
+        transaction.asset.identityuse[0].owner = buf.readBytes(ownerLength).toString("hex");
+
+        let serviceProviderLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceProvider = buf.readBytes(serviceProviderLength).toString("hex");
+
+        let serviceNameLength = buf.readUint8();
+        transaction.asset.identityuse[0].serviceName = buf.readBytes(serviceNameLength).toString("hex");
+
         transaction.fee = 1;
         transaction.amount = 0;
         transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);

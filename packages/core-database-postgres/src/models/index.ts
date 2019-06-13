@@ -1,6 +1,7 @@
 export * from "./attribute";
 export * from "./attributeType";
 export * from "./attributeValidation";
+export * from "./identityUse";
 export * from "./service";
 export * from "./model";
 export * from "./block";

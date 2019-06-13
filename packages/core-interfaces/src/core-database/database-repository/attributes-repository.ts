@@ -1,48 +1,47 @@
-import { Bignum } from "@arkecosystem/crypto";
 import { IRepository } from "./repository";
 
 export interface IAttributesRepository extends IRepository {
 
     /**
-     * Find a block by its ID.
+     * Find an attribute by its ID.
      */
     findById(id: string): Promise<any>;
 
     /**
-     * Count the number of records in the database.
+     * Count the number of attributes in the database.
      */
     count(): Promise<number>;
 
     /**
-     * Get all of the common blocks from the database.
+     * Get all of the common entries from the database.
      */
     common(ids: string[]): Promise<any[]>
 
     /**
-     * Get all of the blocks within the given height range and order them by height.
+     * Get all of the entries within the given height range and order them by height.
      */
     heightRange(start: number, end: number): Promise<any[]>;
 
     /**
-     * Get the last created block from the database.
+     * Get the last created attribute from the database.
      */
     latest(): Promise<any>;
 
     /**
-     * Get the most recently created blocks ids from the database.
+     * Get the most recently created attribute ids from the database.
      * @return {Promise}
      */
     recent(count: number): Promise<any[]>;
 
     /**
-     * Get statistics about all blocks from the database.
+     * Get statistics about all attribute from the database.
      */
     statistics(): Promise<{
         count: number
     }>;
 
     /**
-     * Get top count blocks
+     * Get top count attributes
      */
     top(count: number): Promise<any[]>;
 

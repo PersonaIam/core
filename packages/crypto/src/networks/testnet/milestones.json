@@ -31,7 +31,12 @@
                 "cancelAttributeValidationRequest" : 1,
                 "createService" : 1,
                 "inactivateService" : 1,
-                "activateService" : 1
+                "activateService" : 1,
+                "requestIdentityUse" : 1,
+                "approveIdentityUseRequest" : 1,
+                "declineIdentityUseRequest" : 1,
+                "endIdentityUseRequest" : 1,
+                "cancelIdentityUseRequest" : 1
             }
         }
     },

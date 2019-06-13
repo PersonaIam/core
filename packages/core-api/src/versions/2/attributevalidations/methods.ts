@@ -1,12 +1,12 @@
-import Boom from "boom";
-import { attributesRepository, attributeValidationsRepository, attributeTypesRepository } from "../../../repositories";
+import { attributesRepository, attributeValidationsRepository, attributeTypesRepository, identityUsesRepository } from "../../../repositories";
 import { ServerCache } from "../../../services";
 import { paginate } from "../utils";
 import { transformAttributeValidationRequest} from "./transformer";
 import { crypto, configManager, slots } from "@arkecosystem/crypto";
 import { messages } from "../messages";
 import { constants } from "../constants";
-var moment = require('moment');
+import { extractAttributeDetails } from "../identitycommons";
+let moment = require('moment');
 
 
 const getAttributeValidationRequest = async request => {
@@ -28,13 +28,11 @@ const createAttributeValidationRequest = async (request) => {
 
     let responseObject = <any>{};
 
-    const attribute = await attributesRepository.search({
+    let attribute = await attributesRepository.search({
         owner : request.payload.asset.validation[0].owner,
         type : request.payload.asset.validation[0].type,
         id : request.payload.asset.validation[0].attributeId
     });
-    // console.log('attribute before search : ' + JSON.stringify(request.payload.asset.validation[0]))
-    // console.log('attribute after search : ' + JSON.stringify(attribute))
     if (!crypto.validateAddress(request.payload.asset.validation[0].owner, configManager.get("pubKeyHash"))) {
         responseObject.success = false;
         responseObject.error = messages.INVALID_OWNER_ADDRESS;
@@ -58,26 +56,36 @@ const createAttributeValidationRequest = async (request) => {
         return responseObject;
     }
 
-    const validationRequest = await attributeValidationsRepository.search({
-        attribute_id : attribute.rows[0].id,
+    let filter = <any>{};
+    filter.owner = request.payload.asset.validation[0].owner;
+    filter.type = request.payload.asset.validation[0].type;
+    filter.id = request.payload.asset.validation[0].attributeId;
+    attribute = await extractAttributeDetails(attribute.rows,  filter);
+
+    if (attribute[0].rejected === true) {
+        return {"error" : messages.REJECTED_ATTRIBUTE, "success": false};
+    }
+
+    const validationRequest = await attributeValidationsRepository.getAttributeValidationRequests({
+        attributeId : attribute[0].id,
         validator : request.payload.asset.validation[0].validator
     });
 
-    if (validationRequest.rows && validationRequest.rows.length > 0) {
+    if (validationRequest && validationRequest[0] && validationRequest[0][0]) {
 
-        if (validationRequest.rows[0].status === constants.validationRequestStatus.PENDING_APPROVAL) {
+        if (validationRequest[0][0].status === constants.validationRequestStatus.PENDING_APPROVAL) {
             responseObject.success = false;
             responseObject.error = messages.PENDING_APPROVAL_VALIDATION_REQUEST_ALREADY_EXISTS;
             return responseObject;
         }
 
-        if (validationRequest.rows[0].status === constants.validationRequestStatus.IN_PROGRESS) {
+        if (validationRequest[0][0].status === constants.validationRequestStatus.IN_PROGRESS) {
             responseObject.success = false;
             responseObject.error = messages.IN_PROGRESS_VALIDATION_REQUEST_ALREADY_EXISTS;
             return responseObject;
         }
 
-        if (validationRequest.rows[0].status === constants.validationRequestStatus.COMPLETED) {
+        if (validationRequest[0][0].status === constants.validationRequestStatus.COMPLETED) {
             responseObject.success = false;
             responseObject.error = messages.COMPLETED_VALIDATION_REQUEST_ALREADY_EXISTS;
             return responseObject;
@@ -85,15 +93,15 @@ const createAttributeValidationRequest = async (request) => {
     }
 
     const attributeTypes = await attributeTypesRepository.findAll();
-    let attributeType = attributeTypes.rows.filter(attributeType => attributeType.name === attribute.rows[0].type)[0];
+    let attributeType = attributeTypes.rows.filter(attributeType => attributeType.name === attribute[0].type)[0];
     let attributeTypeOptions = JSON.parse(attributeType.options);
-    if (attributeTypeOptions && attributeTypeOptions.documentRequired === true && !attribute.rows[0].documented) {
+    if (attributeTypeOptions && attributeTypeOptions.documentRequired === true && !attribute[0].documented) {
         responseObject.success = false;
         responseObject.error = messages.ATTRIBUTE_WITH_NO_ASSOCIATIONS_CANNOT_BE_VALIDATED;
         return responseObject;
     }
 
-    request.payload.asset.validation[0].attribute_id = attribute.rows[0].id;
+    request.payload.asset.validation[0].attribute_id = attribute[0].id;
 
     let putResponse = await attributeValidationsRepository.createAttributeValidationRequest(request.payload);
     if (putResponse.transactionId) {
@@ -108,7 +116,7 @@ const createAttributeValidationRequest = async (request) => {
 
 const attributeValidationRequestAnswer = async (request, action) => {
 
-    const attribute = await attributesRepository.search({
+    let attribute = await attributesRepository.search({
         owner : request.payload.asset.validation[0].owner,
         type : request.payload.asset.validation[0].type
     });
@@ -117,17 +125,26 @@ const attributeValidationRequestAnswer = async (request, action) => {
         return {"error" : messages.ATTRIBUTE_NOT_FOUND, "success": false};
     }
 
+    let filter = <any>{};
+    filter.owner = request.payload.asset.validation[0].owner;
+    filter.type = request.payload.asset.validation[0].type;
+    filter.id = request.payload.asset.validation[0].attributeId;
+    attribute = await extractAttributeDetails(attribute.rows,  filter);
+
+    if (attribute[0].rejected === true) {
+        return {"error" : messages.REJECTED_ATTRIBUTE, "success": false};
+    }
+
     let attributeValidationRequest = await attributeValidationsRepository.search({
-        attribute_id : attribute.rows[0].id,
+        attribute_id : attribute[0].id,
         validator : request.payload.asset.validation[0].validator
         //TODO : sort descending by timestamp, only 1 non completed AVR must exist at any point for a <attribute,validator> pair
     });
-    // console.log('attributeValidationRequest = ' + JSON.stringify(attributeValidationRequest))
     if (!attributeValidationRequest || !attributeValidationRequest.rows || attributeValidationRequest.rows.length === 0) {
         return {"error" : messages.VALIDATION_REQUEST_MISSING_FOR_ACTION, "success": false};
     }
 
-     // only validators can answer with a validationRequestValidatorAction
+    // only validators can answer with a validationRequestValidatorAction
     let senderAddress = crypto.getAddress(request.payload.publicKey, configManager.get("pubKeyHash"));
     if (action in constants.validationRequestValidatorActions){
         if (senderAddress !== request.payload.asset.validation[0].validator) {
@@ -142,6 +159,25 @@ const attributeValidationRequestAnswer = async (request, action) => {
         }
     }
 
+    if (attribute[0].dangerOfRejection && action === constants.validationRequestActions.REJECT) {
+        let data = await identityUsesRepository.getIdentityUseRequest({ owner: request.payload.asset.validation[0].owner });
+
+        if (data.length > 0) {
+            data = data[0];
+            let type = request.payload.asset.validation[0].type;
+            let identityUsesIdsToReject = [];
+            data.forEach(function(request) {
+                let requestAttributeTypes = JSON.parse(request.attributeTypes);
+                if (requestAttributeTypes && requestAttributeTypes.length > 0 &&
+                    requestAttributeTypes.filter(attributeType => attributeType === type).length > 0) {
+                    identityUsesIdsToReject.push(request.id);
+                }
+            });
+            if (identityUsesIdsToReject.length > 0) {
+                request.payload.identityUsesIdsToReject = identityUsesIdsToReject;
+            }
+        }
+    }
     // Filter out canceled, completed, rejected and declined validation requests, no answer can be performed on these types of requests
     let statusesToFilterOut = [];
     statusesToFilterOut.push(constants.validationRequestStatus.REJECTED);
@@ -167,7 +203,7 @@ const attributeValidationRequestAnswer = async (request, action) => {
             return {"error" : messages.DECLINE_ATTRIBUTE_VALIDATION_REQUEST_NO_REASON, "success": false }
         }
         if (request.payload.asset.validation[0].reason.length > 1024) {
-            return {"error" : messages.REASON_TOO_BIG_DECLINE, "success": false }
+            return {"error" : messages.REASON_TOO_BIG, "success": false }
         }
         if (attributeValidationRequest.rows[0].status !== constants.validationRequestStatus.PENDING_APPROVAL) {
             return {"error" : messages.ATTRIBUTE_VALIDATION_REQUEST_NOT_PENDING_APPROVAL, "success": false};
@@ -198,14 +234,14 @@ const attributeValidationRequestAnswer = async (request, action) => {
             return {"error" : messages.REJECT_ATTRIBUTE_VALIDATION_REQUEST_NO_REASON, "success": false }
         }
         if (request.payload.asset.validation[0].reason.length > 1024) {
-            return {"error" : messages.REASON_TOO_BIG_REJECT, "success": false }
+            return {"error" : messages.REASON_TOO_BIG, "success": false }
         }
 
         if (attributeValidationRequest.rows[0].status !== constants.validationRequestStatus.IN_PROGRESS) {
             return {"error" : messages.ATTRIBUTE_VALIDATION_REQUEST_NOT_IN_PROGRESS, "success": false};
         }
     }
-    request.payload.asset.validation[0].attribute_id = attribute.rows[0].id;
+    request.payload.asset.validation[0].attribute_id = attribute[0].id;
     request.payload.asset.validation[0].id = attributeValidationRequest.rows[0].id;
     let putResponse = null;
     if (action === "APPROVE") {

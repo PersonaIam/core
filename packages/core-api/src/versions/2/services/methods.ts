@@ -29,8 +29,6 @@ const postService = async request => {
         ...request.query,
         ...paginate(request),
     });
-    // console.log(JSON.stringify(services));
-    // console.log(request.payload);
     if (services.rows.length > 0 ){
         return {"error" : messages.SERVICE_ALREADY_EXISTS, "success": false};
     }

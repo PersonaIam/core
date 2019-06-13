@@ -5,7 +5,6 @@ const axios = require("axios");
 import { IRepository } from "../interfaces";
 import { Repository } from "./repository";
 import { buildFilterQuery } from "./utils/build-filter-query";
-import { models } from "../../../crypto/dist";
 import { constants } from "../versions/2/constants";
 
 export class ServicesRepository extends Repository implements IRepository {
@@ -86,7 +85,6 @@ export class ServicesRepository extends Repository implements IRepository {
                 .recipientId(service.provider)
                 .sign(parameters.secret)
                 .getStruct();
-            console.log('TRANSACTION = ' + JSON.stringify(transaction))
 
             let response = await axios.post(
                 "http://127.0.0.1:4003/api/v2/transactions",
@@ -102,7 +100,7 @@ export class ServicesRepository extends Repository implements IRepository {
                 service.timestamp = transaction.timestamp;
                 service.status = constants.serviceStatus.ACTIVE;
                 service.attribute_types = JSON.stringify(service.attribute_types);
-                const repo1 = await this.databaseService.connection.saveService(service);
+                await this.databaseService.connection.saveService(service);
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -142,7 +140,6 @@ export class ServicesRepository extends Repository implements IRepository {
                     .sign(parameters.secret)
                     .getStruct();
             }
-            console.log('TRANSACTION = ' + JSON.stringify(transaction))
 
             let response = await axios.post(
                 "http://127.0.0.1:4003/api/v2/transactions",
@@ -158,7 +155,7 @@ export class ServicesRepository extends Repository implements IRepository {
                 service.timestamp = transaction.timestamp;
                 service.status = newStatus;
                 service.attribute_types = JSON.stringify(service.attribute_types);
-                const repo1 = await this.databaseService.connection.updateService(service);
+                await this.databaseService.connection.updateService(service);
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}

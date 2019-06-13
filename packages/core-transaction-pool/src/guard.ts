@@ -272,6 +272,16 @@ export class TransactionGuard implements transactionPool.ITransactionGuard {
             case TransactionTypes.ActivateService: break;
             // @ts-ignore
             case TransactionTypes.InactivateService: break;
+            // @ts-ignore
+            case TransactionTypes.RequestIdentityUse: break;
+            // @ts-ignore
+            case TransactionTypes.ApproveIdentityUseRequest: break;
+            // @ts-ignore
+            case TransactionTypes.DeclineIdentityUseRequest: break;
+            // @ts-ignore
+            case TransactionTypes.EndIdentityUseRequest: break;
+            // @ts-ignore
+            case TransactionTypes.CancelIdentityUseRequest: break;
             default:
                 this.__pushError(
                     transaction,

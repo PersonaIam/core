@@ -4,7 +4,7 @@ import { TransactionTypes } from "../constants";
 import { TransactionTypeError } from "../errors";
 import { configManager } from "../managers";
 import { Transaction } from "../models";
-import { ITransactionData } from "../models/transaction";
+import { ITransactionData } from "../models";
 import { Bignum } from "../utils";
 
 // Reference: https://github.com/ArkEcosystem/AIPs/blob/master/AIPS/aip-11.md
@@ -88,6 +88,16 @@ class TransactionSerializer {
             this.serializeActivateService(transaction, buffer);
         } else if (transaction.type === TransactionTypes.InactivateService) {
             this.serializeInactivateService(transaction, buffer);
+        }  else if (transaction.type === TransactionTypes.RequestIdentityUse) {
+            this.serializeCreateIdentityUseRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.ApproveIdentityUseRequest) {
+            this.serializeApproveIdentityUseRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.DeclineIdentityUseRequest) {
+            this.serializeDeclineIdentityUseRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.EndIdentityUseRequest) {
+            this.serializeEndIdentityUseRequest(transaction, buffer);
+        } else if (transaction.type === TransactionTypes.CancelIdentityUseRequest) {
+            this.serializeCancelIdentityUseRequest(transaction, buffer);
         } else {
             throw new TransactionTypeError(transaction.type);
         }
@@ -316,6 +326,70 @@ class TransactionSerializer {
         } else {
             buffer.writeUInt32(0);
         }
+    }
+
+    serializeCreateIdentityUseRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.identityuse[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let serviceProvider = Buffer.from(transaction.asset.identityuse[0].serviceProvider, "utf8");
+        buffer.writeByte(serviceProvider.length);
+        buffer.append(serviceProvider, "hex");
+        let serviceName = Buffer.from(transaction.asset.identityuse[0].serviceName, "utf8");
+        buffer.writeByte(serviceName.length);
+        buffer.append(serviceName, "hex");
+    }
+
+    serializeApproveIdentityUseRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.identityuse[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let serviceProvider = Buffer.from(transaction.asset.identityuse[0].serviceProvider, "utf8");
+        buffer.writeByte(serviceProvider.length);
+        buffer.append(serviceProvider, "hex");
+        let serviceName = Buffer.from(transaction.asset.identityuse[0].serviceName, "utf8");
+        buffer.writeByte(serviceName.length);
+        buffer.append(serviceName, "hex");
+
+    }
+
+    serializeDeclineIdentityUseRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.identityuse[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let serviceProvider = Buffer.from(transaction.asset.identityuse[0].serviceProvider, "utf8");
+        buffer.writeByte(serviceProvider.length);
+        buffer.append(serviceProvider, "hex");
+        let serviceName = Buffer.from(transaction.asset.identityuse[0].serviceName, "utf8");
+        buffer.writeByte(serviceName.length);
+        buffer.append(serviceName, "hex");
+
+    }
+
+    serializeCancelIdentityUseRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.identityuse[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let serviceProvider = Buffer.from(transaction.asset.identityuse[0].serviceProvider, "utf8");
+        buffer.writeByte(serviceProvider.length);
+        buffer.append(serviceProvider, "hex");
+        let serviceName = Buffer.from(transaction.asset.identityuse[0].serviceName, "utf8");
+        buffer.writeByte(serviceName.length);
+        buffer.append(serviceName, "hex");
+
+    }
+
+    serializeEndIdentityUseRequest(transaction, buffer) {
+        let owner = Buffer.from(transaction.asset.identityuse[0].owner, "utf8");
+        buffer.writeByte(owner.length);
+        buffer.append(owner, "hex");
+        let serviceProvider = Buffer.from(transaction.asset.identityuse[0].serviceProvider, "utf8");
+        buffer.writeByte(serviceProvider.length);
+        buffer.append(serviceProvider, "hex");
+        let serviceName = Buffer.from(transaction.asset.identityuse[0].serviceName, "utf8");
+        buffer.writeByte(serviceName.length);
+        buffer.append(serviceName, "hex");
+
     }
 
     private serializeSignatures(transaction: ITransactionData, buffer: ByteBuffer): void {

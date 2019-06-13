@@ -14,7 +14,8 @@ export function transformAttribute(attribute) {
         yellowFlags: attribute.yellowFlags,
         active: attribute.active,
         rejected: attribute.rejected,
-        dangerOfRejection: attribute.dangerOfRejection
+        dangerOfRejection: attribute.dangerOfRejection,
+        completed: attribute.completed
     };
 }
 

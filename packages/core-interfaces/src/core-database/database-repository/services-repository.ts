@@ -1,10 +1,9 @@
-import { Bignum } from "@arkecosystem/crypto";
 import { IRepository } from "./repository";
 
 export interface IServicesRepository extends IRepository {
 
     /**
-     * Find a block by its ID.
+     * Find a service by its ID.
      */
     findById(id: string): Promise<any>;
 
@@ -14,40 +13,40 @@ export interface IServicesRepository extends IRepository {
     count(): Promise<number>;
 
     /**
-     * Get all of the common blocks from the database.
+     * Get all of the common services from the database.
      */
     common(ids: string[]): Promise<any[]>
 
     /**
-     * Get all of the blocks within the given height range and order them by height.
+     * Get all of the services within the given height range and order them by height.
      */
     heightRange(start: number, end: number): Promise<any[]>;
 
     /**
-     * Get the last created block from the database.
+     * Get the last created service from the database.
      */
     latest(): Promise<any>;
 
     /**
-     * Get the most recently created blocks ids from the database.
+     * Get the most recently created service ids from the database.
      * @return {Promise}
      */
     recent(count: number): Promise<any[]>;
 
     /**
-     * Get statistics about all blocks from the database.
+     * Get statistics about all services from the database.
      */
     statistics(): Promise<{
         count: number
     }>;
 
     /**
-     * Get top count blocks
+     * Get top count services
      */
     top(count: number): Promise<any[]>;
 
     /**
-     * Delete the block from the database.
+     * Delete the service from the database.
      */
     delete(id: string): Promise<void>;
 

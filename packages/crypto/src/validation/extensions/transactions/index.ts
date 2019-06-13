@@ -18,6 +18,11 @@ import { cancelAttributeValidationRequest} from "./cancel-attribute-validation-r
 import { createService} from "./create-service";
 import { activateService} from "./activate-service";
 import { inactivateService} from "./inactivate-service";
+import { requestIdentityUse} from "./request-identity-use";
+import { approveIdentityUseRequest} from "./approve-identity-use-request";
+import { declineIdentityUseRequest} from "./decline-identity-use-request";
+import { cancelIdentityUseRequest} from "./cancel-identity-use-request";
+import { endIdentityUseRequest} from "./end-identity-use-request";
 
 export const transactions = [
     transfer,
@@ -37,6 +42,11 @@ export const transactions = [
     notarizeAttributeValidationRequest,
     rejectAttributeValidationRequest,
     cancelAttributeValidationRequest,
+    requestIdentityUse,
+    approveIdentityUseRequest,
+    endIdentityUseRequest,
+    cancelIdentityUseRequest,
+    declineIdentityUseRequest,
     createService,
     activateService,
     inactivateService,

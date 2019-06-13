@@ -9,6 +9,11 @@ import { CreateAttributeValidationBuilder } from "./transactions/create-attribut
 import { CreateServiceBuilder } from "./transactions/create-service";
 import { ActivateServiceBuilder } from "./transactions/activate-service";
 import { InactivateServiceBuilder } from "./transactions/inactivate-service";
+import { ApproveIdentityUseBuilder } from "./transactions/approve-identity-use";
+import { EndIdentityUseBuilder } from "./transactions/end-identity-use";
+import { DeclineIdentityUseBuilder } from "./transactions/decline-identity-use";
+import { CancelIdentityUseBuilder } from "./transactions/cancel-identity-use";
+import { CreateIdentityUseBuilder } from "./transactions/create-identity-use";
 
 import { DelegateRegistrationBuilder } from "./transactions/delegate-registration";
 import { DelegateResignationBuilder } from "./transactions/delegate-resignation";
@@ -159,6 +164,41 @@ export class TransactionBuilderFactory {
      */
     public inactivateService(): InactivateServiceBuilder {
         return new InactivateServiceBuilder();
+    }
+
+    /**
+     * Create new request identity use transaction type.
+     */
+    public requestIdentityUse(): CreateIdentityUseBuilder {
+        return new CreateIdentityUseBuilder();
+    }
+
+    /**
+     * Create new approve identity use request transaction type.
+     */
+    public approveIdentityUseRequest(): ApproveIdentityUseBuilder {
+        return new ApproveIdentityUseBuilder();
+    }
+
+    /**
+     * Create new end identity use request transaction type.
+     */
+    public endIdentityUseRequest(): EndIdentityUseBuilder    {
+        return new EndIdentityUseBuilder();
+    }
+
+    /**
+     * Create new decline identity use request transaction type.
+     */
+    public declineIdentityUseRequest(): DeclineIdentityUseBuilder {
+        return new DeclineIdentityUseBuilder();
+    }
+
+    /**
+     * Create new cancel identity use request transaction type.
+     */
+    public cancelIdentityUseRequest(): CancelIdentityUseBuilder {
+        return new CancelIdentityUseBuilder();
     }
 }
 

@@ -1,11 +1,11 @@
 const crypto = require("@arkecosystem/crypto/dist/index");
 const axios = require("axios");
 
-
 import { IRepository } from "../interfaces";
 import { Repository } from "./repository";
 import { buildFilterQuery } from "./utils/build-filter-query";
-import { models } from "../../../crypto/dist";
+import { constants } from "../versions/2/constants";
+import { messages } from "../versions/2/messages";
 
 export class AttributeValidationsRepository extends Repository implements IRepository {
     constructor() {
@@ -87,7 +87,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     async createAttributeValidationRequest(parameters = <any>{}) {
 
         try {
-            let validation = parameters.asset.validation[0]
+            let validation = parameters.asset.validation[0];
             const transaction = crypto.transactionBuilder
                 .requestAttributeValidation()
                 .validationAsset(parameters.asset.validation)
@@ -95,7 +95,6 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 .recipientId(validation.owner)
                 .sign(parameters.secret)
                 .getStruct();
-            // console.log('TRANSACTION = ' + JSON.stringify(transaction))
 
             let response = await axios.post(
                 "http://127.0.0.1:4003/api/v2/transactions",
@@ -119,7 +118,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                     validation.expire_timestamp = null;
                 }
                 validation.status = 'PENDING_APPROVAL';
-                const result = await this.databaseService.connection.saveAttributeValidationRequest(validation);
+                await this.databaseService.connection.saveAttributeValidationRequest(validation);
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -139,7 +138,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     async approveAttributeValidationRequest(parameters = <any>{}) {
 
         try {
-            let validation = parameters.asset.validation[0]
+            let validation = parameters.asset.validation[0];
             const transaction = crypto.transactionBuilder
                 .approveAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
@@ -170,8 +169,8 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                     validation.expire_timestamp = null;
                 }
                 validation.status = 'IN_PROGRESS';
-                const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                await this.databaseService.connection.addAttributeValidationRequestAction({
                     id : validation.id,
                     action : 'APPROVE',
                     timestamp : transaction.timestamp
@@ -195,7 +194,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     async declineAttributeValidationRequest(parameters = <any>{}) {
 
         try {
-            let validation = parameters.asset.validation[0]
+            let validation = parameters.asset.validation[0];
             const transaction = crypto.transactionBuilder
                 .declineAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
@@ -226,8 +225,8 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                     validation.expire_timestamp = null;
                 }
                 validation.status = 'DECLINED';
-                const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                await this.databaseService.connection.addAttributeValidationRequestAction({
                     id : validation.id,
                     action : 'DECLINE',
                     timestamp : transaction.timestamp
@@ -251,7 +250,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     async cancelAttributeValidationRequest(parameters = <any>{}) {
 
         try {
-            let validation = parameters.asset.validation[0]
+            let validation = parameters.asset.validation[0];
             const transaction = crypto.transactionBuilder
                 .cancelAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
@@ -282,8 +281,8 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                     validation.expire_timestamp = null;
                 }
                 validation.status = 'CANCELED';
-                const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                await this.databaseService.connection.addAttributeValidationRequestAction({
                     id : validation.id,
                     action : 'CANCEL',
                     timestamp : transaction.timestamp
@@ -307,7 +306,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     async notarizeAttributeValidationRequest(parameters = <any>{}) {
 
         try {
-            let validation = parameters.asset.validation[0]
+            let validation = parameters.asset.validation[0];
             const transaction = crypto.transactionBuilder
                 .notarizeAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
@@ -338,8 +337,8 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                     validation.expire_timestamp = null;
                 }
                 validation.status = 'COMPLETED';
-                const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                await this.databaseService.connection.addAttributeValidationRequestAction({
                     id : validation.id,
                     action : 'NOTARIZE',
                     timestamp : transaction.timestamp
@@ -363,7 +362,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     async rejectAttributeValidationRequest(parameters = <any>{}) {
 
         try {
-            let validation = parameters.asset.validation[0]
+            let validation = parameters.asset.validation[0];
             const transaction = crypto.transactionBuilder
                 .rejectAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
@@ -394,12 +393,20 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                     validation.expire_timestamp = null;
                 }
                 validation.status = 'REJECTED';
-                const repo1 = await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                const actionResult = await this.databaseService.connection.addAttributeValidationRequestAction({
+                await this.databaseService.connection.updateAttributeValidationRequest(validation);
+                await this.databaseService.connection.addAttributeValidationRequestAction({
                     id : validation.id,
                     action : 'REJECT',
                     timestamp : transaction.timestamp
                 });
+                console.log('1 : ' + JSON.stringify(parameters))
+                if (parameters.identityUsesIdsToReject) {
+                    await this.databaseService.connection.updateIdentityUseWithReason({
+                        status: constants.identityUseRequestStatus.REJECTED,
+                        reason: messages.IDENTITY_USE_REQUEST_REJECTED_REASON,
+                        ids: parameters.identityUsesIdsToReject
+                    });
+                }
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -437,23 +444,6 @@ export class AttributeValidationsRepository extends Repository implements IRepos
 
         try {
             return await this.databaseService.connection.getAttributeValidationRequests(parameters);
-
-        } catch (err) {
-            console.log(err);
-            return { "error": err };
-        }
-    }
-
-    /**
-     * getAttributeCredibility.
-     * @param  {Object}  parameters
-     * @return {Object}
-     */
-    async getAttributeCredibility(parameters = <any>{}) {
-
-        try {
-            // const repo1 = await this.databaseService.connection.getAttributeCredibility(parameters);
-            return { "transactionId": '' };
 
         } catch (err) {
             console.log(err);

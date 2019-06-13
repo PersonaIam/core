@@ -5,11 +5,12 @@ import { messages } from "../../../src/versions/2/messages";
 import { delegates } from "../data";
 import { secrets } from "../data";
 
-var globalTimestamp = 0;
+let globalTimestamp = 0;
 
 const ATTRIBUTES = "attributes";
 const ATTRIBUTE_TYPES = "attribute_types";
 const COUNT = "count";
+const ACTIVE = "active";
 const SUCCESS = "success";
 const MESSAGE = 'message';
 const TRANSACTION_ID = "transactionId";
@@ -43,8 +44,6 @@ const INCORRECT_TYPE = "whatevs";
 const ADDRESS_VALUE = "Denver";
 const NAME_VALUE = "JOE";
 const SECOND_NAME_VALUE = "QUEEN";
-const THIRD_ID_VALUE = "QUEENS";
-const EMAIL = "yeezy@gmail.com";
 const PHONE_NUMBER_VALUE = "345654321";
 const BIRTHPLACE_VALUE = "Calgary";
 const NEW_ADDRESS = "Edmonton";
@@ -191,8 +190,8 @@ describe("API 2.0", () => {
                     expect(response.data.attributes[0]).toHaveProperty(TYPE_PROP);
                     expect(response.data.attributes[0].type).toBe(FIRST_NAME);
                     expect(response.data.attributes[0]).toHaveProperty(OWNER_PROP);
-                    //TODO
-                    // expect(response.data.attributes[0]).toHaveProperty(ACTIVE);
+                    expect(response.data.attributes[0]).toHaveProperty(ACTIVE);
+                    expect(response.data.attributes[0].active).toBe(FALSE);
                     expect(response.data.attributes[0]).toHaveProperty(EXPIRE_TIMESTAMP_PROP);
                     expect(response.data.attributes[0].expire_timestamp).toBeNull();
                 });
@@ -416,8 +415,8 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(ATTRIBUTES);
                     expect(response.data.attributes).toBeArray();
-                    expect(response.data.attributes).toHaveLength(1)
-                    expect(response.data.attributes[0].value).toBe(NEW_ADDRESS)
+                    expect(response.data.attributes).toHaveLength(1);
+                    expect(response.data.attributes[0].value).toBe(NEW_ADDRESS);
                     expect(response.data.attributes[0].type).toBe(ADDRESS)
 
                 });
@@ -468,9 +467,9 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(ATTRIBUTES);
                     expect(response.data.attributes).toBeArray();
-                    expect(response.data.attributes).toHaveLength(1)
-                    expect(response.data.attributes[0].value).toBe(NEW_ADDRESS)
-                    expect(response.data.attributes[0].type).toBe(ADDRESS)
+                    expect(response.data.attributes).toHaveLength(1);
+                    expect(response.data.attributes[0].value).toBe(NEW_ADDRESS);
+                    expect(response.data.attributes[0].type).toBe(ADDRESS);
                     expect(response.data.attributes[0].expire_timestamp).toBe(globalTimestamp)
 
                 });
@@ -502,9 +501,9 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(ATTRIBUTES);
                     expect(response.data.attributes).toBeArray();
-                    expect(response.data.attributes).toHaveLength(1)
-                    expect(response.data.attributes[0].value).toBe(NEW_ADDRESS2)
-                    expect(response.data.attributes[0].type).toBe(ADDRESS)
+                    expect(response.data.attributes).toHaveLength(1);
+                    expect(response.data.attributes[0].value).toBe(NEW_ADDRESS2);
+                    expect(response.data.attributes[0].type).toBe(ADDRESS);
                     expect(response.data.attributes[0].expire_timestamp).toBe(globalTimestamp)
 
                 });

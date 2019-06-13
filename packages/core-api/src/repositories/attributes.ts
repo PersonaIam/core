@@ -5,7 +5,6 @@ const axios = require("axios");
 import { IRepository } from "../interfaces";
 import { Repository } from "./repository";
 import { buildFilterQuery } from "./utils/build-filter-query";
-import { models } from "../../../crypto/dist";
 
 export class AttributesRepository extends Repository implements IRepository {
     constructor() {
@@ -78,7 +77,7 @@ export class AttributesRepository extends Repository implements IRepository {
     async postAttribute(parameters = <any>{}) {
 
         try {
-            let attribute = parameters.asset.attribute[0]
+            let attribute = parameters.asset.attribute[0];
             const transaction = crypto.transactionBuilder
                 .createAttribute()
                 .attributesAsset(parameters.asset.attribute)
@@ -86,7 +85,6 @@ export class AttributesRepository extends Repository implements IRepository {
                 .recipientId(attribute.owner)
                 .sign(parameters.secret)
                 .getStruct();
-            // console.log('TRANSACTION = ' + JSON.stringify(transaction))
 
             let response = await axios.post(
                 "http://127.0.0.1:4003/api/v2/transactions",
@@ -100,7 +98,7 @@ export class AttributesRepository extends Repository implements IRepository {
 
             if (response.data.data.invalid.length === 0) {
                 attribute.timestamp = transaction.timestamp;
-                const repo1 = await this.databaseService.connection.saveAttribute(attribute);
+                await this.databaseService.connection.saveAttribute(attribute);
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}
@@ -119,7 +117,7 @@ export class AttributesRepository extends Repository implements IRepository {
      */
     public async putAttribute(parameters: any = {}): Promise<any> {
         try {
-            let attribute = parameters.asset.attribute[0]
+            let attribute = parameters.asset.attribute[0];
             const transaction = crypto.transactionBuilder
                 .updateAttribute()
                 .attributesAsset(parameters.asset.attribute)
@@ -141,7 +139,7 @@ export class AttributesRepository extends Repository implements IRepository {
             if (response.data.data.invalid.length === 0) {
                 attribute.timestamp = transaction.timestamp;
                 // @ts-ignore
-                const repo1 = await this.databaseService.connection.updateOrCreate(attribute);
+                await this.databaseService.connection.updateOrCreate(attribute);
                 return {"transactionId" : transaction.id};
             } else {
                 return {"error" : "Invalid Transaction"}

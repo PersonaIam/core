@@ -4,25 +4,15 @@ import sleep from "sleep";
 import { messages } from "../../../src/versions/2/messages";
 import { delegates } from "../data";
 import { secrets } from "../data";
+import { constants } from "../../../src/versions/2/constants";
 
-var globalTimestamp = 0;
-
-const ATTRIBUTES = "attributes";
-const ATTRIBUTE_TYPES = "attribute_types";
-const COUNT = "count";
 const SUCCESS = "success";
-const MESSAGE = 'message';
 const TRANSACTION_ID = "transactionId";
 const FALSE = false;
 const TRUE = true;
 const ERROR = "error";
 const TRUST_POINTS = "trust_points";
 const ATTRIBUTE_VALIDATIONS = "attribute_validations";
-const OWNER_PROP = "owner";
-const TYPE_PROP = "type";
-const VALUE_PROP = "value";
-const EXPIRE_TIMESTAMP_PROP = "expire_timestamp";
-
 const SLEEP_TIME = 7001;
 const ATTRIBUTE_VALIDATION_REQUESTS = 'attribute_validation_requests';
 
@@ -36,13 +26,13 @@ const OTHER_OWNER = delegates[3].senderId;
 const OTHER_SECRET = secrets[3];
 const OTHER_PUBLIC_KEY = delegates[3].senderPublicKey;
 
-const VALIDATOR = delegates[0].senderId;
-const VALIDATOR_SECRET = secrets[0];
-const VALIDATOR_PUBLIC_KEY = delegates[0].senderPublicKey;
+const VALIDATOR = delegates[4].senderId;
+const VALIDATOR_SECRET = secrets[4];
+const VALIDATOR_PUBLIC_KEY = delegates[4].senderPublicKey;
 
-const VALIDATOR_2 = delegates[4].senderId;
-const VALIDATOR_SECRET_2 = secrets[4];
-const VALIDATOR_PUBLIC_KEY_2 = delegates[4].senderPublicKey;
+const VALIDATOR_2 = delegates[5].senderId;
+const VALIDATOR_SECRET_2 = secrets[5];
+const VALIDATOR_PUBLIC_KEY_2 = delegates[5].senderPublicKey;
 
 const FIRST_NAME = "first_name";
 const PHONE_NUMBER = "phone_number";
@@ -50,18 +40,12 @@ const BIRTHPLACE = "birthplace";
 const ADDRESS = "address";
 const SSN = "ssn";
 const EMAIL = "email";
-const IDENTITY_CARD = "identity_card";
-const INCORRECT_TYPE = "whatevs";
 
 const ADDRESS_VALUE = "Denver";
 const NAME_VALUE = "JOE";
-const SECOND_NAME_VALUE = "QUEEN";
-const THIRD_ID_VALUE = "QUEENS";
 const EMAIL_VALUE = "yeezy@gmail.com";
 const PHONE_NUMBER_VALUE = "345654321";
 const BIRTHPLACE_VALUE = "Calgary";
-const NEW_ADDRESS = "Edmonton";
-const NEW_ADDRESS2 = "Toronto";
 const INCORRECT_ADDRESS = "ABC";
 
 const REASON_FOR_DECLINE_1024_GOOD =
@@ -262,7 +246,7 @@ describe("API 2.0", () => {
                     params.type = ADDRESS;
                     params.secret = VALIDATOR_SECRET;
                     params.publicKey = VALIDATOR_PUBLIC_KEY;
-                    params.validationType = 'FACE_TO_FACE';
+                    params.validationType = constants.validationType.FACE_TO_FACE;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/notarize", body);
                     expect(response.data).toHaveProperty(SUCCESS);
@@ -350,7 +334,7 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.ATTRIBUTE_WITH_NO_ASSOCIATIONS_CANNOT_BE_VALIDATED);
-                })
+                });
 
                 it("As an OWNER, I want to Create a validation request for a non-file attribute (PHONE_NUMBER, VALIDATOR). " +
                     "EXPECTED : SUCCESS. RESULT : Transaction ID", async () => {
@@ -359,7 +343,6 @@ describe("API 2.0", () => {
                     params.owner = OWNER;
                     params.validator = VALIDATOR;
                     params.type = PHONE_NUMBER;
-
                     let body = createAttributeValidationRequestBody(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
                     sleep.msleep(SLEEP_TIME);
@@ -488,10 +471,8 @@ describe("API 2.0", () => {
                     params.owner = OWNER;
                     params.validator = VALIDATOR;
                     params.type = PHONE_NUMBER;
-
                     let body = createAttributeValidationRequestBody(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
-                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
@@ -560,7 +541,7 @@ describe("API 2.0", () => {
                     params.type = PHONE_NUMBER;
                     params.secret = VALIDATOR_SECRET;
                     params.publicKey = VALIDATOR_PUBLIC_KEY;
-                    params.validationType = 'FACE_TO_FACE';
+                    params.validationType = constants.validationType.FACE_TO_FACE;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/notarize", body);
                     expect(response.data).toHaveProperty(SUCCESS);
@@ -579,7 +560,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("PENDING_APPROVAL");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.PENDING_APPROVAL);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
 
                 });
@@ -611,7 +592,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("PENDING_APPROVAL");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.PENDING_APPROVAL);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
 
                 });
@@ -675,7 +656,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("IN_PROGRESS");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.IN_PROGRESS);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -688,7 +669,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("IN_PROGRESS");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.IN_PROGRESS);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -701,7 +682,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("IN_PROGRESS");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.IN_PROGRESS);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -711,15 +692,13 @@ describe("API 2.0", () => {
                     params.owner = OWNER;
                     params.validator = VALIDATOR;
                     params.type = PHONE_NUMBER;
-
                     let body = createAttributeValidationRequestBody(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
-                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.IN_PROGRESS_VALIDATION_REQUEST_ALREADY_EXISTS);
-                })
+                });
 
                 it('As an OWNER, I want to Notarize a validation request that belongs to me. ' +
                     'EXPECTED : FAILURE. ERROR : VALIDATION_REQUEST_ANSWER_SENDER_IS_NOT_VALIDATOR_ERROR', async () => {
@@ -729,7 +708,7 @@ describe("API 2.0", () => {
                     params.type = PHONE_NUMBER;
                     params.secret = SECRET;
                     params.publicKey = PUBLIC_KEY;
-                    params.validationType = 'FACE_TO_FACE';
+                    params.validationType = constants.validationType.FACE_TO_FACE;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/notarize", body);
                     expect(response.data).toHaveProperty(SUCCESS);
@@ -753,7 +732,7 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.VALIDATION_REQUEST_ANSWER_SENDER_IS_NOT_VALIDATOR_ERROR);
-                })
+                });
 
                 // Actions on a IN_PROGRESS validation request
 
@@ -771,7 +750,7 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.ATTRIBUTE_VALIDATION_REQUEST_NOT_PENDING_APPROVAL);
-                })
+                });
 
                 it('As a PUBLIC user, I want to Get the details for a validation request (OWNER, BIRTHPLACE, VALIDATOR) that was approved twice. ' +
                     'EXPECTED : SUCCESS. RESULT : 1 Result, with status IN_PROGRESS', async () => {
@@ -782,9 +761,9 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("IN_PROGRESS");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.IN_PROGRESS);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
-                })
+                });
 
                 it('As a VALIDATOR, I want to Decline a validation request (OWNER, BIRTHPLACE) that is already IN_PROGRESS. ' +
                     'EXPECTED : FAILURE. ERROR : ATTRIBUTE_VALIDATION_REQUEST_NOT_PENDING_APPROVAL', async () => {
@@ -801,7 +780,7 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.ATTRIBUTE_VALIDATION_REQUEST_NOT_PENDING_APPROVAL);
-                })
+                });
 
                 it('As a PUBLIC user, I want to Get the details for a validation request (OWNER, BIRTHPLACE, VALIDATOR) that was approved and then declined. ' +
                     'EXPECTED : SUCCESS. RESULT : 1 Result, with status IN_PROGRESS', async () => {
@@ -812,9 +791,9 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("IN_PROGRESS");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.IN_PROGRESS);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
-                })
+                });
 
                 it('As an OWNER, I want to Cancel a validation request that is already IN_PROGRESS. ' +
                     'EXPECTED : FAILURE. ERROR : ATTRIBUTE_VALIDATION_REQUEST_NOT_PENDING_APPROVAL', async () => {
@@ -830,7 +809,7 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.ATTRIBUTE_VALIDATION_REQUEST_NOT_PENDING_APPROVAL);
-                })
+                });
 
                 it('As a PUBLIC user, I want to Get the details for a validation request (OWNER, BIRTHPLACE, VALIDATOR) that was approved and then canceled. ' +
                     'EXPECTED : SUCCESS. RESULT : 1 Result, with status IN_PROGRESS', async () => {
@@ -841,14 +820,14 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("IN_PROGRESS");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.IN_PROGRESS);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
-                })
+                });
 
                 // Decline
 
                 it('As a VALIDATOR, I want to Decline a validation request (OWNER, EMAIL) by providing a reason that is too long (1025 characters). ' +
-                    'EXPECTED : FAILURE. ERROR : REASON_TOO_BIG_DECLINE', async () => {
+                    'EXPECTED : FAILURE. ERROR : REASON_TOO_BIG', async () => {
                     let params = <any>{};
                     params.validator = VALIDATOR;
                     params.owner = OWNER;
@@ -861,8 +840,8 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
-                    expect(response.data.error).toBe(messages.REASON_TOO_BIG_DECLINE);
-                })
+                    expect(response.data.error).toBe(messages.REASON_TOO_BIG);
+                });
 
                 it('As a VALIDATOR, I want to Decline a validation request (OWNER, EMAIL) without providing a reason for the decline. ' +
                     'EXPECTED : FAILURE. ERROR : DECLINE_ATTRIBUTE_VALIDATION_REQUEST_NO_REASON', async () => {
@@ -878,7 +857,7 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
                     expect(response.data.error).toBe(messages.DECLINE_ATTRIBUTE_VALIDATION_REQUEST_NO_REASON);
-                })
+                });
 
                 it('As a VALIDATOR, I want to Decline a validation request (OWNER, EMAIL) by providing a reason that has maximum length (1024 characters). ' +
                     'EXPECTED : SUCCESS. RESULT : Transaction ID', async () => {
@@ -906,7 +885,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("DECLINED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.DECLINED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
 
                 });
@@ -940,7 +919,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("DECLINED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.DECLINED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
 
                 });
@@ -971,9 +950,8 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("DECLINED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.DECLINED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
-
                 });
 
                 it('As a VALIDATOR, I want to Notarize a validation request (OWNER, EMAIL) that is already declined. ' +
@@ -984,7 +962,7 @@ describe("API 2.0", () => {
                     params.type = EMAIL;
                     params.secret = VALIDATOR_SECRET;
                     params.publicKey = VALIDATOR_PUBLIC_KEY;
-                    params.validationType = 'FACE_TO_FACE';
+                    params.validationType = constants.validationType.FACE_TO_FACE;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/notarize", body);
                     expect(response.data).toHaveProperty(SUCCESS);
@@ -1003,7 +981,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("DECLINED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.DECLINED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
 
                 });
@@ -1035,7 +1013,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("DECLINED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.DECLINED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
 
                 });
@@ -1066,7 +1044,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("DECLINED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.DECLINED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
 
                 });
@@ -1099,7 +1077,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("CANCELED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.CANCELED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
 
                 });
@@ -1116,7 +1094,6 @@ describe("API 2.0", () => {
                     params.publicKey = VALIDATOR_PUBLIC_KEY_2;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/approve", body);
-                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
@@ -1132,7 +1109,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("CANCELED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.CANCELED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1147,7 +1124,6 @@ describe("API 2.0", () => {
                     params.reason = REASON_FOR_DECLINE_1024_GOOD;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/decline", body);
-                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
@@ -1164,7 +1140,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("CANCELED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.CANCELED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1178,7 +1154,6 @@ describe("API 2.0", () => {
                     params.publicKey = VALIDATOR_PUBLIC_KEY_2;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/notarize", body);
-                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
@@ -1194,7 +1169,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("CANCELED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.CANCELED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1209,7 +1184,6 @@ describe("API 2.0", () => {
                     params.reason = REASON_FOR_REJECT_1024_GOOD;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/reject", body);
-                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data.error).toBe(messages.VALIDATION_REQUEST_MISSING_IN_STATUS_FOR_ACTION);
@@ -1225,7 +1199,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("CANCELED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.CANCELED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1239,7 +1213,6 @@ describe("API 2.0", () => {
                     params.publicKey = PUBLIC_KEY;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/cancel", body);
-                    sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
@@ -1256,7 +1229,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("CANCELED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.CANCELED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1286,7 +1259,7 @@ describe("API 2.0", () => {
                     params.type = PHONE_NUMBER;
                     params.secret = VALIDATOR_SECRET;
                     params.publicKey = VALIDATOR_PUBLIC_KEY;
-                    params.validationType = 'MAN#BAD'
+                    params.validationType = 'MAN#BAD';
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/notarize", body);
                     expect(response.data).toHaveProperty(SUCCESS);
@@ -1304,10 +1277,8 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("IN_PROGRESS");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.IN_PROGRESS);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
-
-
                 });
 
                 //Notarization
@@ -1320,7 +1291,7 @@ describe("API 2.0", () => {
                     params.type = PHONE_NUMBER;
                     params.secret = VALIDATOR_SECRET;
                     params.publicKey = VALIDATOR_PUBLIC_KEY;
-                    params.validationType = 'FACE_TO_FACE';
+                    params.validationType = constants.validationType.FACE_TO_FACE;
                     let body = createAnswerAttributeValidationRequest(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/notarize", body);
                     sleep.msleep(SLEEP_TIME);
@@ -1340,7 +1311,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("COMPLETED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.COMPLETED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1353,7 +1324,6 @@ describe("API 2.0", () => {
 
                         let body = createAttributeValidationRequestBody(params);
                         const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
-                        sleep.msleep(SLEEP_TIME);
                         expect(response.data).toHaveProperty(SUCCESS);
                         expect(response.data.success).toBe(FALSE);
                         expect(response.data).toHaveProperty(ERROR);
@@ -1387,7 +1357,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("COMPLETED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.COMPLETED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1418,7 +1388,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("COMPLETED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.COMPLETED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1447,7 +1417,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("COMPLETED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.COMPLETED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1477,7 +1447,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("COMPLETED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.COMPLETED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1507,14 +1477,14 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("COMPLETED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.COMPLETED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
                 // Reject
 
                 it('As a VALIDATOR, I want to Reject a validation request (OWNER, BIRTHPLACE) by providing a reason that is too long (1025 characters). ' +
-                    'EXPECTED : FAILURE. ERROR : REASON_TOO_BIG_REJECT', async () => {
+                    'EXPECTED : FAILURE. ERROR : REASON_TOO_BIG', async () => {
                     let params = <any>{};
                     params.validator = VALIDATOR;
                     params.owner = OWNER;
@@ -1527,7 +1497,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(FALSE);
                     expect(response.data).toHaveProperty(ERROR);
-                    expect(response.data.error).toBe(messages.REASON_TOO_BIG_REJECT);
+                    expect(response.data.error).toBe(messages.REASON_TOO_BIG);
 
                 });
 
@@ -1573,7 +1543,7 @@ describe("API 2.0", () => {
                         expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                         expect(response.data.success).toBe(TRUE);
                         expect(response.data.attribute_validation_requests).toHaveLength(1);
-                        expect(response.data.attribute_validation_requests[0].status).toBe("REJECTED");
+                        expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.REJECTED);
                         expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1604,7 +1574,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("REJECTED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.REJECTED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1635,7 +1605,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("REJECTED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.REJECTED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1664,7 +1634,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("REJECTED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.REJECTED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1694,7 +1664,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("REJECTED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.REJECTED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1724,7 +1694,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATION_REQUESTS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data.attribute_validation_requests).toHaveLength(1);
-                    expect(response.data.attribute_validation_requests[0].status).toBe("REJECTED");
+                    expect(response.data.attribute_validation_requests[0].status).toBe(constants.validationRequestStatus.REJECTED);
                     expect(response.data.attribute_validation_requests[0].attribute_id).toBe(attribute.data.attributes[0].id);
                 });
 
@@ -1835,27 +1805,23 @@ describe("API 2.0", () => {
                     'EXPECTED : SUCCESS. RESULT : 1 Result, with "attribute_validations" = 0', async () => {
 
                     const response = await utils[request]("GET", "v2/attribute-validations/validationscore?type=address&owner=" + OWNER);
-                    console.log(response.data)
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATIONS);
                     expect(response.data.attribute_validations).toBe(0);
-                    sleep.msleep(SLEEP_TIME);
                 });
 
                 it('As a PUBLIC user, I want to Get the validation score for an attribute that has 1 completed validation. ' +
                     'EXPECTED : SUCCESS. RESULT : 1 Result, with "attribute_validations" = 1', async () => {
 
                     const response = await utils[request]("GET", "v2/attribute-validations/validationscore?type=phone_number&owner=" + OWNER);
-                    console.log(response.data)
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(ATTRIBUTE_VALIDATIONS);
                     expect(response.data.attribute_validations).toBe(1);
-                    sleep.msleep(SLEEP_TIME);
                 });
             })
-    })
+    });
 
     describe("Attribute Credibility", () => {
         describe.each([["Accept", "requestWithAcceptHeader"]])(
@@ -1936,7 +1902,7 @@ describe("API 2.0", () => {
                 });
 
             })
-    })
+    });
 
     describe("Existing requests", () => {
         describe.each([["Accept", "requestWithAcceptHeader"]])(
@@ -1949,14 +1915,13 @@ describe("API 2.0", () => {
                     params.owner = OWNER;
                     params.validator = VALIDATOR;
                     params.type = BIRTHPLACE;
-
                     let body = createAttributeValidationRequestBody(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
                     sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(TRANSACTION_ID);
-                })
+                });
 
                 it('As an OWNER, I want to Create a validation request (OWNER, EMAIL), even though a declined request already exists. ' +
                     'EXPECTED : SUCCESS. RESULT : Transaction ID', async () => {
@@ -1964,7 +1929,6 @@ describe("API 2.0", () => {
                     params.owner = OWNER;
                     params.validator = VALIDATOR;
                     params.type = EMAIL;
-
                     let body = createAttributeValidationRequestBody(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
                     sleep.msleep(SLEEP_TIME);
@@ -1980,7 +1944,6 @@ describe("API 2.0", () => {
                     params.owner = OWNER;
                     params.validator = VALIDATOR_2;
                     params.type = PHONE_NUMBER;
-
                     let body = createAttributeValidationRequestBody(params);
                     const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
                     sleep.msleep(SLEEP_TIME);
@@ -1988,11 +1951,8 @@ describe("API 2.0", () => {
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(TRANSACTION_ID);
                 })
-
-
             })
     })
-
 });
 
 function createAttributeBody(param) {
