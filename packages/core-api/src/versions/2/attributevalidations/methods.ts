@@ -56,6 +56,14 @@ const createAttributeValidationRequest = async (request) => {
         return responseObject;
     }
 
+    if (attribute.rows[0].expireTimestamp && attribute.rows[0].expireTimestamp < slots.getTime()) {
+        return {"error" : messages.EXPIRED_ATTRIBUTE, "success": false};
+    }
+
+    if (!request.payload.asset.validation[0].attributeId && attribute.rows.length > 1) {
+        return {"error" : messages.MORE_THAN_ONE_ATTRIBUTE_EXISTS, "success": false};
+    }
+
     let filter = <any>{};
     filter.owner = request.payload.asset.validation[0].owner;
     filter.type = request.payload.asset.validation[0].type;
@@ -123,6 +131,14 @@ const attributeValidationRequestAnswer = async (request, action) => {
 
     if (!attribute || !attribute.rows || attribute.rows.length === 0) {
         return {"error" : messages.ATTRIBUTE_NOT_FOUND, "success": false};
+    }
+
+    if (attribute.rows[0].expireTimestamp && attribute.rows[0].expireTimestamp < slots.getTime()) {
+        return {"error" : messages.EXPIRED_ATTRIBUTE, "success": false};
+    }
+
+    if (!request.payload.asset.validation[0].attributeId && attribute.rows.length > 1) {
+        return {"error" : messages.MORE_THAN_ONE_ATTRIBUTE_EXISTS, "success": false};
     }
 
     let filter = <any>{};
@@ -317,6 +333,10 @@ const getAttributeValidationScore = async request => {
     let attributes = await attributesRepository.search(buildAttributeQuery(request));
     if (!attributes || !attributes.rows || attributes.rows.length === 0) {
         return { "error": messages.ATTRIBUTE_NOT_FOUND, "success": false };
+    }
+
+    if (!request.query.attributeId && attributes.rows.length > 1) {
+        return {"error" : messages.MORE_THAN_ONE_ATTRIBUTE_EXISTS, "success": false};
     }
 
     let response = await attributeValidationsRepository.getAttributeValidationScore(buildValidationScoreQuery(request, constants.MONTHS_FOR_ACTIVE_VALIDATION, attributes.rows[0].id));
