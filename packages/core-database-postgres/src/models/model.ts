@@ -83,7 +83,7 @@ export abstract class Model implements Database.IModel {
      * @return {ColumnSet}
      * @param columns
      */
-    private createColumnSet(columns) {
+    public createColumnSet(columns) {
         return new this.pgp.helpers.ColumnSet(columns, {
             table: {
                 table: this.getTable(),

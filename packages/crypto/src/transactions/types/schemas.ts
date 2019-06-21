@@ -167,3 +167,131 @@ export const delegateResignation = extend(transactionBaseSchema, {
         amount: { bignumber: { minimum: 0, maximum: 0 } },
     },
 });
+
+export const createAttribute = extend(transactionBaseSchema, {
+    $id: "createAttribute",
+    properties: {
+        type: { transactionType: TransactionTypes.CreateAttribute },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const updateAttribute = extend(transactionBaseSchema, {
+    $id: "updateAttribute",
+    properties: {
+        type: { transactionType: TransactionTypes.UpdateAttribute },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const createService = extend(transactionBaseSchema, {
+    $id: "createService",
+    properties: {
+        type: { transactionType: TransactionTypes.CreateService },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const activateService = extend(transactionBaseSchema, {
+    $id: "activateService",
+    properties: {
+        type: { transactionType: TransactionTypes.ActivateService },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const inactivateService = extend(transactionBaseSchema, {
+    $id: "inactivateService",
+    properties: {
+        type: { transactionType: TransactionTypes.InactivateService },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const requestAttributeValidation = extend(transactionBaseSchema, {
+    $id: "requestAttributeValidation",
+    properties: {
+        type: { transactionType: TransactionTypes.RequestAttributeValidation },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const approveAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "approveAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.ApproveAttributeValidationRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const cancelAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "cancelAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.CancelAttributeValidationRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const declineAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "declineAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.DeclineAttributeValidationRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const notarizeAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "notarizeAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.NotarizeAttributeValidationRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const rejectAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "rejectAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.RejectAttributeValidationRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const requestIdentityUse = extend(transactionBaseSchema, {
+    $id: "requestIdentityUse",
+    properties: {
+        type: { transactionType: TransactionTypes.RequestIdentityUse },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const approveIdentityUseRequest = extend(transactionBaseSchema, {
+    $id: "approveIdentityUseRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.ApproveIdentityUseRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const cancelIdentityUseRequest = extend(transactionBaseSchema, {
+    $id: "cancelIdentityUseRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.CancelIdentityUseRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const declineIdentityUseRequest = extend(transactionBaseSchema, {
+    $id: "declineIdentityUseRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.DeclineIdentityUseRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const endIdentityUseRequest = extend(transactionBaseSchema, {
+    $id: "endIdentityUseRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.EndIdentityUseRequest },
+        amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});

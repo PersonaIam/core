@@ -1,9 +1,13 @@
 import Hapi from "hapi";
+import * as Attributes from "./attributes";
+import * as AttributeValidations from "./attributevalidations";
 import * as Blockchain from "./blockchain";
 import * as Blocks from "./blocks";
 import * as Delegates from "./delegates";
+import * as IdentityUses from "./identityuses";
 import * as Node from "./node";
 import * as Peers from "./peers";
+import * as Services from "./services";
 import * as Transactions from "./transactions";
 import * as Votes from "./votes";
 import * as Wallets from "./wallets";
