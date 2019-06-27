@@ -1,9 +1,7 @@
 import { TransactionTypes } from "../../constants";
-import { crypto } from "../../crypto";
 import { feeManager } from "../../managers";
-import { IAttributeValidationElement, ITransactionAsset, ITransactionData } from "../../models";
+import { IAttributeValidationElement, ITransactionAsset, ITransactionData } from "../../transactions";
 import { TransactionBuilder } from "./transaction";
-import { VoteBuilder } from "./vote";
 
 export class RejectAttributeValidationBuilder extends TransactionBuilder<RejectAttributeValidationBuilder> {
     constructor() {

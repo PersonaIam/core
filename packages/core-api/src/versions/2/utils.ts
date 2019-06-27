@@ -32,7 +32,6 @@ function respondWithCollection(request, data, transformer): object {
 function respondWithCache(data, h): any {
     const { value, cached } = data;
     const lastModified = cached ? new Date(cached.stored) : new Date();
-
     return value.isBoom
         ? h.response(value.output.payload).code(value.output.statusCode)
         : h.response(value).header("Last-modified", lastModified.toUTCString());

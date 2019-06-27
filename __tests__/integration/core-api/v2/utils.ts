@@ -6,23 +6,23 @@ import { ApiHelpers } from "../../../utils/helpers/api";
 
 class Helpers {
     public async request(method, path, params = {}) {
-        const url = `http://localhost:4003/api/${path}`;
+        const url = `http://localhost:4103/api/${path}`;
         const headers = {
             "API-Version": 2,
             "Content-Type": "application/json",
         };
 
-        return ApiHelpers.request(app.resolvePlugin("api").http, method, url, headers, params);
+        return ApiHelpers.request(method, url, headers, params);
     }
 
     public async requestWithAcceptHeader(method, path, params = {}) {
-        const url = `http://localhost:4003/api/${path}`;
+        const url = `http://localhost:4103/api/${path}`;
         const headers = {
             "API-Version": 2,
             "Content-Type": "application/json",
         };
 
-        return ApiHelpers.request(app.resolvePlugin("api").http, method, url, headers, params);
+        return ApiHelpers.request(method, url, headers, params);
     }
 
     public expectJson(response) {

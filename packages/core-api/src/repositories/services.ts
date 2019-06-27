@@ -2,6 +2,8 @@
 const crypto = require("@arkecosystem/crypto/dist/index");
 // tslint:disable-next-line:no-var-requires
 const axios = require("axios");
+// tslint:disable-next-line:no-var-requires
+const defaults = require("../defaults");
 
 import { IRepository } from "../interfaces";
 import { constants } from "../versions/2/constants";
@@ -85,7 +87,7 @@ export class ServicesRepository extends Repository implements IRepository {
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -119,7 +121,7 @@ export class ServicesRepository extends Repository implements IRepository {
         try {
             const service = parameters.asset.service;
             let transaction = {} as any;
-            if (newStatus === "ACTIVE") {
+            if (newStatus === constants.serviceStatus.ACTIVE) {
                 transaction = crypto.transactionBuilder
                     .activateService()
                     .serviceAsset(parameters.asset.service)
@@ -138,7 +140,7 @@ export class ServicesRepository extends Repository implements IRepository {
             }
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },

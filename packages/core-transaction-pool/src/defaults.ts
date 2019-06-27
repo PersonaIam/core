@@ -13,9 +13,9 @@ export const defaults = {
     maxTransactionBytes: process.env.CORE_TRANSACTION_POOL_MAX_TRANSACTIONS_SIZE || 1047876,
     maxTransactionAge: 21600,
     dynamicFees: {
-        enabled: true,
-        minFeePool: 3000,
-        minFeeBroadcast: 3000,
+        enabled: false,
+        minFeePool: 1,
+        minFeeBroadcast: 1,
         addonBytes: {
             transfer: 100,
             secondSignature: 250,

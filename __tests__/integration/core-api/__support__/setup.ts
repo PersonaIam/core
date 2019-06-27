@@ -14,7 +14,7 @@ const round = generateRound(delegates.map(delegate => delegate.publicKey), 1);
 const options = {
     enabled: true,
     host: "0.0.0.0",
-    port: 4003,
+    port: 4103,
     whitelist: ["*"],
 };
 

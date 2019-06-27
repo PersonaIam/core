@@ -1,9 +1,7 @@
 import { TransactionTypes } from "../../constants";
-import { crypto } from "../../crypto";
 import { feeManager } from "../../managers";
-import { IAttributeElement, ITransactionAsset, ITransactionData } from "../../models";
+import { IAttributeElement, ITransactionAsset, ITransactionData } from "../../transactions";
 import { TransactionBuilder } from "./transaction";
-import { VoteBuilder } from "./vote";
 
 export class UpdateAttributeBuilder extends TransactionBuilder<UpdateAttributeBuilder> {
     constructor() {

@@ -108,6 +108,11 @@ class TransactionDeserializer {
         if (transaction.vendorFieldHex) {
             transaction.vendorField = Buffer.from(transaction.vendorFieldHex, "hex").toString("utf8");
         }
+        if (transaction.type >= 9 && transaction.type <= 25) {
+            transaction.recipientId = crypto.getAddress(transaction.senderPublicKey, transaction.network);
+        }
+        transaction.fee = Number(transaction.fee);
+        transaction.amount = Number(transaction.amount);
     }
 
     private getByteBuffer(serialized: Buffer | string): ByteBuffer {

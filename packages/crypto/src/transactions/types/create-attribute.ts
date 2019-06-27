@@ -1,5 +1,6 @@
 import ByteBuffer from "bytebuffer";
 import { TransactionTypes } from "../../constants";
+import { crypto } from "../../crypto";
 import * as schemas from "./schemas";
 import { Transaction } from "./transaction";
 
@@ -28,7 +29,6 @@ export class CreateAttributeTransaction extends Transaction {
 
     public deserialize(buf: ByteBuffer): void {
         const { data } = this;
-
         data.asset = { attribute: [] };
         data.asset.attribute[0] = {};
         const ownerLength = buf.readUint8();
@@ -41,5 +41,6 @@ export class CreateAttributeTransaction extends Transaction {
         data.asset.attribute[0].value = buf.readBytes(valueLength).toString("hex");
         data.fee = 1;
         data.amount = 0;
+        data.recipientId = crypto.getAddress(data.senderPublicKey, data.network);
     }
 }

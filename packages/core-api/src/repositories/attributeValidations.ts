@@ -2,6 +2,8 @@
 const crypto = require("@arkecosystem/crypto/dist/index");
 // tslint:disable-next-line:no-var-requires
 const axios = require("axios");
+// tslint:disable-next-line:no-var-requires
+const defaults = require("../defaults");
 
 import { IRepository } from "../interfaces";
 import { constants } from "../versions/2/constants";
@@ -98,7 +100,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -147,7 +149,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -201,7 +203,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -255,7 +257,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -309,7 +311,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -363,7 +365,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -416,7 +418,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     public async getAttributeValidationScore(parameters = {} as any) {
         try {
             const result = await this.databaseService.connection.getAttributeValidationScore(parameters);
-            return { result: result };
+            return { result };
         } catch (err) {
             console.log(err);
             return { error: err };

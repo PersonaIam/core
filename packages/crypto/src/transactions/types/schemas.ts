@@ -27,10 +27,11 @@ export const transactionBaseSchema = {
     properties: {
         id: { anyOf: [{ $ref: "transactionId" }, { type: "null" }] },
         version: { enum: [1, 2] },
+        recipientId: { $ref: "alphanumeric" },
         network: { $ref: "networkByte" },
         expiration: { type: "integer" },
         timestamp: { type: "integer", minimum: 0 },
-        amount: { bignumber: { minimum: 1, bypassGenesis: true } },
+        amount: { bignumber: { minimum: 0, bypassGenesis: true } },
         fee: { bignumber: { minimum: 1, bypassGenesis: true } },
         senderPublicKey: { $ref: "publicKey" },
         signature: { $ref: "alphanumeric" },
@@ -172,7 +173,10 @@ export const createAttribute = extend(transactionBaseSchema, {
     $id: "createAttribute",
     properties: {
         type: { transactionType: TransactionTypes.CreateAttribute },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["attribute"],
+        },
     },
 });
 
@@ -180,7 +184,10 @@ export const updateAttribute = extend(transactionBaseSchema, {
     $id: "updateAttribute",
     properties: {
         type: { transactionType: TransactionTypes.UpdateAttribute },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["attribute"],
+        },
     },
 });
 
@@ -188,7 +195,10 @@ export const createService = extend(transactionBaseSchema, {
     $id: "createService",
     properties: {
         type: { transactionType: TransactionTypes.CreateService },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["service"],
+        },
     },
 });
 
@@ -196,7 +206,10 @@ export const activateService = extend(transactionBaseSchema, {
     $id: "activateService",
     properties: {
         type: { transactionType: TransactionTypes.ActivateService },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["service"],
+        },
     },
 });
 
@@ -204,7 +217,10 @@ export const inactivateService = extend(transactionBaseSchema, {
     $id: "inactivateService",
     properties: {
         type: { transactionType: TransactionTypes.InactivateService },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["service"],
+        },
     },
 });
 
@@ -212,7 +228,10 @@ export const requestAttributeValidation = extend(transactionBaseSchema, {
     $id: "requestAttributeValidation",
     properties: {
         type: { transactionType: TransactionTypes.RequestAttributeValidation },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
     },
 });
 
@@ -220,7 +239,10 @@ export const approveAttributeValidationRequest = extend(transactionBaseSchema, {
     $id: "approveAttributeValidationRequest",
     properties: {
         type: { transactionType: TransactionTypes.ApproveAttributeValidationRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
     },
 });
 
@@ -228,7 +250,10 @@ export const cancelAttributeValidationRequest = extend(transactionBaseSchema, {
     $id: "cancelAttributeValidationRequest",
     properties: {
         type: { transactionType: TransactionTypes.CancelAttributeValidationRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
     },
 });
 
@@ -236,7 +261,10 @@ export const declineAttributeValidationRequest = extend(transactionBaseSchema, {
     $id: "declineAttributeValidationRequest",
     properties: {
         type: { transactionType: TransactionTypes.DeclineAttributeValidationRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
     },
 });
 
@@ -244,7 +272,10 @@ export const notarizeAttributeValidationRequest = extend(transactionBaseSchema, 
     $id: "notarizeAttributeValidationRequest",
     properties: {
         type: { transactionType: TransactionTypes.NotarizeAttributeValidationRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
     },
 });
 
@@ -252,7 +283,10 @@ export const rejectAttributeValidationRequest = extend(transactionBaseSchema, {
     $id: "rejectAttributeValidationRequest",
     properties: {
         type: { transactionType: TransactionTypes.RejectAttributeValidationRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
     },
 });
 
@@ -260,7 +294,10 @@ export const requestIdentityUse = extend(transactionBaseSchema, {
     $id: "requestIdentityUse",
     properties: {
         type: { transactionType: TransactionTypes.RequestIdentityUse },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
     },
 });
 
@@ -268,7 +305,10 @@ export const approveIdentityUseRequest = extend(transactionBaseSchema, {
     $id: "approveIdentityUseRequest",
     properties: {
         type: { transactionType: TransactionTypes.ApproveIdentityUseRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
     },
 });
 
@@ -276,7 +316,10 @@ export const cancelIdentityUseRequest = extend(transactionBaseSchema, {
     $id: "cancelIdentityUseRequest",
     properties: {
         type: { transactionType: TransactionTypes.CancelIdentityUseRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
     },
 });
 
@@ -284,7 +327,10 @@ export const declineIdentityUseRequest = extend(transactionBaseSchema, {
     $id: "declineIdentityUseRequest",
     properties: {
         type: { transactionType: TransactionTypes.DeclineIdentityUseRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
     },
 });
 
@@ -292,6 +338,9 @@ export const endIdentityUseRequest = extend(transactionBaseSchema, {
     $id: "endIdentityUseRequest",
     properties: {
         type: { transactionType: TransactionTypes.EndIdentityUseRequest },
-        amount: { bignumber: { minimum: 0, maximum: 0 } },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
     },
 });

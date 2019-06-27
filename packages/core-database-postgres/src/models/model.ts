@@ -49,6 +49,13 @@ export abstract class Model implements Database.IModel {
         return this.columnSet;
     }
 
+    public getColumnSetForUpdate(): any {
+        return this.getColumnSet().columns.push({
+            name: "id",
+            supportedOperators: [Database.SearchOperator.OP_EQ, Database.SearchOperator.OP_IN],
+        });
+    }
+
     public getSearchableFields(): Database.SearchableField[] {
         return this.columnsDescriptor.map(col => {
             return {

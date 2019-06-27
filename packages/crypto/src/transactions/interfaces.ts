@@ -1,7 +1,44 @@
 import { TransactionTypes } from "../constants";
 import { Bignum } from "../utils";
 
+export interface IAttributeElement {
+    owner?: string;
+    type?: string;
+    value?: string;
+    id?: number;
+    expire_timestamp?: number;
+}
+
+export interface IServiceElement {
+    name?: string;
+    provider?: string;
+    description?: string;
+    attribute_types?: string;
+    validations_required?: number;
+    status?: string;
+    id?: number;
+    timestamp?: number;
+}
+
+export interface IAttributeValidationElement {
+    owner?: string;
+    validator?: string;
+    type?: string;
+    attributeId?: number;
+}
+
+export interface IIdentityUseElement {
+    owner?: string;
+    serviceName?: string;
+    serviceProvider?: string;
+    attributes?: any;
+}
+
 export interface ITransactionAsset {
+    attribute?: IAttributeElement[];
+    service?: IServiceElement;
+    validation?: IAttributeValidationElement[];
+    identityuse?: IIdentityUseElement[];
     signature?: {
         publicKey: string;
     };

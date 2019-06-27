@@ -13,7 +13,20 @@ import * as Votes from "./votes";
 import * as Wallets from "./wallets";
 
 const register = async (server: Hapi.Server): Promise<void> => {
-    const modules = [Blockchain, Blocks, Delegates, Node, Peers, Transactions, Votes, Wallets];
+    const modules = [
+        Attributes,
+        AttributeValidations,
+        Blockchain,
+        Blocks,
+        Delegates,
+        IdentityUses,
+        Node,
+        Peers,
+        Services,
+        Transactions,
+        Votes,
+        Wallets,
+    ];
 
     for (const module of modules) {
         module.register(server);

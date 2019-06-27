@@ -112,7 +112,6 @@ export class Mem {
             // set it here.
             memPoolTransaction.sequence = this.sequence++;
         }
-
         this.all.push(memPoolTransaction);
         this.allIsSorted = false;
 
@@ -254,10 +253,10 @@ export class Mem {
             this.all.sort((a, b) => {
                 const feeA = a.transaction.data.fee as Bignum;
                 const feeB = b.transaction.data.fee as Bignum;
-                if (feeA.isGreaterThan(feeB)) {
+                if (feeA > feeB) {
                     return -1;
                 }
-                if (feeA.isLessThan(feeB)) {
+                if (feeA < feeB) {
                     return 1;
                 }
                 return a.sequence - b.sequence;

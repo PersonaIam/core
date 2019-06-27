@@ -2,6 +2,8 @@
 const crypto = require("@arkecosystem/crypto/dist/index");
 // tslint:disable-next-line:no-var-requires
 const axios = require("axios");
+// tslint:disable-next-line:no-var-requires
+const defaults = require("../defaults");
 
 import { IRepository } from "../interfaces";
 import { Repository } from "./repository";
@@ -96,7 +98,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -143,7 +145,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
                 .sign(parameters.secret)
                 .getStruct();
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -194,7 +196,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -242,7 +244,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },
@@ -290,7 +292,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
                 .getStruct();
 
             const response = await axios.post(
-                "http://127.0.0.1:4003/api/v2/transactions",
+                "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
                 {
                     transactions: [transaction],
                 },

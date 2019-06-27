@@ -1,6 +1,6 @@
 import { TransactionTypes } from "../../constants";
 import { feeManager } from "../../managers";
-import { IIdentityUseElement, ITransactionAsset, ITransactionData } from "../../models";
+import { IIdentityUseElement, ITransactionAsset, ITransactionData } from "../../transactions";
 import { TransactionBuilder } from "./transaction";
 
 export class CancelIdentityUseBuilder extends TransactionBuilder<CancelIdentityUseBuilder> {

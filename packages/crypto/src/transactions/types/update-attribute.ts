@@ -1,5 +1,6 @@
 import ByteBuffer from "bytebuffer";
 import { TransactionTypes } from "../../constants";
+import { crypto } from "../../crypto";
 import * as schemas from "./schemas";
 import { Transaction } from "./transaction";
 
@@ -47,5 +48,6 @@ export class UpdateAttributeTransaction extends Transaction {
         data.asset.attribute[0].expire_timestamp = buf.readInt32();
         data.fee = 1;
         data.amount = 0;
+        data.recipientId = crypto.getAddress(data.senderPublicKey, data.network);
     }
 }

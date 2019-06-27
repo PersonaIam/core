@@ -1,9 +1,7 @@
 import { TransactionTypes } from "../../constants";
-import { crypto } from "../../crypto";
 import { feeManager } from "../../managers";
-import { IServiceElement, ITransactionAsset, ITransactionData } from "../../models";
+import { IServiceElement, ITransactionAsset, ITransactionData } from "../../transactions";
 import { TransactionBuilder } from "./transaction";
-import { VoteBuilder } from "./vote";
 
 export class CreateServiceBuilder extends TransactionBuilder<CreateServiceBuilder> {
     constructor() {
