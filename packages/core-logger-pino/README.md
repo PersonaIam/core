@@ -1,4 +1,4 @@
-# ARK Core - Pino Logger
+# Persona Core - Pino Logger
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

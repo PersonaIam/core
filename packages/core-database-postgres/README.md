@@ -1,4 +1,4 @@
-# ARK Core - Database - Postgres
+# Persona Core - Database - Postgres
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

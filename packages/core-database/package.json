@@ -25,6 +25,7 @@
         "@arkecosystem/core-container": "^2.4.14",
         "@arkecosystem/core-event-emitter": "^2.4.14",
         "@arkecosystem/core-interfaces": "^2.4.14",
+        "@arkecosystem/core-state": "^2.4.14",
         "@arkecosystem/core-transactions": "^2.4.14",
         "@arkecosystem/core-utils": "^2.4.14",
         "@arkecosystem/crypto": "^2.4.14",

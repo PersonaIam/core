@@ -1,4 +1,4 @@
-# ARK Core - Exchange JSON-RPC
+# Persona Core - Exchange JSON-RPC
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

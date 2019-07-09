@@ -58,7 +58,7 @@ export abstract class Model implements Database.IModel {
         });
     }
 
-    private createColumnSet(columns: IColumnDescriptor[]): ColumnSet {
+    public createColumnSet(columns: IColumnDescriptor[]): ColumnSet {
         return new this.pgp.helpers.ColumnSet(columns, {
             table: {
                 table: this.getTable(),

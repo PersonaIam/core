@@ -53,7 +53,6 @@ export class DatabaseService implements Database.IDatabaseService {
         const lastBlock: Interfaces.IBlock = await this.getLastBlock();
 
         Managers.configManager.setHeight(lastBlock.data.height);
-
         await this.loadBlocksFromCurrentRound();
 
         await this.configureState(lastBlock);
@@ -221,10 +220,13 @@ export class DatabaseService implements Database.IDatabaseService {
         const start: number = offset;
         const end: number = offset + limit - 1;
 
-        let blocks: Interfaces.IBlockData[] = app
-            .resolvePlugin<State.IStateService>("state")
-            .getStore()
-            .getLastBlocksByHeight(start, end);
+        let blocks = [];
+        if (app.resolvePlugin<State.IStateService>("state")) {
+            blocks = app
+                .resolvePlugin<State.IStateService>("state")
+                .getStore()
+                .getLastBlocksByHeight(start, end);
+        }
 
         if (blocks.length !== limit) {
             blocks = await this.connection.blocksRepository.heightRange(start, end);
@@ -263,21 +265,20 @@ export class DatabaseService implements Database.IDatabaseService {
         // from app/state and need to get from the database.
         const toGetFromDB = {};
 
-        for (const [i, height] of heights.entries()) {
-            const stateBlocks = app
-                .resolvePlugin<State.IStateService>("state")
-                .getStore()
-                .getLastBlocksByHeight(height, height);
+        const hasState = app.has("state");
 
-            if (Array.isArray(stateBlocks) && stateBlocks.length > 0) {
-                blocks[i] = stateBlocks[0];
+        for (const [i, height] of heights.entries()) {
+            if (hasState) {
+                const stateBlocks = app.resolve("state").getLastBlocksByHeight(height, height);
+                if (Array.isArray(stateBlocks) && stateBlocks.length > 0) {
+                    blocks[i] = stateBlocks[0];
+                }
             }
 
             if (blocks[i] === undefined) {
                 toGetFromDB[height] = i;
             }
         }
-
         const heightsToGetFromDB: number[] = Object.keys(toGetFromDB).map(height => +height);
         if (heightsToGetFromDB.length > 0) {
             const blocksByHeights = await this.connection.blocksRepository.findByHeights(heightsToGetFromDB);
@@ -292,12 +293,10 @@ export class DatabaseService implements Database.IDatabaseService {
     }
 
     public async getBlocksForRound(roundInfo?: Shared.IRoundInfo): Promise<Interfaces.IBlock[]> {
-        let lastBlock: Interfaces.IBlock = app
-            .resolvePlugin<State.IStateService>("state")
-            .getStore()
-            .getLastBlock();
-
-        if (!lastBlock) {
+        let lastBlock;
+        if (app.has("state")) {
+            lastBlock = app.resolve("state").getLastBlock();
+        } else {
             lastBlock = await this.getLastBlock();
         }
 
@@ -587,15 +586,12 @@ export class DatabaseService implements Database.IDatabaseService {
     }
 
     private configureState(lastBlock: Interfaces.IBlock): void {
-        const state: State.IStateService = app.resolvePlugin<State.IStateService>("state");
-
-        state.getStore().setLastBlock(lastBlock);
-
-        const { blocktime, block } = Managers.configManager.getMilestone();
-
-        const blocksPerDay: number = Math.ceil(86400 / blocktime);
-        state.getBlocks().resize(blocksPerDay);
-        state.getTransactions().resize(blocksPerDay * block.maxTransactions);
+        // const state: State.IStateService = app.resolvePlugin<State.IStateService>("state");
+        // state.getStore().setLastBlock(lastBlock);
+        // const { blocktime, block } = Managers.configManager.getMilestone();
+        // const blocksPerDay: number = Math.ceil(86400 / blocktime);
+        // state.getBlocks().resize(blocksPerDay);
+        // state.getTransactions().resize(blocksPerDay * block.maxTransactions);
     }
 
     private async initializeActiveDelegates(height: number): Promise<void> {

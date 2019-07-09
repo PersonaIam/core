@@ -6,7 +6,7 @@
 
 ## Introduction
 
-Official Production ready ARK Core images available now at [Docker Hub](https://hub.docker.com/r/arkecosystem/core).
+Official Production ready Persona Core images available now at [Docker Hub](https://hub.docker.com/r/arkecosystem/core).
 
 ## Documentation
 
@@ -18,7 +18,7 @@ Official Production ready ARK Core images available now at [Docker Hub](https://
 -   API v1 : https://docs.ark.io/api/public/v1/
 -   API v2 : https://docs.ark.io/api/public/v2/
 
-## ARK Core Relay
+## Persona Core Relay
 
 Run Relay only node using [Docker Compose](https://docs.docker.com/compose/)
 
@@ -188,4 +188,4 @@ _If you prefer to use custom DB Name, DB User and DB Password simply adjust vari
 docker-compose up -d
 ```
 
-### _ARK Core docker image allows you to run a `forger`. However it requires some additional steps that can be found by visiting our [Documentation page](https://docs.ark.io/guidebook/core/docker.html)._
+### _Persona Core docker image allows you to run a `forger`. However it requires some additional steps that can be found by visiting our [Documentation page](https://docs.ark.io/guidebook/core/docker.html)._

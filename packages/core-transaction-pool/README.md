@@ -1,4 +1,4 @@
-# ARK Core - Transaction Pool
+# Persona Core - Transaction Pool
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

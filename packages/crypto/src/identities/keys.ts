@@ -6,6 +6,12 @@ import { IKeyPair } from "../interfaces";
 import { INetwork } from "../interfaces/networks";
 import { configManager } from "../managers";
 
+export interface IKeyPair {
+    publicKey: string;
+    privateKey: string;
+    compressed: boolean;
+}
+
 export class Keys {
     public static fromPassphrase(passphrase: string, compressed: boolean = true): IKeyPair {
         return Keys.fromPrivateKey(HashAlgorithms.sha256(Buffer.from(passphrase, "utf8")), compressed);

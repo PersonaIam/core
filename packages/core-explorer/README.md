@@ -1,4 +1,4 @@
-# ARK Core - Explorer
+# Persona Core - Explorer
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

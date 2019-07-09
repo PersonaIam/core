@@ -17,10 +17,10 @@
     "main": "dist/index",
     "types": "dist/index",
     "bin": {
-        "ark": "./bin/run"
+        "persona": "./bin/run"
     },
     "scripts": {
-        "ark": "./bin/run",
+        "persona": "./bin/run",
         "build": "yarn clean && yarn compile && yarn copy",
         "build:watch": "yarn clean && yarn copy && yarn compile -w",
         "clean": "del dist",
@@ -127,7 +127,7 @@
                 "./dist/hooks/command_not_found/suggest"
             ]
         },
-        "bin": "ark",
+        "bin": "persona",
         "topics": {
             "config": {
                 "description": "manage core config variables"

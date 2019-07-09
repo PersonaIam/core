@@ -8,6 +8,7 @@ import pgPromise, { IMain } from "pg-promise";
 import { IMigration } from "./interfaces";
 import { migrations } from "./migrations";
 import { Model } from "./models";
+import { Attribute, AttributeValidation, IdentityUse, Service } from "./models";
 import { repositories } from "./repositories";
 import { MigrationsRepository } from "./repositories/migrations";
 import { QueryExecutor } from "./sql/query-executor";
@@ -31,6 +32,12 @@ export class PostgresConnection implements Database.IConnection {
     public walletsRepository: Database.IWalletsRepository;
     // @TODO: make this private
     public pgp: IMain;
+
+    public attributesRepository: Database.IAttributesRepository;
+    public attributeValidationsRepository: Database.IAttributeValidationsRepository;
+    public servicesRepository: Database.IServicesRepository;
+    public identityUsesRepository: Database.IIdentityUsesRepository;
+
     private readonly logger: Logger.ILogger = app.resolvePlugin<Logger.ILogger>("logger");
     private readonly emitter: EventEmitter.EventEmitter = app.resolvePlugin<EventEmitter.EventEmitter>("event-emitter");
     private migrationsRepository: MigrationsRepository;
@@ -203,6 +210,163 @@ export class PostgresConnection implements Database.IConnection {
         } catch (err) {
             this.logger.error(err.message);
             throw err;
+        }
+    }
+
+    // Identity management actions start here
+
+    public async saveAttribute(attribute: Attribute) {
+        try {
+            const queries = [this.attributesRepository.insert(attribute)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async saveService(service: Service) {
+        try {
+            const queries = [this.servicesRepository.insert(service)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async saveAttributeValidationRequest(attributeValidation: AttributeValidation) {
+        try {
+            const queries = [this.attributeValidationsRepository.insert(attributeValidation)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateAttributeValidationRequest(validation: AttributeValidation) {
+        try {
+            const queries = [this.attributeValidationsRepository.updateOrCreate(validation)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async addAttributeValidationRequestAction(parameters: object) {
+        try {
+            const queries = [this.attributeValidationsRepository.addAttributeValidationRequestAction(parameters)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getAttributeValidationScore(parameters: object) {
+        try {
+            const queries = [this.attributeValidationsRepository.getAttributeValidationScore(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getAttributeValidationRequests(parameters: object) {
+        try {
+            const queries = [this.attributeValidationsRepository.getAttributeValidationRequests(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async saveIdentityUseRequest(identityUse: IdentityUse) {
+        try {
+            const queries = [this.identityUsesRepository.insert(identityUse)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateIdentityUseRequest(identityUse: IdentityUse) {
+        try {
+            const queries = [this.identityUsesRepository.updateOrCreate(identityUse)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async addIdentityUseRequestAction(parameters: object) {
+        try {
+            const queries = [this.identityUsesRepository.addIdentityUseRequestAction(parameters)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getIdentityUseRequests(parameters: object) {
+        try {
+            const queries = [this.identityUsesRepository.getIdentityUseRequests(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getIdentityUseRequestWithValidationDetails(parameters: object) {
+        try {
+            const queries = [this.identityUsesRepository.getIdentityUseRequestWithValidationDetails(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateIdentityUseWithReason(parameters: object) {
+        try {
+            const queries = [this.identityUsesRepository.updateIdentityUseWithReason(parameters)];
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateOrCreate(attribute: Attribute) {
+        try {
+            const queries = [this.attributesRepository.updateOrCreate(attribute)];
+
+            await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async getAttributesWithValidationDetails(parameters: any) {
+        try {
+            const queries = [this.attributesRepository.getAttributesWithValidationDetails(parameters)];
+
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
+        }
+    }
+
+    public async updateService(service: Service) {
+        try {
+            const queries = [this.servicesRepository.updateServiceStatus(service)];
+
+            return await this.db.tx(t => t.batch(queries));
+        } catch (err) {
+            this.logger.error(err.message);
         }
     }
 

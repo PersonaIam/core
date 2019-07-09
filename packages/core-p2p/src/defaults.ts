@@ -2,17 +2,17 @@ export const defaults = {
     // https://socketcluster.io/#!/docs/api-socketcluster
     server: {
         hostname: process.env.CORE_P2P_HOST || "0.0.0.0",
-        port: process.env.CORE_P2P_PORT || 4002,
+        port: process.env.CORE_P2P_PORT || 4102,
         logLevel: process.env.CORE_NETWORK_NAME === "testnet" ? 1 : 0,
     },
     /**
      * The minimum peer version we expect
      */
-    minimumVersions: ["^2.4 || ^2.5"],
+    minimumVersions: [">=2.1.0"],
     /**
      * The number of peers we expect to be available to start a relay
      */
-    minimumNetworkReach: 20,
+    minimumNetworkReach: 15,
     /**
      * The timeout for requests to other peers
      */

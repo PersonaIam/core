@@ -1,4 +1,4 @@
-# ARK Core - Tester CLI
+# Persona Core - Tester CLI
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

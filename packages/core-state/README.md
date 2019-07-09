@@ -1,4 +1,4 @@
-# ARK Core - State
+# Persona Core - State
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

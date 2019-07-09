@@ -1,4 +1,4 @@
-# ARK Core - Snapshots
+# Persona Core - Snapshots
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

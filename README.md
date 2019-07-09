@@ -10,7 +10,7 @@
 
 ## Introduction
 
-> This repository contains all plugins that make up the ARK Core.
+> This repository contains all plugins that make up the Persona Core.
 
 Check our [dedicated documentation site](https://docs.ark.io/guidebook/core/plugins/) for information about all available plugins and [How to write a Core Plugin
 ](https://docs.ark.io/tutorials/core/plugins/how-to-write-a-core-plugin.html) if you want to get started with developing your own plugins.

@@ -1,4 +1,4 @@
-# ARK Core - Container
+# Persona Core - Container
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />

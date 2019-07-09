@@ -13,6 +13,7 @@ export class Client {
     private host: IRelayHost;
 
     constructor(hosts: IRelayHost[]) {
+        this.logger.debug(JSON.stringify(hosts));
         this.hosts = hosts.map(host => {
             host.socket = socketCluster.create({
                 ...host,

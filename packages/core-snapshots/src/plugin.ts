@@ -12,6 +12,7 @@ export const plugin: Container.IPluginDescriptor = {
     defaults,
     alias: "snapshots",
     async register(container: Container.IContainer, options) {
+        console.log("REGISTERING SNAPSHOTS");
         const manager = new SnapshotManager(options);
 
         const databaseService = container.resolvePlugin<Database.IDatabaseService>("database");

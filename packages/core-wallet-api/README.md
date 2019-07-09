@@ -1,4 +1,4 @@
-# ARK Core - Wallet API
+# Persona Core - Wallet API
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/ARKEcosystem/core/master/banner.png" />
