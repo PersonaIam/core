@@ -295,7 +295,10 @@ export class DatabaseService implements Database.IDatabaseService {
     public async getBlocksForRound(roundInfo?: Shared.IRoundInfo): Promise<Interfaces.IBlock[]> {
         let lastBlock;
         if (app.has("state")) {
-            lastBlock = app.resolve("state").getLastBlock();
+            lastBlock = app
+                .resolvePlugin("state")
+                .getStore()
+                .getLastBlock();
         } else {
             lastBlock = await this.getLastBlock();
         }

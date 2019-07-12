@@ -38,4 +38,6 @@ module.exports = {
         },
     },
     "@arkecosystem/core-snapshots": {},
+    "@arkecosystem/core-blockchain": {},
+    "@arkecosystem/core-forger": {}
 };
