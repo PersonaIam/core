@@ -16,19 +16,7 @@ module.exports = {
         maxTransactionsPerSender: process.env.CORE_TRANSACTION_POOL_MAX_PER_SENDER || 300,
         allowedSenders: []
     },
-    "@arkecosystem/core-p2p": {
-        server: {
-            port: process.env.CORE_P2P_PORT || 4100,
-        },
-        minimumNetworkReach: 5,
-    },
     "@arkecosystem/core-wallet-api": {},
-    "@arkecosystem/core-api": {
-        enabled: !process.env.CORE_API_DISABLED,
-        host: process.env.CORE_API_HOST || "0.0.0.0",
-        port: process.env.CORE_API_PORT || 4103,
-        whitelist: ["*"],
-    },
     "@arkecosystem/core-webhooks": {
         enabled: process.env.CORE_WEBHOOKS_ENABLED,
         server: {
@@ -39,5 +27,17 @@ module.exports = {
     },
     "@arkecosystem/core-snapshots": {},
     "@arkecosystem/core-blockchain": {},
-    "@arkecosystem/core-forger": {}
+    "@arkecosystem/core-forger": {},
+    "@arkecosystem/core-p2p": {
+        server: {
+            port: process.env.CORE_P2P_PORT || 4100,
+        },
+        minimumNetworkReach: 5,
+    },
+    "@arkecosystem/core-api": {
+        enabled: !process.env.CORE_API_DISABLED,
+        host: process.env.CORE_API_HOST || "0.0.0.0",
+        port: process.env.CORE_API_PORT || 4103,
+        whitelist: ["*"],
+    },
 };
