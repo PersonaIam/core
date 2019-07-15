@@ -26,14 +26,14 @@ module.exports = {
         },
     },
     "@arkecosystem/core-snapshots": {},
-    "@arkecosystem/core-blockchain": {},
-    "@arkecosystem/core-forger": {},
     "@arkecosystem/core-p2p": {
         server: {
             port: process.env.CORE_P2P_PORT || 4100,
         },
         minimumNetworkReach: 5,
     },
+    "@arkecosystem/core-blockchain": {},
+    "@arkecosystem/core-forger": {},
     "@arkecosystem/core-api": {
         enabled: !process.env.CORE_API_DISABLED,
         host: process.env.CORE_API_HOST || "0.0.0.0",
