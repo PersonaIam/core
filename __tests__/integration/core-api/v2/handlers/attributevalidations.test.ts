@@ -1,5 +1,5 @@
 // import "@arkecosystem/core-test-utils";
-import { slots } from "@arkecosystem/crypto";
+import { Crypto } from "@arkecosystem/crypto";
 import sleep from "sleep";
 import { constants } from "../../../../../packages/core-api/src/versions/2/constants";
 import { messages } from "../../../../../packages/core-api/src/versions/2/messages";
@@ -2841,7 +2841,7 @@ describe("API 2.0", () => {
                     const param = {} as any;
                     param.value = SSN_VALUE;
                     param.type = SSN;
-                    param.expire_timestamp = slots.getTime() + 3;
+                    param.expire_timestamp = Crypto.Slots.getTime() + 3;
 
                     const body = createAttributeBody(param);
                     const response = await utils[request]("POST", "v2/attributes", body);
@@ -2917,6 +2917,7 @@ describe("API 2.0", () => {
                     const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
                     sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
+                    expect(response.data.error).toBe("xxxx");
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(TRANSACTION_ID);
                 },
@@ -2930,7 +2931,7 @@ describe("API 2.0", () => {
                     const params = {} as any;
                     params.id = attribute.data.attributes[0].id;
                     params.type = SSN;
-                    globalTimestamp = slots.getTime() + 3;
+                    globalTimestamp = Crypto.Slots.getTime() + 3;
                     params.expire_timestamp = globalTimestamp;
                     const body = updateAttributeRequest(params);
                     const response = await utils[request]("PUT", "v2/attributes", body);

@@ -3,9 +3,9 @@ import { TransactionTypes } from "../../enums";
 
 const signedTransaction = {
     anyOf: [
-        { required: ["id", "signature"] },
-        { required: ["id", "signature", "signatures"] },
-        { required: ["id", "signatures"] },
+        { required: ["id"] },
+        // { required: ["id", "signature", "signatures"] },
+        // { required: ["id", "signatures"] },
     ],
 };
 
@@ -22,20 +22,20 @@ export const transactionBaseSchema = {
         version: { enum: [1, 2] },
         network: { $ref: "networkByte" },
         timestamp: { type: "integer", minimum: 0 },
-        amount: { bignumber: { minimum: 1, bypassGenesis: true } },
+        amount: { bignumber: { minimum: 0, bypassGenesis: true } },
         fee: { bignumber: { minimum: 1, bypassGenesis: true } },
         senderPublicKey: { $ref: "publicKey" },
-        signature: { $ref: "alphanumeric" },
-        secondSignature: { $ref: "alphanumeric" },
-        signSignature: { $ref: "alphanumeric" },
-        signatures: {
-            type: "array",
-            minItems: 1,
-            maxItems: 16,
-            additionalItems: false,
-            uniqueItems: true,
-            items: { allOf: [{ minLength: 130, maxLength: 130 }, { $ref: "alphanumeric" }] },
-        },
+        // signature: { $ref: "alphanumeric" },
+        // secondSignature: { $ref: "alphanumeric" },
+        // signSignature: { $ref: "alphanumeric" },
+        // signatures: {
+        //     type: "array",
+        //     minItems: 1,
+        //     maxItems: 16,
+        //     additionalItems: false,
+        //     uniqueItems: true,
+        //     items: { allOf: [{ minLength: 130, maxLength: 130 }, { $ref: "alphanumeric" }] },
+        // },
     },
 };
 
@@ -218,6 +218,182 @@ export const delegateResignation = extend(transactionBaseSchema, {
     properties: {
         type: { transactionType: TransactionTypes.DelegateResignation },
         amount: { bignumber: { minimum: 0, maximum: 0 } },
+    },
+});
+
+export const createAttribute = extend(transactionBaseSchema, {
+    $id: "createAttribute",
+    properties: {
+        type: { transactionType: TransactionTypes.CreateAttribute },
+        asset: {
+            type: "object",
+            required: ["attribute"],
+        },
+    },
+});
+
+export const updateAttribute = extend(transactionBaseSchema, {
+    $id: "updateAttribute",
+    properties: {
+        type: { transactionType: TransactionTypes.UpdateAttribute },
+        asset: {
+            type: "object",
+            required: ["attribute"],
+        },
+    },
+});
+
+export const createService = extend(transactionBaseSchema, {
+    $id: "createService",
+    properties: {
+        type: { transactionType: TransactionTypes.CreateService },
+        asset: {
+            type: "object",
+            required: ["service"],
+        },
+    },
+});
+
+export const activateService = extend(transactionBaseSchema, {
+    $id: "activateService",
+    properties: {
+        type: { transactionType: TransactionTypes.ActivateService },
+        asset: {
+            type: "object",
+            required: ["service"],
+        },
+    },
+});
+
+export const inactivateService = extend(transactionBaseSchema, {
+    $id: "inactivateService",
+    properties: {
+        type: { transactionType: TransactionTypes.InactivateService },
+        asset: {
+            type: "object",
+            required: ["service"],
+        },
+    },
+});
+
+export const requestAttributeValidation = extend(transactionBaseSchema, {
+    $id: "requestAttributeValidation",
+    properties: {
+        type: { transactionType: TransactionTypes.RequestAttributeValidation },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
+    },
+});
+
+export const approveAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "approveAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.ApproveAttributeValidationRequest },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
+    },
+});
+
+export const cancelAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "cancelAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.CancelAttributeValidationRequest },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
+    },
+});
+
+export const declineAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "declineAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.DeclineAttributeValidationRequest },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
+    },
+});
+
+export const notarizeAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "notarizeAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.NotarizeAttributeValidationRequest },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
+    },
+});
+
+export const rejectAttributeValidationRequest = extend(transactionBaseSchema, {
+    $id: "rejectAttributeValidationRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.RejectAttributeValidationRequest },
+        asset: {
+            type: "object",
+            required: ["validation"],
+        },
+    },
+});
+
+export const requestIdentityUse = extend(transactionBaseSchema, {
+    $id: "requestIdentityUse",
+    properties: {
+        type: { transactionType: TransactionTypes.RequestIdentityUse },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
+    },
+});
+
+export const approveIdentityUseRequest = extend(transactionBaseSchema, {
+    $id: "approveIdentityUseRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.ApproveIdentityUseRequest },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
+    },
+});
+
+export const cancelIdentityUseRequest = extend(transactionBaseSchema, {
+    $id: "cancelIdentityUseRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.CancelIdentityUseRequest },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
+    },
+});
+
+export const declineIdentityUseRequest = extend(transactionBaseSchema, {
+    $id: "declineIdentityUseRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.DeclineIdentityUseRequest },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
+    },
+});
+
+export const endIdentityUseRequest = extend(transactionBaseSchema, {
+    $id: "endIdentityUseRequest",
+    properties: {
+        type: { transactionType: TransactionTypes.EndIdentityUseRequest },
+        asset: {
+            type: "object",
+            required: ["identityuse"],
+        },
     },
 });
 

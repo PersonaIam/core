@@ -21,7 +21,23 @@
                 "ipfs": 0,
                 "timelockTransfer": 0,
                 "multiPayment": 0,
-                "delegateResignation": 0
+                "delegateResignation": 0,
+                "createAttribute": 1,
+                "updateAttribute": 1,
+                "requestAttributeValidation": 1,
+                "approveAttributeValidationRequest": 1,
+                "declineAttributeValidationRequest": 1,
+                "notarizeAttributeValidationRequest": 1,
+                "rejectAttributeValidationRequest": 1,
+                "cancelAttributeValidationRequest": 1,
+                "createService": 1,
+                "inactivateService": 1,
+                "activateService": 1,
+                "requestIdentityUse": 1,
+                "approveIdentityUseRequest": 1,
+                "declineIdentityUseRequest": 1,
+                "endIdentityUseRequest": 1,
+                "cancelIdentityUseRequest": 1
             }
         },
         "vendorFieldLength": 255

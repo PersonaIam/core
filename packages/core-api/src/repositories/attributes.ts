@@ -77,13 +77,15 @@ export class AttributesRepository extends Repository implements IRepository {
     public async postAttribute(parameters = {} as any) {
         try {
             const attribute = parameters.asset.attribute[0];
-            const transaction = crypto.transactionBuilder
-                .createAttribute()
+            const transaction = crypto.Transactions.BuilderFactory.createAttribute()
                 .attributesAsset(parameters.asset.attribute)
                 .amount(0)
                 .recipientId(attribute.owner)
                 .sign(parameters.secret)
                 .getStruct();
+
+            console.log("fdhdgehuiasfiweqohfedhfdei");
+            console.log(JSON.stringify(transaction));
 
             const response = await axios.post(
                 "http://127.0.0.1:" + defaults.defaults.port + "/api/v2/transactions",
@@ -116,8 +118,7 @@ export class AttributesRepository extends Repository implements IRepository {
     public async putAttribute(parameters: any = {}): Promise<any> {
         try {
             const attribute = parameters.asset.attribute[0];
-            const transaction = crypto.transactionBuilder
-                .updateAttribute()
+            const transaction = crypto.Transactions.BuilderFactory.updateAttribute()
                 .attributesAsset(parameters.asset.attribute)
                 .amount(0)
                 .recipientId(attribute.owner)

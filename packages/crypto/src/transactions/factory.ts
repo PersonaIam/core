@@ -81,7 +81,6 @@ export class TransactionFactory {
             if (error instanceof TransactionVersionError || error instanceof TransactionSchemaError) {
                 throw error;
             }
-
             throw new MalformedTransactionBytesError();
         }
     }

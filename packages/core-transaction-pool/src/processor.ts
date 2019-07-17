@@ -23,12 +23,10 @@ export class Processor implements TransactionPool.IProcessor {
 
     public async validate(transactions: Interfaces.ITransactionData[]): Promise<TransactionPool.IProcessorResult> {
         this.cacheTransactions(transactions);
-
         if (this.transactions.length > 0) {
             this.filterAndTransformTransactions(this.transactions);
 
             await this.removeForgedTransactions();
-
             this.addTransactionsToPool();
 
             this.printStats();
@@ -123,8 +121,8 @@ export class Processor implements TransactionPool.IProcessor {
                 try {
                     const receivedId: string = transaction.id;
                     const trx: Interfaces.ITransaction = Transactions.TransactionFactory.fromData(transaction);
-                    const handler = Handlers.Registry.get(trx.type);
-                    if (handler.verify(trx, this.pool.walletManager)) {
+                    // const handler = Handlers.Registry.get(trx.type);
+                    if (trx.isVerified) {
                         try {
                             this.walletManager.throwIfApplyingFails(trx);
                             const dynamicFee: IDynamicFeeMatch = dynamicFeeMatcher(trx);

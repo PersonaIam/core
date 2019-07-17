@@ -4,6 +4,9 @@ import { Executable, Query } from "sql";
 import { Model } from "../models";
 
 export abstract class Repository implements Database.IRepository {
+    protected get query(): any {
+        return this.model.query();
+    }
     protected model: Model;
 
     constructor(protected readonly db, protected readonly pgp: IMain) {
@@ -24,8 +27,14 @@ export abstract class Repository implements Database.IRepository {
         await this.db.none(this.pgp.helpers.update(items, this.model.getColumnSet()));
     }
 
-    protected get query(): any {
-        return this.model.query();
+    /**
+     * Generate an "INSERT" query for the given data.
+     * @param  {Array|Object} data
+     * @param  {Array|Object} columnSet
+     * @return {String}
+     */
+    public __insertQueryWithColumnSet(data, columnSet) {
+        return this.pgp.helpers.insert(data, columnSet);
     }
 
     protected propToColumnName(prop: string): string {

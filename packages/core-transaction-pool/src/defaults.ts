@@ -16,7 +16,7 @@ export const defaults = {
     // then it will be removed.
     maxTransactionAge: 2700,
     dynamicFees: {
-        enabled: true,
+        enabled: false,
         minFeePool: 3000,
         minFeeBroadcast: 3000,
         addonBytes: {

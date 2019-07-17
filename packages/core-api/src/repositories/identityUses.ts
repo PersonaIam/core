@@ -89,8 +89,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
     public async createIdentityUseRequest(parameters = {} as any) {
         try {
             const identityUse = parameters.asset.identityuse[0];
-            const transaction = crypto.transactionBuilder
-                .requestIdentityUse()
+            const transaction = crypto.Transactions.BuilderFactory.requestIdentityUse()
                 .identityUseAsset(parameters.asset.identityuse)
                 .amount(0)
                 .recipientId(identityUse.owner)
@@ -137,8 +136,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
     public async approveIdentityUseRequest(parameters = {} as any) {
         try {
             const identityUse = parameters.asset.identityuse[0];
-            const transaction = crypto.transactionBuilder
-                .approveIdentityUseRequest()
+            const transaction = crypto.Transactions.BuilderFactory.approveIdentityUseRequest()
                 .identityUseAsset(parameters.asset.identityuse)
                 .amount(0)
                 .recipientId(identityUse.serviceProvider)
@@ -187,8 +185,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
     public async declineIdentityUseRequest(parameters = {} as any) {
         try {
             const identityUse = parameters.asset.identityuse[0];
-            const transaction = crypto.transactionBuilder
-                .declineIdentityUseRequest()
+            const transaction = crypto.Transactions.BuilderFactory.declineIdentityUseRequest()
                 .identityUseAsset(parameters.asset.identityuse)
                 .amount(0)
                 .recipientId(identityUse.serviceProvider)
@@ -235,8 +232,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
     public async cancelIdentityUseRequest(parameters = {} as any) {
         try {
             const identityUse = parameters.asset.identityuse[0];
-            const transaction = crypto.transactionBuilder
-                .cancelIdentityUseRequest()
+            const transaction = crypto.Transactions.BuilderFactory.cancelIdentityUseRequest()
                 .identityUseAsset(parameters.asset.identityuse)
                 .amount(0)
                 .recipientId(identityUse.owner)
@@ -283,8 +279,7 @@ export class IdentityUsesRepository extends Repository implements IRepository {
     public async endIdentityUseRequest(parameters = {} as any) {
         try {
             const identityUse = parameters.asset.identityuse[0];
-            const transaction = crypto.transactionBuilder
-                .endIdentityUseRequest()
+            const transaction = crypto.Transactions.BuilderFactory.endIdentityUseRequest()
                 .identityUseAsset(parameters.asset.identityuse)
                 .amount(0)
                 .recipientId(identityUse.owner)

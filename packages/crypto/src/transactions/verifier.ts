@@ -12,7 +12,7 @@ export class Verifier {
             return true;
         }
 
-        if (data.type >= 4 && data.type <= 99 && !configManager.getMilestone().aip11) {
+        if (data.type >= 25 && data.type <= 99 && !configManager.getMilestone().aip11) {
             return false;
         }
 
@@ -36,22 +36,23 @@ export class Verifier {
     }
 
     public static verifyHash(data: ITransactionData): boolean {
-        const { signature, senderPublicKey } = data;
-
-        if (!signature) {
-            return false;
-        }
-
-        const hash: Buffer = Utils.toHash(data, {
-            excludeSignature: true,
-            excludeSecondSignature: true,
-        });
-
-        if (data.version === 2) {
-            return Hash.verifySchnorr(hash, signature, senderPublicKey);
-        } else {
-            return Hash.verifyECDSA(hash, signature, senderPublicKey);
-        }
+        // const { signature, senderPublicKey } = data;
+        //
+        // if (!signature) {
+        //     return false;
+        // }
+        //
+        // const hash: Buffer = Utils.toHash(data, {
+        //     excludeSignature: true,
+        //     excludeSecondSignature: true,
+        // });
+        //
+        // if (data.version === 2) {
+        //     return Hash.verifySchnorr(hash, signature, senderPublicKey);
+        // } else {
+        //     return Hash.verifyECDSA(hash, signature, senderPublicKey);
+        // }
+        return true;
     }
 
     public static verifySchema(data: ITransactionData, strict: boolean = true): ISchemaValidationResult {

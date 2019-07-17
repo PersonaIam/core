@@ -9,16 +9,32 @@ import { configManager } from "../managers";
 import { feeManager } from "../managers/fee";
 import { validator } from "../validation";
 import {
+    ActivateServiceTransaction,
+    ApproveAttributeValidationRequestTransaction,
+    ApproveIdentityUseRequestTransaction,
+    CancelAttributeValidationRequestTransaction,
+    CancelIdentityUseRequestTransaction,
+    CreateAttributeTransaction,
+    CreateServiceTransaction,
+    DeclineAttributeValidationRequestTransaction,
+    DeclineIdentityUseRequestTransaction,
     DelegateRegistrationTransaction,
     DelegateResignationTransaction,
+    EndIdentityUseRequestTransaction,
+    InactivateServiceTransaction,
     IpfsTransaction,
     MultiPaymentTransaction,
     MultiSignatureRegistrationTransaction,
+    NotarizeAttributeValidationRequestTransaction,
+    RejectAttributeValidationRequestTransaction,
+    RequestAttributeValidationTransaction,
+    RequestIdentityUseTransaction,
     SecondSignatureRegistrationTransaction,
     TimelockTransferTransaction,
     Transaction,
     TransactionTypeFactory,
     TransferTransaction,
+    UpdateAttributeTransaction,
     VoteTransaction,
 } from "./types";
 
@@ -43,6 +59,23 @@ class TransactionRegistry {
         this.registerCoreType(TimelockTransferTransaction);
         this.registerCoreType(MultiPaymentTransaction);
         this.registerCoreType(DelegateResignationTransaction);
+
+        this.registerCoreType(ActivateServiceTransaction);
+        this.registerCoreType(ApproveAttributeValidationRequestTransaction);
+        this.registerCoreType(ApproveIdentityUseRequestTransaction);
+        this.registerCoreType(CancelAttributeValidationRequestTransaction);
+        this.registerCoreType(CancelIdentityUseRequestTransaction);
+        this.registerCoreType(CreateAttributeTransaction);
+        this.registerCoreType(CreateServiceTransaction);
+        this.registerCoreType(DeclineAttributeValidationRequestTransaction);
+        this.registerCoreType(DeclineIdentityUseRequestTransaction);
+        this.registerCoreType(EndIdentityUseRequestTransaction);
+        this.registerCoreType(InactivateServiceTransaction);
+        this.registerCoreType(NotarizeAttributeValidationRequestTransaction);
+        this.registerCoreType(RejectAttributeValidationRequestTransaction);
+        this.registerCoreType(RequestAttributeValidationTransaction);
+        this.registerCoreType(RequestIdentityUseTransaction);
+        this.registerCoreType(UpdateAttributeTransaction);
     }
 
     public registerCustomType(constructor: TransactionConstructor): void {
@@ -87,6 +120,7 @@ class TransactionRegistry {
 
     private registerCoreType(constructor: TransactionConstructor): void {
         const { type } = constructor;
+        // console.log(JSON.stringify(type))
         if (this.coreTypes.has(type)) {
             throw new TransactionAlreadyRegisteredError(constructor.name);
         }
@@ -96,6 +130,7 @@ class TransactionRegistry {
     }
 
     private updateSchemas(transaction: TransactionConstructor, remove?: boolean): void {
+        // console.log(JSON.stringify(transaction.getSchema()))
         validator.extendTransaction(transaction.getSchema(), remove);
     }
 }

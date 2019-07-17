@@ -91,8 +91,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     public async createAttributeValidationRequest(parameters = {} as any) {
         try {
             const validation = parameters.asset.validation[0];
-            const transaction = crypto.transactionBuilder
-                .requestAttributeValidation()
+            const transaction = crypto.Transactions.BuilderFactory.requestAttributeValidation()
                 .validationAsset(parameters.asset.validation)
                 .amount(0)
                 .recipientId(validation.owner)
@@ -140,8 +139,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     public async approveAttributeValidationRequest(parameters = {} as any) {
         try {
             const validation = parameters.asset.validation[0];
-            const transaction = crypto.transactionBuilder
-                .approveAttributeValidationRequest()
+            const transaction = crypto.Transactions.BuilderFactory.approveAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
                 .amount(0)
                 .recipientId(validation.validator)
@@ -194,8 +192,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     public async declineAttributeValidationRequest(parameters = {} as any) {
         try {
             const validation = parameters.asset.validation[0];
-            const transaction = crypto.transactionBuilder
-                .declineAttributeValidationRequest()
+            const transaction = crypto.Transactions.BuilderFactory.declineAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
                 .amount(0)
                 .recipientId(validation.validator)
@@ -248,8 +245,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     public async cancelAttributeValidationRequest(parameters = {} as any) {
         try {
             const validation = parameters.asset.validation[0];
-            const transaction = crypto.transactionBuilder
-                .cancelAttributeValidationRequest()
+            const transaction = crypto.Transactions.BuilderFactory.cancelAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
                 .amount(0)
                 .recipientId(validation.owner)
@@ -302,8 +298,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     public async notarizeAttributeValidationRequest(parameters = {} as any) {
         try {
             const validation = parameters.asset.validation[0];
-            const transaction = crypto.transactionBuilder
-                .notarizeAttributeValidationRequest()
+            const transaction = crypto.Transactions.BuilderFactory.notarizeAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
                 .amount(0)
                 .recipientId(validation.validator)
@@ -356,8 +351,7 @@ export class AttributeValidationsRepository extends Repository implements IRepos
     public async rejectAttributeValidationRequest(parameters = {} as any) {
         try {
             const validation = parameters.asset.validation[0];
-            const transaction = crypto.transactionBuilder
-                .rejectAttributeValidationRequest()
+            const transaction = crypto.Transactions.BuilderFactory.rejectAttributeValidationRequest()
                 .validationAsset(parameters.asset.validation)
                 .amount(0)
                 .recipientId(validation.validator)

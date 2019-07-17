@@ -10,6 +10,25 @@ import { TimelockTransferTransactionHandler } from "./timelock-transfer";
 import { TransferTransactionHandler } from "./transfer";
 import { VoteTransactionHandler } from "./vote";
 
+import { ActivateServiceTransactionHandler } from "./activate-service";
+import { CreateAttributeTransactionHandler } from "./create-attribute";
+import { CreateServiceTransactionHandler } from "./create-service";
+import { InactivateServiceTransactionHandler } from "./inactivate-service";
+
+import { RequestAttributeValidationTransactionHandler } from "./attribute-validation-request";
+import { RequestAttributeValidationApproveTransactionHandler } from "./attribute-validation-request-approve";
+import { RequestAttributeValidationCancelTransactionHandler } from "./attribute-validation-request-cancel";
+import { RequestAttributeValidationDeclineTransactionHandler } from "./attribute-validation-request-decline";
+import { RequestAttributeValidationNotarizeTransactionHandler } from "./attribute-validation-request-notarize";
+import { RequestAttributeValidationRejectTransactionHandler } from "./attribute-validation-request-reject";
+
+import { RequestIdentityUseApproveTransactionHandler } from "./identity-use-approve";
+import { RequestIdentityUseCancelTransactionHandler } from "./identity-use-cancel";
+import { RequestIdentityUseDeclineTransactionHandler } from "./identity-use-decline";
+import { RequestIdentityUseEndTransactionHandler } from "./identity-use-end";
+import { RequestIdentityUseTransactionHandler } from "./identity-use-request";
+import { UpdateAttributeTransactionHandler } from "./update-attribute";
+
 import { InvalidTransactionTypeError, TransactionHandlerAlreadyRegisteredError } from "../errors";
 import { TransactionHandler } from "./transaction";
 
@@ -32,6 +51,23 @@ export class TransactionHandlerRegistry {
         this.registerCoreTransactionHandler(TimelockTransferTransactionHandler);
         this.registerCoreTransactionHandler(MultiPaymentTransactionHandler);
         this.registerCoreTransactionHandler(DelegateResignationTransactionHandler);
+
+        this.registerCoreTransactionHandler(ActivateServiceTransactionHandler);
+        this.registerCoreTransactionHandler(InactivateServiceTransactionHandler);
+        this.registerCoreTransactionHandler(CreateAttributeTransactionHandler);
+        this.registerCoreTransactionHandler(CreateServiceTransactionHandler);
+        this.registerCoreTransactionHandler(RequestAttributeValidationApproveTransactionHandler);
+        this.registerCoreTransactionHandler(RequestAttributeValidationTransactionHandler);
+        this.registerCoreTransactionHandler(RequestAttributeValidationCancelTransactionHandler);
+        this.registerCoreTransactionHandler(RequestAttributeValidationDeclineTransactionHandler);
+        this.registerCoreTransactionHandler(RequestAttributeValidationRejectTransactionHandler);
+        this.registerCoreTransactionHandler(RequestAttributeValidationNotarizeTransactionHandler);
+        this.registerCoreTransactionHandler(RequestIdentityUseApproveTransactionHandler);
+        this.registerCoreTransactionHandler(RequestIdentityUseCancelTransactionHandler);
+        this.registerCoreTransactionHandler(RequestIdentityUseDeclineTransactionHandler);
+        this.registerCoreTransactionHandler(RequestIdentityUseEndTransactionHandler);
+        this.registerCoreTransactionHandler(RequestIdentityUseTransactionHandler);
+        this.registerCoreTransactionHandler(UpdateAttributeTransactionHandler);
     }
 
     public get(type: Enums.TransactionTypes | number): TransactionHandler {

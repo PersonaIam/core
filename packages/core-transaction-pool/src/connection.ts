@@ -50,7 +50,7 @@ export class Connection implements TransactionPool.IConnection {
         this.memory.flush();
         this.storage.connect(this.options.storage);
 
-        let transactionsFromDisk: Interfaces.ITransaction[] = this.storage.loadAll();
+        let transactionsFromDisk: Interfaces.ITransaction[] = []; // no tx from disk... WTF
         for (const transaction of transactionsFromDisk) {
             this.memory.remember(transaction, true);
         }
@@ -482,7 +482,8 @@ export class Connection implements TransactionPool.IConnection {
                 const deserialized: Interfaces.ITransaction = Transactions.TransactionFactory.fromBytes(
                     transaction.serialized,
                 );
-
+                this.logger.info("*******************************");
+                this.logger.info(JSON.stringify(deserialized));
                 strictEqual(transaction.id, deserialized.id);
 
                 const { sender, recipient } = this.getSenderAndRecipient(transaction, localWalletManager);

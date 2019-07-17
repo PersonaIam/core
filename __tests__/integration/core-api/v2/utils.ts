@@ -1,29 +1,28 @@
 import "jest-extended";
 
-import { app } from "@arkecosystem/core-container";
 import { httpie } from "@arkecosystem/core-utils";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 import { ApiHelpers } from "../../../utils/helpers/api";
 
 class Helpers {
     public async request(method, path, params = {}) {
-        const url = `http://localhost:4003/api/${path}`;
+        const url = `http://localhost:4103/api/${path}`;
         const headers = {
             "API-Version": 2,
             "Content-Type": "application/json",
         };
 
-        return ApiHelpers.request(app.resolvePlugin("api").http, method, url, headers, params);
+        return ApiHelpers.request(method, url, headers, params);
     }
 
     public async requestWithAcceptHeader(method, path, params = {}) {
-        const url = `http://localhost:4003/api/${path}`;
+        const url = `http://localhost:4103/api/${path}`;
         const headers = {
             "API-Version": 2,
             "Content-Type": "application/json",
         };
 
-        return ApiHelpers.request(app.resolvePlugin("api").http, method, url, headers, params);
+        return ApiHelpers.request(method, url, headers, params);
     }
 
     public expectJson(response) {
@@ -109,6 +108,7 @@ class Helpers {
         expect(block.signature).toBeString();
         expect(block.transactions).toBeNumber();
 
+        // tslint:disable-next-line:ban
         Object.keys(expected || {}).forEach(attr => {
             expect(block[attr]).toEqual(expected[attr]);
         });
@@ -129,6 +129,7 @@ class Helpers {
         expect(delegate.forged.rewards).toBeNumber();
         expect(delegate.forged.total).toBeNumber();
 
+        // tslint:disable-next-line:ban
         Object.keys(expected || {}).forEach(attr => {
             expect(delegate[attr]).toBe(expected[attr]);
         });

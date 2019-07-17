@@ -78,8 +78,7 @@ export class ServicesRepository extends Repository implements IRepository {
     public async postService(parameters = {} as any) {
         try {
             const service = parameters.asset.service;
-            const transaction = crypto.transactionBuilder
-                .createService()
+            const transaction = crypto.Transactions.BuilderFactory.createService()
                 .serviceAsset(parameters.asset.service)
                 .amount(0)
                 .recipientId(service.provider)
@@ -122,16 +121,14 @@ export class ServicesRepository extends Repository implements IRepository {
             const service = parameters.asset.service;
             let transaction = {} as any;
             if (newStatus === constants.serviceStatus.ACTIVE) {
-                transaction = crypto.transactionBuilder
-                    .activateService()
+                transaction = crypto.Transactions.BuilderFactory.activateService()
                     .serviceAsset(parameters.asset.service)
                     .amount(0)
                     .recipientId(service.provider)
                     .sign(parameters.secret)
                     .getStruct();
             } else {
-                transaction = crypto.transactionBuilder
-                    .inactivateService()
+                transaction = crypto.Transactions.BuilderFactory.inactivateService()
                     .serviceAsset(parameters.asset.service)
                     .amount(0)
                     .recipientId(service.provider)

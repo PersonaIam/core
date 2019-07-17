@@ -59,7 +59,7 @@ export class StateStore implements State.IStateStore {
      * Get the last block height.
      */
     public getLastHeight(): number {
-        return this.getLastBlock().data.height;
+        return this.getLastBlock() ? this.getLastBlock().data.height : 0;
     }
 
     /**

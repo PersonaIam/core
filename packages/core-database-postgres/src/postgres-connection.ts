@@ -488,5 +488,10 @@ export class PostgresConnection implements Database.IConnection {
         this.roundsRepository = this.db.rounds;
         this.walletsRepository = this.db.wallets;
         this.migrationsRepository = this.db.migrations;
+
+        this.attributesRepository = this.db.attributes;
+        this.attributeValidationsRepository = this.db.attributeValidations;
+        this.identityUsesRepository = this.db.identityUses;
+        this.servicesRepository = this.db.services;
     }
 }
