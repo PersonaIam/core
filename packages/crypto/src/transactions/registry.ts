@@ -120,7 +120,6 @@ class TransactionRegistry {
 
     private registerCoreType(constructor: TransactionConstructor): void {
         const { type } = constructor;
-        // console.log(JSON.stringify(type))
         if (this.coreTypes.has(type)) {
             throw new TransactionAlreadyRegisteredError(constructor.name);
         }
@@ -130,7 +129,6 @@ class TransactionRegistry {
     }
 
     private updateSchemas(transaction: TransactionConstructor, remove?: boolean): void {
-        // console.log(JSON.stringify(transaction.getSchema()))
         validator.extendTransaction(transaction.getSchema(), remove);
     }
 }

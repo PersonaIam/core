@@ -482,7 +482,6 @@ export class Connection implements TransactionPool.IConnection {
                 const deserialized: Interfaces.ITransaction = Transactions.TransactionFactory.fromBytes(
                     transaction.serialized,
                 );
-                this.logger.info("*******************************");
                 this.logger.info(JSON.stringify(deserialized));
                 strictEqual(transaction.id, deserialized.id);
 

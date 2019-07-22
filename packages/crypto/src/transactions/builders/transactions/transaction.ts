@@ -139,8 +139,6 @@ export abstract class TransactionBuilder<TBuilder extends TransactionBuilder<TBu
             throw new MissingTransactionSignatureError();
         }
 
-        console.log(JSON.stringify(this.data));
-
         const struct: ITransactionData = {
             id: Utils.getId(this.data).toString(),
             signature: this.data.signature,

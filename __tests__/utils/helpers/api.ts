@@ -26,8 +26,6 @@ export class ApiHelpers {
                 result = e.response;
             }
         }
-        console.log("result = " + result);
-        console.log("url = " + url);
         return Object.assign(result);
     }
 

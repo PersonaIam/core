@@ -33,7 +33,6 @@ export abstract class Model implements Database.IModel {
         return this.columnSet;
     }
     public getColumnSetForUpdate(): any {
-        console.log(JSON.stringify(this.getColumnSet().columns));
         return this.getColumnSet().columns;
     }
 

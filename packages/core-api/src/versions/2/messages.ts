@@ -116,7 +116,7 @@ export const messages = {
     REQUIRED_SERVICE_ATTRIBUTES_VALUES_ARE_MISSING:
         "Cannot create identity use request : some required attribute values are not provided in the request",
 
-    SERVICE_DESCRIPTION_TOO_LONG: "The service description is limited to 128 characters",
+    SERVICE_DESCRIPTION_TOO_LONG: "The service description is limited to 63 characters",
     SERVICE_NOT_FOUND: "No service was found for the given parameters",
     SERVICE_ACTION_SENDER_IS_NOT_PROVIDER_ERROR:
         "Only the service provider is allowed to perform actions on his own service",

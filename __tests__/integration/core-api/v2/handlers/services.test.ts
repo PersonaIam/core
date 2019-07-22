@@ -37,7 +37,7 @@ const BIRTHPLACE = "birthplace";
 const ADDRESS = "address";
 const INCORRECT_ADDRESS = "ABC";
 
-const maxLength = 128;
+const maxLength = 63;
 const descriptionMaxLength = new Array(1 + maxLength).join("x");
 const descriptionTooLong = new Array(1 + maxLength + 1).join("x");
 

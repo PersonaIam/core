@@ -2917,7 +2917,6 @@ describe("API 2.0", () => {
                     const response = await utils[request]("POST", "v2/attribute-validations/validationrequest", body);
                     sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
-                    expect(response.data.error).toBe("xxxx");
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(TRANSACTION_ID);
                 },

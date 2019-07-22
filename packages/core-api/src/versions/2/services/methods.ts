@@ -18,7 +18,7 @@ const postService = async request => {
         return { error: messages.MISSING_NUMBER_OF_VALIDATIONS_REQUIRED, success: false };
     }
 
-    if (request.payload.asset.service.description.length > 128) {
+    if (request.payload.asset.service.description.length > constants.MAX_SERVICE_DESCRIPTION_LENGTH) {
         return { error: messages.SERVICE_DESCRIPTION_TOO_LONG, success: false };
     }
 
