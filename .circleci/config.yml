@@ -40,6 +40,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -52,11 +54,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -118,6 +122,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -130,11 +136,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -204,6 +212,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -216,11 +226,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -290,6 +302,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -302,11 +316,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -376,6 +392,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -388,11 +406,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -462,6 +482,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -474,11 +496,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -548,6 +572,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -560,11 +586,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -659,6 +687,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -671,11 +701,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -764,6 +796,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -776,11 +810,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
@@ -875,6 +911,8 @@ jobs:
             - ./packages/core-error-tracker-rollbar/node_modules
             - ./packages/core-error-tracker-sentry/node_modules
             - ./packages/core-event-emitter/node_modules
+            - ./packages/core-exchange-json-rpc/node_modules
+            - ./packages/core-explorer/node_modules
             - ./packages/core-forger/node_modules
             - ./packages/core-http-utils/node_modules
             - ./packages/core-interfaces/node_modules
@@ -887,11 +925,13 @@ jobs:
             - ./packages/core-new-relic/node_modules
             - ./packages/core-p2p/node_modules
             - ./packages/core-snapshots/node_modules
+            - ./packages/core-state/node_modules
             - ./packages/core-tester-cli/node_modules
             - ./packages/core-transaction-pool/node_modules
             - ./packages/core-transactions/node_modules
             - ./packages/core-utils/node_modules
             - ./packages/core-vote-report/node_modules
+            - ./packages/core-wallet-api/node_modules
             - ./packages/core-webhooks/node_modules
             - ./packages/crypto/node_modules
             - ./node_modules
