@@ -1,7 +1,6 @@
 // import "@arkecosystem/core-test-utils";
 import sleep from "sleep";
 import { messages } from "../../../../../packages/core-api/src/versions/2/messages";
-import { Crypto } from "../../../../../packages/crypto";
 import { delegates } from "../data";
 import { secrets } from "../data";
 import { utils } from "../utils";
@@ -139,13 +138,6 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const body = createAttributeBody({} as any);
-                    console.log(JSON.stringify(body));
-                    const x = Crypto.Validations.getAddress(
-                        "024d917fd424376bbd57d5c51d22284b06e97f453bd8df57562c8208d7620f3952",
-                        65,
-                    );
-                    console.log("x= " + x);
-
                     const response = await utils[request]("POST", "v2/attributes", body);
                     sleep.msleep(SLEEP_TIME);
                     expect(response.data).toHaveProperty(SUCCESS);
