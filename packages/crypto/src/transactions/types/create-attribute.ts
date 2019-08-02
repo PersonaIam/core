@@ -38,15 +38,18 @@ export class CreateAttributeTransaction extends Transaction {
         data.asset.attribute[0] = {};
         const ownerLength = buf.readUint8(offset);
         offset++;
-        data.asset.attribute[0].owner = buf.readString(ownerLength, offset);
+        // @ts-ignore
+        data.asset.attribute[0].owner = buf.readString(ownerLength, offset).string;
         offset = offset + ownerLength;
         const typeLength = buf.readUint8(offset);
         offset++;
-        data.asset.attribute[0].type = buf.readString(typeLength, offset);
+        // @ts-ignore
+        data.asset.attribute[0].type = buf.readString(typeLength, offset).string;
         offset += typeLength;
         const valueLength = buf.readUint8(offset);
         offset++;
-        data.asset.attribute[0].value = buf.readString(valueLength, offset);
+        // @ts-ignore
+        data.asset.attribute[0].value = buf.readString(valueLength, offset).string;
         offset += valueLength;
         data.fee = "1";
         data.amount = "0";
