@@ -1,18 +1,18 @@
 {
-  "name": "testnet",
-  "messagePrefix": "TPRSN message:\n",
-  "bip32": {
-    "public": 70617039,
-    "private": 70615956
-  },
-  "pubKeyHash": 65,
-  "nethash": "334fef1b537522b35aacd10b0641f9a5ee45ab4abe0963462065c3446dbe9395",
-  "wif": 131,
-  "slip44": 1,
-  "aip20": 0,
-  "client": {
-    "token": "TPRSN",
-    "symbol": "TPRSN",
-    "explorer": "http://0.0.0.0:4200"
-  }
+    "name": "testnet",
+    "messagePrefix": "TPRSN message:\n",
+    "bip32": {
+        "public": 70617039,
+        "private": 70615956
+    },
+    "pubKeyHash": 65,
+    "nethash": "b21dff681e5b6ea34d3495f62860b0a803ea8dffcff8901d1717a737d499c8fd",
+    "wif": 20,
+    "slip44": 1,
+    "aip20": 0,
+    "client": {
+        "token": "TPRSN",
+        "symbol": "TPRSN",
+        "explorer": "https://testnet-explorer.persona.im/"
+    }
 }
