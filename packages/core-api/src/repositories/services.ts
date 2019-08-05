@@ -97,10 +97,6 @@ export class ServicesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                service.timestamp = transaction.timestamp;
-                service.status = constants.serviceStatus.ACTIVE;
-                service.attribute_types = JSON.stringify(service.attribute_types);
-                await this.databaseService.connection.saveService(service);
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -150,10 +146,6 @@ export class ServicesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                service.timestamp = transaction.timestamp;
-                service.status = newStatus;
-                service.attribute_types = JSON.stringify(service.attribute_types);
-                await this.databaseService.connection.updateService(service);
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };

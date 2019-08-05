@@ -412,19 +412,19 @@ describe("API 2.0", () => {
                 },
             );
 
-            // it(
-            //     "As a PUBLIC user, I want to Get the attributes of a user (OWNER) that has multiple attributes. " +
-            //         'EXPECTED : SUCCESS. RESULT : Contains "attributes" as an array with 4 elements',
-            //     async () => {
-            //         const response = await utils[request]("GET", "v2/attributes?owner=" + OWNER);
-            //
-            //         expect(response.data).toHaveProperty(SUCCESS);
-            //         expect(response.data.success).toBe(TRUE);
-            //         expect(response.data).toHaveProperty(ATTRIBUTES);
-            //         expect(response.data.attributes).toBeArray();
-            //         expect(response.data.attributes).toHaveLength(4);
-            //     },
-            // );
+            it(
+                "As a PUBLIC user, I want to Get the attributes of a user (OWNER) that has multiple attributes. " +
+                    'EXPECTED : SUCCESS. RESULT : Contains "attributes" as an array with 4 elements',
+                async () => {
+                    const response = await utils[request]("GET", "v2/attributes?owner=" + OWNER);
+
+                    expect(response.data).toHaveProperty(SUCCESS);
+                    expect(response.data.success).toBe(TRUE);
+                    expect(response.data).toHaveProperty(ATTRIBUTES);
+                    expect(response.data.attributes).toBeArray();
+                    expect(response.data.attributes).toHaveLength(4);
+                },
+            );
         });
     });
 

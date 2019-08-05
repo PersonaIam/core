@@ -110,18 +110,6 @@ export class AttributeValidationsRepository extends Repository implements IRepos
             );
 
             if (response.data.data.invalid.length === 0) {
-                validation.timestamp = transaction.timestamp;
-                if (!validation.reason) {
-                    validation.reason = null;
-                }
-                if (!validation.validation_type) {
-                    validation.validation_type = null;
-                }
-                if (!validation.expire_timestamp) {
-                    validation.expire_timestamp = null;
-                }
-                validation.status = "PENDING_APPROVAL";
-                await this.databaseService.connection.saveAttributeValidationRequest(validation);
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -159,23 +147,6 @@ export class AttributeValidationsRepository extends Repository implements IRepos
             );
 
             if (response.data.data.invalid.length === 0) {
-                validation.timestamp = transaction.timestamp;
-                if (!validation.reason) {
-                    validation.reason = null;
-                }
-                if (!validation.validation_type) {
-                    validation.validation_type = null;
-                }
-                if (!validation.expire_timestamp) {
-                    validation.expire_timestamp = null;
-                }
-                validation.status = "IN_PROGRESS";
-                await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                await this.databaseService.connection.addAttributeValidationRequestAction({
-                    id: validation.id,
-                    action: "APPROVE",
-                    timestamp: transaction.timestamp,
-                });
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -213,23 +184,6 @@ export class AttributeValidationsRepository extends Repository implements IRepos
             );
 
             if (response.data.data.invalid.length === 0) {
-                validation.timestamp = transaction.timestamp;
-                if (!validation.reason) {
-                    validation.reason = null;
-                }
-                if (!validation.validation_type) {
-                    validation.validation_type = null;
-                }
-                if (!validation.expire_timestamp) {
-                    validation.expire_timestamp = null;
-                }
-                validation.status = "DECLINED";
-                await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                await this.databaseService.connection.addAttributeValidationRequestAction({
-                    id: validation.id,
-                    action: "DECLINE",
-                    timestamp: transaction.timestamp,
-                });
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -267,23 +221,6 @@ export class AttributeValidationsRepository extends Repository implements IRepos
             );
 
             if (response.data.data.invalid.length === 0) {
-                validation.timestamp = transaction.timestamp;
-                if (!validation.reason) {
-                    validation.reason = null;
-                }
-                if (!validation.validation_type) {
-                    validation.validation_type = null;
-                }
-                if (!validation.expire_timestamp) {
-                    validation.expire_timestamp = null;
-                }
-                validation.status = "CANCELED";
-                await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                await this.databaseService.connection.addAttributeValidationRequestAction({
-                    id: validation.id,
-                    action: "CANCEL",
-                    timestamp: transaction.timestamp,
-                });
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -321,23 +258,6 @@ export class AttributeValidationsRepository extends Repository implements IRepos
             );
 
             if (response.data.data.invalid.length === 0) {
-                validation.timestamp = transaction.timestamp;
-                if (!validation.reason) {
-                    validation.reason = null;
-                }
-                if (!validation.validation_type) {
-                    validation.validation_type = null;
-                }
-                if (!validation.expire_timestamp) {
-                    validation.expire_timestamp = null;
-                }
-                validation.status = "COMPLETED";
-                await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                await this.databaseService.connection.addAttributeValidationRequestAction({
-                    id: validation.id,
-                    action: "NOTARIZE",
-                    timestamp: transaction.timestamp,
-                });
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -375,31 +295,6 @@ export class AttributeValidationsRepository extends Repository implements IRepos
             );
 
             if (response.data.data.invalid.length === 0) {
-                validation.timestamp = transaction.timestamp;
-                if (!validation.reason) {
-                    validation.reason = null;
-                }
-                if (!validation.validation_type) {
-                    validation.validation_type = null;
-                }
-                if (!validation.expire_timestamp) {
-                    validation.expire_timestamp = null;
-                }
-                validation.status = "REJECTED";
-                await this.databaseService.connection.updateAttributeValidationRequest(validation);
-                await this.databaseService.connection.addAttributeValidationRequestAction({
-                    id: validation.id,
-                    action: "REJECT",
-                    timestamp: transaction.timestamp,
-                });
-                console.log("1 : " + JSON.stringify(parameters));
-                if (parameters.identityUsesIdsToReject) {
-                    await this.databaseService.connection.updateIdentityUseWithReason({
-                        status: constants.identityUseRequestStatus.REJECTED,
-                        reason: messages.IDENTITY_USE_REQUEST_REJECTED_REASON,
-                        ids: parameters.identityUsesIdsToReject,
-                    });
-                }
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };

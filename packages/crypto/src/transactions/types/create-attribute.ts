@@ -13,11 +13,7 @@ export class CreateAttributeTransaction extends Transaction {
 
     public serialize(): ByteBuffer {
         const { data } = this;
-        const ownerValue = data.asset.attribute[0].owner;
-        const typeValue = data.asset.attribute[0].type;
-        const value = data.asset.attribute[0].value;
-        const buffer = new ByteBuffer(3 + ownerValue.length + value.length + typeValue.length);
-
+        const buffer = new ByteBuffer();
         const ownerBuffer = Buffer.from(data.asset.attribute[0].owner, "utf8");
         buffer.writeByte(ownerBuffer.length);
         buffer.append(ownerBuffer, "hex");

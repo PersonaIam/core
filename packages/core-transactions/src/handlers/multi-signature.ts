@@ -44,6 +44,9 @@ export class MultiSignatureTransactionHandler extends TransactionHandler {
         wallet.multisignature = transaction.data.asset.multisignature;
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB(transaction: Transaction, connection: Database.IConnection): void {}
+
     public revert(transaction: Transaction, wallet: Database.IWallet): void {
         wallet.multisignature = null;
     }

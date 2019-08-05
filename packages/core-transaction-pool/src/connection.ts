@@ -195,6 +195,7 @@ export class Connection implements TransactionPool.IConnection {
         if (this.walletManager.canApply(transaction, errors)) {
             const transactionHandler = TransactionHandlerRegistry.get(transaction.type);
             transactionHandler.applyToSender(transaction, senderWallet);
+            transactionHandler.applyToDB(transaction, this.databaseService.connection);
         } else {
             // Remove tx again from the pool
             this.mem.remove(transaction.id);

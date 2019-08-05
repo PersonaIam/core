@@ -25,6 +25,13 @@ export class UpdateAttributeTransactionHandler extends TransactionHandler {
     public apply(transaction: Transaction, wallet: Database.IWallet): void {}
 
     // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Transaction, connection: Database.IConnection) => {
+        const attribute = transaction.data.asset.attribute[0];
+        attribute.timestamp = transaction.data.timestamp;
+        await connection.attributesRepository.updateOrCreate(attribute);
+    };
+
+    // tslint:disable-next-line:no-empty
     public revert(transaction: Transaction, wallet: Database.IWallet): void {}
 
     // tslint:disable-next-line:no-empty

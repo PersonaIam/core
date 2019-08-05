@@ -24,6 +24,23 @@ export class RequestAttributeValidationTransactionHandler extends TransactionHan
     public apply(transaction: Transaction, wallet: Database.IWallet): void {}
 
     // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Transaction, connection: Database.IConnection) => {
+        const validation = transaction.data.asset.validation[0];
+        validation.timestamp = transaction.timestamp;
+        if (!validation.reason) {
+            validation.reason = null;
+        }
+        if (!validation.validation_type) {
+            validation.validation_type = null;
+        }
+        if (!validation.expire_timestamp) {
+            validation.expire_timestamp = null;
+        }
+        validation.status = "PENDING_APPROVAL";
+        await connection.saveAttributeValidationRequest(validation);
+    };
+
+    // tslint:disable-next-line:no-empty
     public revert(transaction: Transaction, wallet: Database.IWallet): void {}
 
     // tslint:disable-next-line:no-empty

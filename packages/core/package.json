@@ -1,6 +1,6 @@
 {
-    "name": "@arkecosystem/core",
-    "description": "Core of the ARK Blockchain",
+    "name": "@mytest/core",
+    "description": "Core of the MyTest Blockchain",
     "version": "2.3.22",
     "contributors": [
         "François-Xavier Thoorens <fx@ark.io>",
@@ -17,7 +17,8 @@
         "/oclif.manifest.json"
     ],
     "bin": {
-        "persona": "./bin/run"
+        "persona": "./bin/run",
+        "mytest": "./bin/run"
     },
     "scripts": {
         "prepublishOnly": "yarn build",
@@ -41,7 +42,8 @@
         "forger:mainnet": "cross-env CORE_PATH_CONFIG=./bin/config/mainnet yarn ark forger:run",
         "forger:devnet": "cross-env CORE_PATH_CONFIG=./bin/config/devnet yarn ark forger:run",
         "forger:testnet": "cross-env CORE_PATH_CONFIG=./bin/config/testnet CORE_ENV=test yarn ark forger:run",
-        "full:testnet": "cross-env CORE_PATH_CONFIG=./bin/config/testnet CORE_ENV=test yarn ark core:run --networkStart"
+        "full:testnet": "cross-env CORE_PATH_CONFIG=./bin/config/testnet CORE_ENV=test yarn ark core:run --networkStart",
+        "mytest": "./bin/run"
     },
     "dependencies": {
         "@arkecosystem/core-api": "^2.3.22",
@@ -124,7 +126,7 @@
                 "./dist/hooks/command_not_found/suggest"
             ]
         },
-        "bin": "persona",
+        "bin": "mytest",
         "topics": {
             "config": {
                 "description": "manage core config variables"

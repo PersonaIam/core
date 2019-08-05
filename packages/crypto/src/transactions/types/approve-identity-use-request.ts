@@ -28,20 +28,27 @@ export class ApproveIdentityUseRequestTransaction extends Transaction {
     }
 
     public deserialize(buf: ByteBuffer): void {
+        let offset = buf.offset;
         const { data } = this;
-
         data.asset = { identityuse: [] };
         data.asset.identityuse[0] = {};
-        const ownerLength = buf.readUint8();
-        data.asset.identityuse[0].owner = buf.readBytes(ownerLength).toString("hex");
-
-        const serviceProviderLength = buf.readUint8();
-        data.asset.identityuse[0].serviceProvider = buf.readBytes(serviceProviderLength).toString("hex");
-
-        const serviceNameLength = buf.readUint8();
-        data.asset.identityuse[0].serviceName = buf.readBytes(serviceNameLength).toString("hex");
-
-        data.fee = 1;
-        data.amount = 0;
+        const ownerLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.identityuse[0].owner = buf.readString(ownerLength, offset).string;
+        offset = offset + ownerLength;
+        const serviceProviderLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.identityuse[0].serviceProvider = buf.readString(serviceProviderLength, offset).string;
+        offset = offset + serviceProviderLength;
+        const serviceNameLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.identityuse[0].serviceName = buf.readString(serviceNameLength, offset).string;
+        offset = offset + serviceNameLength;
+        data.fee = "1";
+        data.amount = "0";
+        buf.offset = offset;
     }
 }

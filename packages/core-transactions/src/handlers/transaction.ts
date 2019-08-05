@@ -103,6 +103,7 @@ export abstract class TransactionHandler implements ITransactionHandler {
     }
 
     public abstract apply(transaction: Transaction, wallet: Database.IWallet): void;
+    public abstract applyToDB(transaction: Transaction, wallet: Database.IConnection): void;
     public abstract revert(transaction: Transaction, wallet: Database.IWallet): void;
 
     /**

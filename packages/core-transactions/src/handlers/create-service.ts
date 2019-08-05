@@ -20,6 +20,15 @@ export class CreateServiceTransactionHandler extends TransactionHandler {
     public apply(transaction: Transaction, wallet: Database.IWallet): void {}
 
     // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Transaction, connection: Database.IConnection) => {
+        const service = transaction.data.asset.service;
+        service.timestamp = transaction.timestamp;
+        service.status = "ACTIVE";
+        service.attribute_types = JSON.stringify(service.attribute_types);
+        await connection.saveService(service);
+    };
+
+    // tslint:disable-next-line:no-empty
     public revert(transaction: Transaction, wallet: Database.IWallet): void {}
 
     // tslint:disable-next-line:no-empty

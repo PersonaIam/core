@@ -33,23 +33,33 @@ export class NotarizeAttributeValidationRequestTransaction extends Transaction {
     }
 
     public deserialize(buf: ByteBuffer): void {
+        let offset = buf.offset;
         const { data } = this;
 
         data.asset = { validation: [] };
         data.asset.validation[0] = {};
-        const ownerLength = buf.readUint8();
-        data.asset.validation[0].owner = buf.readBytes(ownerLength).toString("hex");
-
-        const validatorLength = buf.readUint8();
-        data.asset.validation[0].validator = buf.readBytes(validatorLength).toString("hex");
-
-        const typeLength = buf.readUint8();
-        data.asset.validation[0].type = buf.readBytes(typeLength).toString("hex");
-        const attributeId = buf.readInt32();
+        const ownerLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.validation[0].owner = buf.readString(ownerLength, offset).string;
+        offset = offset + ownerLength;
+        const validatorLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.validation[0].validator = buf.readString(validatorLength, offset).string;
+        offset = offset + validatorLength;
+        const typeLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.validation[0].type = buf.readString(typeLength, offset).string;
+        offset = offset + typeLength;
+        const attributeId = buf.readInt32(offset);
+        offset += 4;
         if (attributeId !== 0) {
             data.asset.validation[0].attributeId = attributeId;
         }
-        data.fee = 1;
-        data.amount = 0;
+        data.fee = "1";
+        data.amount = "0";
+        buf.offset = offset;
     }
 }

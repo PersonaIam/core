@@ -46,6 +46,9 @@ export class VoteTransactionHandler extends TransactionHandler {
         }
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB(transaction: Transaction, connection: Database.IConnection): void {}
+
     public revert(transaction: Transaction, wallet: Database.IWallet): void {
         const { data } = transaction;
         const vote = data.asset.votes[0];

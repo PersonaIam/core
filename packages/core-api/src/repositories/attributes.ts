@@ -96,8 +96,8 @@ export class AttributesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                attribute.timestamp = transaction.timestamp;
-                await this.databaseService.connection.saveAttribute(attribute);
+                // attribute.timestamp = transaction.timestamp;
+                // await this.databaseService.connection.saveAttribute(attribute);
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -137,7 +137,7 @@ export class AttributesRepository extends Repository implements IRepository {
             if (response.data.data.invalid.length === 0) {
                 attribute.timestamp = transaction.timestamp;
                 // @ts-ignore
-                await this.databaseService.connection.updateOrCreate(attribute);
+                // await this.databaseService.connection.updateOrCreate(attribute);
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };

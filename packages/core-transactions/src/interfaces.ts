@@ -10,6 +10,7 @@ export interface ITransactionHandler {
     revertForSender(transaction: Transaction, wallet: Database.IWallet): void;
     revertForRecipient(transaction: Transaction, wallet: Database.IWallet): void;
     apply(transaction: Transaction, wallet: Database.IWallet): void;
+    applyToDB(transaction: Transaction, connection: Database.IConnection): void;
     revert(transaction: Transaction, wallet: Database.IWallet): void;
 
     canEnterTransactionPool(data: ITransactionData, guard: TransactionPool.IGuard): boolean;

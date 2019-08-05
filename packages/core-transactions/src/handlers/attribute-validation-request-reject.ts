@@ -5,6 +5,7 @@ import {
     Transaction,
     TransactionConstructor,
 } from "@arkecosystem/crypto";
+import { messages } from "../../../../packages/core-api/src/versions/2/messages";
 import { TransactionHandler } from "./transaction";
 
 export class RequestAttributeValidationRejectTransactionHandler extends TransactionHandler {
@@ -22,6 +23,35 @@ export class RequestAttributeValidationRejectTransactionHandler extends Transact
 
     // tslint:disable-next-line:no-empty
     public apply(transaction: Transaction, wallet: Database.IWallet): void {}
+
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Transaction, connection: Database.IConnection) => {
+        const validation = transaction.data.asset.validation[0];
+        validation.timestamp = transaction.timestamp;
+        if (!validation.reason) {
+            validation.reason = null;
+        }
+        if (!validation.validation_type) {
+            validation.validation_type = null;
+        }
+        if (!validation.expire_timestamp) {
+            validation.expire_timestamp = null;
+        }
+        validation.status = "REJECTED";
+        await connection.updateAttributeValidationRequest(validation);
+        await connection.addAttributeValidationRequestAction({
+            id: validation.id,
+            action: "REJECT",
+            timestamp: transaction.timestamp,
+        });
+        if (validation.identityUsesIdsToReject) {
+            await connection.updateIdentityUseWithReason({
+                status: "REJECTED",
+                reason: messages.IDENTITY_USE_REQUEST_REJECTED_REASON,
+                ids: validation.identityUsesIdsToReject,
+            });
+        }
+    };
 
     // tslint:disable-next-line:no-empty
     public revert(transaction: Transaction, wallet: Database.IWallet): void {}

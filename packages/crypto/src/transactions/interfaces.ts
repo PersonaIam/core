@@ -7,6 +7,7 @@ export interface IAttributeElement {
     value?: string;
     id?: number;
     expire_timestamp?: number;
+    timestamp?: number;
 }
 
 export interface IServiceElement {
@@ -25,6 +26,13 @@ export interface IAttributeValidationElement {
     validator?: string;
     type?: string;
     attributeId?: number;
+    timestamp?: number;
+    expire_timestamp?: number;
+    reason?: string;
+    status?: string;
+    validation_type?: string;
+    id?: number;
+    identityUsesIdsToReject?: object;
 }
 
 export interface IIdentityUseElement {
@@ -32,6 +40,10 @@ export interface IIdentityUseElement {
     serviceName?: string;
     serviceProvider?: string;
     attributes?: any;
+    timestamp?: any;
+    reason?: string;
+    status?: string;
+    id?: number;
 }
 
 export interface ITransactionAsset {

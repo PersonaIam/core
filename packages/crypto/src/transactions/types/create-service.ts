@@ -33,26 +33,34 @@ export class CreateServiceTransaction extends Transaction {
     }
 
     public deserialize(buf: ByteBuffer): void {
+        let offset = buf.offset;
         const { data } = this;
-
         data.asset = { service: {} };
         data.asset.service = {};
-
-        const nameLength = buf.readUint8();
-        data.asset.service.name = buf.readBytes(nameLength).toString("hex");
-
-        const providerLength = buf.readUint8();
-        data.asset.service.provider = buf.readBytes(providerLength).toString("hex");
-
-        const descriptionLength = buf.readUint8();
-        data.asset.service.description = buf.readBytes(descriptionLength).toString("hex");
-
-        const attributeTypesLength = buf.readUint8();
-        data.asset.service.attribute_types = buf.readBytes(attributeTypesLength).toString("hex");
-
-        data.asset.service.validations_required = buf.readInt32();
-
-        data.fee = 1;
-        data.amount = 0;
+        const nameLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.service.name = buf.readString(nameLength, offset).string;
+        offset = offset + nameLength;
+        const providerLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.service.provider = buf.readString(providerLength, offset).string;
+        offset = offset + providerLength;
+        const descriptionLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.service.description = buf.readString(descriptionLength, offset).string;
+        offset = offset + descriptionLength;
+        const attributeTypesLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.service.attribute_types = buf.readString(attributeTypesLength, offset).string;
+        offset = offset + attributeTypesLength;
+        data.asset.service.validations_required = buf.readInt32(offset);
+        offset += 4;
+        data.fee = "1";
+        data.amount = "0";
+        buf.offset = offset;
     }
 }

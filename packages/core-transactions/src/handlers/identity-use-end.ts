@@ -24,6 +24,22 @@ export class RequestIdentityUseEndTransactionHandler extends TransactionHandler 
     public apply(transaction: Transaction, wallet: Database.IWallet): void {}
 
     // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Transaction, connection: Database.IConnection) => {
+        const identityUse = transaction.data.asset.identityuse[0];
+        identityUse.timestamp = transaction.timestamp;
+        if (!identityUse.reason) {
+            identityUse.reason = null;
+        }
+        identityUse.status = "ENDED";
+        await connection.updateIdentityUseRequest(identityUse);
+        await connection.addIdentityUseRequestAction({
+            id: identityUse.id,
+            action: "END",
+            timestamp: transaction.timestamp,
+        });
+    };
+
+    // tslint:disable-next-line:no-empty
     public revert(transaction: Transaction, wallet: Database.IWallet): void {}
 
     // tslint:disable-next-line:no-empty

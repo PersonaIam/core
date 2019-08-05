@@ -45,6 +45,9 @@ export class DelegateRegistrationTransactionHandler extends TransactionHandler {
         wallet.username = data.asset.delegate.username;
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB(transaction: Transaction, connection: Database.IConnection): void {}
+
     public revert(transaction: Transaction, wallet: Database.IWallet): void {
         wallet.username = null;
     }

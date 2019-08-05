@@ -33,6 +33,9 @@ export class SecondSignatureTransactionHandler extends TransactionHandler {
         wallet.secondPublicKey = null;
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB(transaction: Transaction, connection: Database.IConnection): void {}
+
     public canEnterTransactionPool(data: ITransactionData, guard: TransactionPool.IGuard): boolean {
         return !this.typeFromSenderAlreadyInPool(data, guard);
     }
