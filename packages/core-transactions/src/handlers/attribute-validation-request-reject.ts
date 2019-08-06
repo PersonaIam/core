@@ -5,7 +5,6 @@ import {
     Transaction,
     TransactionConstructor,
 } from "@arkecosystem/crypto";
-import { messages } from "../../../../packages/core-api/src/versions/2/messages";
 import { TransactionHandler } from "./transaction";
 
 export class RequestAttributeValidationRejectTransactionHandler extends TransactionHandler {
@@ -47,7 +46,7 @@ export class RequestAttributeValidationRejectTransactionHandler extends Transact
         if (validation.identityUsesIdsToReject) {
             await connection.updateIdentityUseWithReason({
                 status: "REJECTED",
-                reason: messages.IDENTITY_USE_REQUEST_REJECTED_REASON,
+                reason: "One of the attributes that is part of this identity use was rejected",
                 ids: validation.identityUsesIdsToReject,
             });
         }
