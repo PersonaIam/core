@@ -26,7 +26,7 @@ export class RequestIdentityUseCancelTransactionHandler extends TransactionHandl
     // tslint:disable-next-line:no-empty
     public applyToDB = async (transaction: Transaction, connection: Database.IConnection) => {
         const identityUse = transaction.data.asset.identityuse[0];
-        identityUse.timestamp = transaction.timestamp;
+        identityUse.timestamp = transaction.data.timestamp;
         if (!identityUse.reason) {
             identityUse.reason = null;
         }

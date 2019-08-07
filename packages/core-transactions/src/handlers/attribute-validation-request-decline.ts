@@ -27,7 +27,7 @@ export class RequestAttributeValidationDeclineTransactionHandler extends Transac
     // tslint:disable-next-line:no-empty
     public applyToDB = async (transaction: Transaction, connection: Database.IConnection) => {
         const validation = transaction.data.asset.validation[0];
-        validation.timestamp = transaction.timestamp;
+        validation.timestamp = transaction.data.timestamp;
         if (!validation.reason) {
             validation.reason = null;
         }
