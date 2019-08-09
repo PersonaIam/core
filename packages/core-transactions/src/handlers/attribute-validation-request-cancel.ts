@@ -41,7 +41,7 @@ export class RequestAttributeValidationCancelTransactionHandler extends Transact
         await connection.addAttributeValidationRequestAction({
             id: validation.id,
             action: "CANCEL",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
     };
 

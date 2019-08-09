@@ -195,18 +195,17 @@ const attributeValidationRequestAnswer = async (request, action) => {
             const type = request.payload.asset.validation[0].type;
             const identityUsesIdsToReject = [];
             // tslint:disable-next-line:only-arrow-functions
-            data.forEach(function(request) {
-                const requestAttributeTypes = JSON.parse(request.attributeTypes);
+            data.forEach(function(dataItem) {
+                const requestAttributeTypes = JSON.parse(dataItem.attributeTypes).split(",");
                 if (
                     requestAttributeTypes &&
-                    requestAttributeTypes.length > 0 &&
                     requestAttributeTypes.filter(attributeType => attributeType === type).length > 0
                 ) {
-                    identityUsesIdsToReject.push(request.id);
+                    identityUsesIdsToReject.push(dataItem.id);
                 }
             });
             if (identityUsesIdsToReject.length > 0) {
-                request.payload.identityUsesIdsToReject = identityUsesIdsToReject;
+                request.payload.asset.validation[0].identityUsesIdsToReject = identityUsesIdsToReject;
             }
         }
     }

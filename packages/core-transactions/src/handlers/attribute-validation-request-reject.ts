@@ -41,7 +41,7 @@ export class RequestAttributeValidationRejectTransactionHandler extends Transact
         await connection.addAttributeValidationRequestAction({
             id: validation.id,
             action: "REJECT",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
         if (validation.identityUsesIdsToReject) {
             await connection.updateIdentityUseWithReason({

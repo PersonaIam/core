@@ -35,7 +35,7 @@ export class RequestIdentityUseCancelTransactionHandler extends TransactionHandl
         await connection.addIdentityUseRequestAction({
             id: identityUse.id,
             action: "CANCEL",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
     };
 

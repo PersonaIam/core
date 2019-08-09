@@ -153,7 +153,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [PHONE_NUMBER];
+                    param.attribute_types = PHONE_NUMBER;
                     param.description = DESCRIPTION;
                     param.validations = ONE_VALIDATION;
                     const body = createServiceRequest(param);
@@ -171,7 +171,7 @@ describe("API 2.0", () => {
                 async () => {
                     const param = {} as any;
                     param.name = SERVICE2_NAME;
-                    param.attribute_types = [BIRTHPLACE];
+                    param.attribute_types = BIRTHPLACE;
                     param.description = DESCRIPTION;
                     param.validations = ONE_VALIDATION;
                     const body = createServiceRequest(param);
@@ -3437,7 +3437,7 @@ function createServiceRequest(param) {
     request.asset.service.name = param.name ? param.name : SERVICE_NAME;
     request.asset.service.description = param.description ? param.description : DESCRIPTION_VALUE;
     request.asset.service.provider = param.provider ? param.provider : PROVIDER;
-    request.asset.service.attribute_types = param.attribute_types ? param.attribute_types : [IDENTITY_CARD];
+    request.asset.service.attribute_types = param.attribute_types ? param.attribute_types : IDENTITY_CARD;
     request.asset.service.validations_required = param.validations ? param.validations : CUSTOM_VALIDATIONS;
 
     console.log(JSON.stringify(request));

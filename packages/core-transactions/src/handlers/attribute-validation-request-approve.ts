@@ -41,7 +41,7 @@ export class RequestAttributeValidationApproveTransactionHandler extends Transac
         await connection.addAttributeValidationRequestAction({
             id: validation.id,
             action: "APPROVE",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
     };
 

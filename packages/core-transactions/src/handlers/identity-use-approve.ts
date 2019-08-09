@@ -38,7 +38,7 @@ export class RequestIdentityUseApproveTransactionHandler extends TransactionHand
         await connection.addIdentityUseRequestAction({
             id: identityUse.id,
             action: "APPROVE",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
     };
 

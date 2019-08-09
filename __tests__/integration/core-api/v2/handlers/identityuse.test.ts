@@ -169,7 +169,7 @@ describe("API 2.0", () => {
         describe.each([["Accept", "requestWithAcceptHeader"]])("Create Services", (header, request) => {
             it("Create a service for PROVIDER. " + "EXPECTED : SUCCESS. RESULT : Transaction ID", async () => {
                 const param = {} as any;
-                param.attribute_types = [EMAIL];
+                param.attribute_types = EMAIL;
                 param.description = DESCRIPTION;
                 param.validations_required = CUSTOM_VALIDATIONS;
                 const body = createServiceRequest(param);
@@ -185,7 +185,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     param.name = SERVICE2_NAME;
@@ -203,7 +203,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE3_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -221,7 +221,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE4_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -239,7 +239,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE5_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -257,7 +257,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE6_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -275,7 +275,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE7_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -293,7 +293,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE8_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -311,7 +311,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE9_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -329,7 +329,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE10_NAME;
                     param.description = DESCRIPTION;
                     param.validations = ONE_VALIDATION;
@@ -2574,7 +2574,7 @@ describe("API 2.0", () => {
                     const param = {} as any;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
-                    param.attribute_types = [EMAIL, SSN];
+                    param.attribute_types = EMAIL + "," + SSN;
                     param.name = SERVICE11_NAME;
                     const body = createServiceRequest(param);
                     const response = await utils[request]("POST", "v2/services", body);
@@ -2946,7 +2946,7 @@ function createServiceRequest(param) {
     request.asset.service.name = param.name ? param.name : SERVICE_NAME;
     request.asset.service.description = param.description ? param.description : DESCRIPTION_VALUE;
     request.asset.service.provider = param.provider ? param.provider : PROVIDER;
-    request.asset.service.attribute_types = param.attribute_types ? param.attribute_types : [IDENTITY_CARD];
+    request.asset.service.attribute_types = param.attribute_types ? param.attribute_types : IDENTITY_CARD;
     request.asset.service.validations_required = param.validations ? param.validations : CUSTOM_VALIDATIONS;
 
     console.log(JSON.stringify(request));

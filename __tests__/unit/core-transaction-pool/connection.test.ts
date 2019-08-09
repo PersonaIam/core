@@ -785,9 +785,7 @@ describe("Connection", () => {
             for (let i = 0; i < testSize; i++) {
                 const transaction = Transaction.fromData(cloneDeep(mockData.dummy1.data));
                 transaction.data.id = fakeTransactionId(i);
-                if (usedId[transaction.data.id]) {
-                    console.log("AAAAA");
-                } else {
+                if (!usedId[transaction.data.id]) {
                     usedId[transaction.data.id] = true;
                 }
 

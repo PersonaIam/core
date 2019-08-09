@@ -35,7 +35,7 @@ export class RequestIdentityUseDeclineTransactionHandler extends TransactionHand
         await connection.addIdentityUseRequestAction({
             id: identityUse.id,
             action: "DECLINE",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
     };
 

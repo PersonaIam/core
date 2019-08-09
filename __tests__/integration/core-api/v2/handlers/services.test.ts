@@ -88,7 +88,7 @@ describe("API 2.0", () => {
                     "EXPECTED : FAILURE. ERROR : MISSING_SERVICE_DESCRIPTION",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = ["birthplace"];
+                    param.attribute_types = "birthplace";
                     param.validations_required = 1;
                     const body = createServiceRequest(param);
                     const response = await utils[request]("POST", "v2/services", body);
@@ -121,7 +121,7 @@ describe("API 2.0", () => {
                 async () => {
                     const param = {} as any;
                     param.description = DESCRIPTION;
-                    param.attribute_types = ["identity_card"];
+                    param.attribute_types = "identity_card";
                     const body = createServiceRequest(param);
                     const response = await utils[request]("POST", "v2/services", body);
                     expect(response.data).toHaveProperty(SUCCESS);
@@ -136,7 +136,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [BIRTHPLACE];
+                    param.attribute_types = BIRTHPLACE;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     const body = createServiceRequest(param);
@@ -153,7 +153,7 @@ describe("API 2.0", () => {
                     "EXPECTED : FAILURE. ERROR : SERVICE_ALREADY_EXISTS",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [BIRTHPLACE];
+                    param.attribute_types = BIRTHPLACE;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     const body = createServiceRequest(param);
@@ -183,7 +183,7 @@ describe("API 2.0", () => {
                     "EXPECTED : FAILURE. ERROR : SERVICE_DESCRIPTION_TOO_LONG",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [ADDRESS];
+                    param.attribute_types = ADDRESS;
                     param.description = descriptionTooLong;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     param.name = SERVICE2_NAME;
@@ -201,7 +201,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [ADDRESS];
+                    param.attribute_types = ADDRESS;
                     param.description = descriptionMaxLength;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     param.name = SERVICE2_NAME;
@@ -274,8 +274,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(SERVICE_ATTRIBUTE_TYPES);
-                    expect(response.data.service_attribute_types).toBeArray();
-                    expect(response.data.service_attribute_types[0]).toBe(BIRTHPLACE);
+                    expect(response.data.service_attribute_types).toBe(BIRTHPLACE);
                 },
             );
 

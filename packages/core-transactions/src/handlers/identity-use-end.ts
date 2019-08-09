@@ -35,7 +35,7 @@ export class RequestIdentityUseEndTransactionHandler extends TransactionHandler 
         await connection.addIdentityUseRequestAction({
             id: identityUse.id,
             action: "END",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
     };
 

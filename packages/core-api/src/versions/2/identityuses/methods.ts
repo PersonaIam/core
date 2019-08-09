@@ -87,7 +87,7 @@ const createIdentityUseRequest = async request => {
     ownerAttributes = await extractAttributeDetails(ownerAttributes.rows, {
         owner: request.payload.asset.identityuse[0].owner,
     });
-    const serviceAttributes = JSON.parse(services.rows[0].attributeTypes);
+    const serviceAttributes = JSON.parse(services.rows[0].attributeTypes).split(",");
 
     request.payload.asset.identityuse[0].attributes.map(attribute => {
         const filterElement = ownerAttributes.filter(attr => attr.type === attribute.type)[0];

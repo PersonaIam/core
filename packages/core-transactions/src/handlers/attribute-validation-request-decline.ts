@@ -42,7 +42,7 @@ export class RequestAttributeValidationDeclineTransactionHandler extends Transac
         await connection.addAttributeValidationRequestAction({
             id: validation.id,
             action: "DECLINE",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
     };
 

@@ -41,7 +41,7 @@ export class RequestAttributeValidationNotarizeTransactionHandler extends Transa
         await connection.addAttributeValidationRequestAction({
             id: validation.id,
             action: "NOTARIZE",
-            timestamp: transaction.timestamp,
+            timestamp: transaction.data.timestamp,
         });
     };
 
