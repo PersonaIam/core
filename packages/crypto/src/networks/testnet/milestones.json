@@ -9,7 +9,7 @@
             "maxTransactions": 50,
             "maxPayload": 2097152
         },
-        "epoch": "2019-07-25T15:06:36.729Z",
+        "epoch": "2019-07-30T11:56:34.489Z",
         "fees": {
             "staticFees": {
                 "transfer": 10000000,
@@ -42,7 +42,7 @@
         "vendorFieldLength": 255
     },
     {
-        "height": 75600,
+        "height": 2,
         "reward": 200000000
     }
 ]

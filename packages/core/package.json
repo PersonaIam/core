@@ -1,7 +1,7 @@
 {
-    "name": "@arkecosystem/core",
+    "name": "@persona/core",
     "version": "2.4.14",
-    "description": "Core of the ARK Blockchain",
+    "description": "Core of the Persona Blockchain",
     "license": "MIT",
     "contributors": [
         "François-Xavier Thoorens <fx@ark.io>",

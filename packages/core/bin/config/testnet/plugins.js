@@ -28,9 +28,9 @@ module.exports = {
     "@arkecosystem/core-snapshots": {},
     "@arkecosystem/core-p2p": {
         server: {
-            port: process.env.CORE_P2P_PORT || 4100,
+            port: process.env.CORE_P2P_PORT || 4102,
         },
-        minimumNetworkReach: 5,
+        minimumNetworkReach: 2,
     },
     "@arkecosystem/core-blockchain": {},
     "@arkecosystem/core-forger": {},

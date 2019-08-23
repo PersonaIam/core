@@ -35,9 +35,9 @@ $ ark core:run --launchMode=seed
             hidden: true,
             default: "core",
         }),
-        env: flags.string({
-            default: "production",
-        }),
+        // env: flags.string({
+        //     default: "production",
+        // }),
     };
 
     public async run(): Promise<void> {
