@@ -1,4 +1,3 @@
-import BigNumber from "bignumber.js";
 import ByteBuffer from "bytebuffer";
 import { Validations } from "../../crypto";
 import { TransactionTypes } from "../../enums";
@@ -31,24 +30,28 @@ export class UpdateAttributeTransaction extends Transaction {
     }
 
     public deserialize(buf: ByteBuffer): void {
+        let offset = buf.offset;
         const { data } = this;
-
         data.asset = { attribute: [] };
         data.asset.attribute[0] = {};
-
-        data.asset.attribute[0].id = buf.readInt32();
-        const ownerLength = buf.readUint8();
-        data.asset.attribute[0].owner = buf.readBytes(ownerLength).toString("hex");
-
-        const typeLength = buf.readUint8();
-        data.asset.attribute[0].type = buf.readBytes(typeLength).toString("hex");
-
-        const valueLength = buf.readUint8();
-        data.asset.attribute[0].value = buf.readBytes(valueLength).toString("hex");
-
-        data.asset.attribute[0].expire_timestamp = buf.readInt32();
-        data.fee = new BigNumber(1);
-        data.amount = new BigNumber(0);
+        const ownerLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.attribute[0].owner = buf.readString(ownerLength, offset).string;
+        offset = offset + ownerLength;
+        const typeLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.attribute[0].type = buf.readString(typeLength, offset).string;
+        offset += typeLength;
+        const valueLength = buf.readUint8(offset);
+        offset++;
+        // @ts-ignore
+        data.asset.attribute[0].value = buf.readString(valueLength, offset).string;
+        offset += valueLength;
+        data.fee = "1";
+        data.amount = "0";
         data.recipientId = Validations.getAddress(data.senderPublicKey, data.network);
+        buf.offset = offset;
     }
 }

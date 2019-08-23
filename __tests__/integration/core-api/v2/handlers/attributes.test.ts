@@ -51,56 +51,6 @@ const NEW_ADDRESS2 = "Toronto";
 
 const INCORRECT_ADDRESS = "ABC";
 
-const createAttributeBody = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.attribute = [];
-    request.asset.attribute[0] = {};
-    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
-    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.attribute[0].value = param.value ? param.value : NAME_VALUE;
-    if (param.associations) {
-        request.asset.attribute[0].associations = param.associations;
-    }
-    if (param.expire_timestamp) {
-        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
-    }
-
-    return request;
-};
-
-const updateAttributeRequest = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.attribute = [];
-    request.asset.attribute[0] = {};
-    request.asset.attribute[0].id = param.id;
-    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
-    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
-    if (param.value) {
-        request.asset.attribute[0].value = param.value;
-    }
-    if (param.associations) {
-        request.asset.attribute[0].associations = param.associations;
-    }
-    if (param.expire_timestamp) {
-        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
-    }
-
-    console.log(JSON.stringify(request));
-    return request;
-};
-
 describe("API 2.0", () => {
     describe("Attribute Types", () => {
         describe.each([["Accept", "requestWithAcceptHeader"]])("Basic Operations", (header, request) => {
@@ -669,3 +619,53 @@ describe("API 2.0", () => {
         });
     });
 });
+// tslint:disable-next-line:only-arrow-functions
+function createAttributeBody(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.attribute = [];
+    request.asset.attribute[0] = {};
+    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
+    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.attribute[0].value = param.value ? param.value : NAME_VALUE;
+    if (param.associations) {
+        request.asset.attribute[0].associations = param.associations;
+    }
+    if (param.expire_timestamp) {
+        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
+    }
+
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function updateAttributeRequest(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.attribute = [];
+    request.asset.attribute[0] = {};
+    request.asset.attribute[0].id = param.id;
+    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
+    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
+    if (param.value) {
+        request.asset.attribute[0].value = param.value;
+    }
+    if (param.associations) {
+        request.asset.attribute[0].associations = param.associations;
+    }
+    if (param.expire_timestamp) {
+        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
+    }
+
+    console.log(JSON.stringify(request));
+    return request;
+}

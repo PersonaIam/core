@@ -1,8 +1,8 @@
 // import "@arkecosystem/core-test-utils";
-import { Crypto } from "@arkecosystem/crypto";
 import sleep from "sleep";
 import { constants } from "../../../../../packages/core-api/src/versions/2/constants";
 import { messages } from "../../../../../packages/core-api/src/versions/2/messages";
+import { Crypto } from "../../../../../packages/crypto";
 import { delegates } from "../data";
 import { secrets } from "../data";
 import { utils } from "../utils";
@@ -62,108 +62,6 @@ const REASON_FOR_REJECT_1024_GOOD =
     "1000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000001";
 const REASON_FOR_REJECT_1025_TOO_LONG =
     "10000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000001";
-
-const createAttributeBody = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.attribute = [];
-    request.asset.attribute[0] = {};
-    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
-    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.attribute[0].value = param.value ? param.value : NAME_VALUE;
-    if (param.associations) {
-        request.asset.attribute[0].associations = param.associations;
-    }
-    if (param.expire_timestamp) {
-        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
-    }
-
-    return request;
-};
-
-const createAttributeValidationRequestBody = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.validation = [];
-    request.asset.validation[0] = {};
-    if (param.type) {
-        request.asset.validation[0].type = param.type;
-    }
-    if (param.attributeId) {
-        request.asset.validation[0].attributeId = param.attributeId;
-    }
-    request.asset.validation[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.validation[0].validator = param.validator ? param.validator : VALIDATOR;
-
-    console.log(request);
-    return request;
-};
-
-const createAnswerAttributeValidationRequest = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.validation = [];
-    request.asset.validation[0] = {};
-    request.asset.validation[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.validation[0].validator = param.validator ? param.validator : VALIDATOR;
-    if (param.type) {
-        request.asset.validation[0].type = param.type;
-    }
-    if (param.attributeId) {
-        request.asset.validation[0].attributeId = param.attributeId;
-    }
-    if (param.validationType) {
-        request.asset.validation[0].validationType = param.validationType;
-    }
-    if (param.reason) {
-        request.asset.validation[0].reason = param.reason;
-    }
-
-    console.log(request);
-    return request;
-};
-
-const updateAttributeRequest = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.attribute = [];
-    request.asset.attribute[0] = {};
-    request.asset.attribute[0].id = param.id;
-    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
-    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
-    if (param.value) {
-        request.asset.attribute[0].value = param.value;
-    }
-    if (param.associations) {
-        request.asset.attribute[0].associations = param.associations;
-    }
-    if (param.expire_timestamp) {
-        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
-    }
-
-    console.log(JSON.stringify(request));
-    return request;
-};
 
 describe("API 2.0", () => {
     describe("Preparations - Create Attributes", () => {
@@ -3085,3 +2983,106 @@ describe("API 2.0", () => {
         });
     });
 });
+
+// tslint:disable-next-line:only-arrow-functions
+function createAttributeBody(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.attribute = [];
+    request.asset.attribute[0] = {};
+    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
+    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.attribute[0].value = param.value ? param.value : NAME_VALUE;
+    if (param.associations) {
+        request.asset.attribute[0].associations = param.associations;
+    }
+    if (param.expire_timestamp) {
+        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
+    }
+
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function createAttributeValidationRequestBody(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.validation = [];
+    request.asset.validation[0] = {};
+    if (param.type) {
+        request.asset.validation[0].type = param.type;
+    }
+    if (param.attributeId) {
+        request.asset.validation[0].attributeId = param.attributeId;
+    }
+    request.asset.validation[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.validation[0].validator = param.validator ? param.validator : VALIDATOR;
+
+    console.log(request);
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function createAnswerAttributeValidationRequest(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.validation = [];
+    request.asset.validation[0] = {};
+    request.asset.validation[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.validation[0].validator = param.validator ? param.validator : VALIDATOR;
+    if (param.type) {
+        request.asset.validation[0].type = param.type;
+    }
+    if (param.attributeId) {
+        request.asset.validation[0].attributeId = param.attributeId;
+    }
+    if (param.validationType) {
+        request.asset.validation[0].validationType = param.validationType;
+    }
+    if (param.reason) {
+        request.asset.validation[0].reason = param.reason;
+    }
+
+    console.log(request);
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function updateAttributeRequest(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.attribute = [];
+    request.asset.attribute[0] = {};
+    request.asset.attribute[0].id = param.id;
+    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
+    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
+    if (param.value) {
+        request.asset.attribute[0].value = param.value;
+    }
+    if (param.associations) {
+        request.asset.attribute[0].associations = param.associations;
+    }
+    if (param.expire_timestamp) {
+        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
+    }
+
+    console.log(JSON.stringify(request));
+    return request;
+}

@@ -15,6 +15,23 @@ export class RequestAttributeValidationTransactionHandler extends TransactionHan
         return super.canBeApplied(transaction, wallet, databaseWalletManager);
     }
     // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {
+        const validation = transaction.data.asset.validation[0];
+        validation.timestamp = transaction.data.timestamp;
+        if (!validation.reason) {
+            validation.reason = undefined;
+        }
+        if (!validation.validation_type) {
+            validation.validation_type = undefined;
+        }
+        if (!validation.expire_timestamp) {
+            validation.expire_timestamp = undefined;
+        }
+        validation.status = "PENDING_APPROVAL";
+        await connection.saveAttributeValidationRequest(validation);
+    };
+
+    // tslint:disable-next-line:no-empty
     public async bootstrap(connection: Database.IConnection, walletManager: State.IWalletManager): Promise<void> {}
 
     // tslint:disable-next-line:no-empty

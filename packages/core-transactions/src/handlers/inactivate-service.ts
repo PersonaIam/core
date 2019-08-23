@@ -14,6 +14,16 @@ export class InactivateServiceTransactionHandler extends TransactionHandler {
     ): boolean {
         return super.canBeApplied(transaction, wallet, databaseWalletManager);
     }
+
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {
+        const service = transaction.data.asset.service;
+        service.timestamp = transaction.data.timestamp;
+        service.status = "INACTIVE";
+        service.attribute_types = JSON.stringify(service.attribute_types);
+        await connection.updateService(service);
+    };
+
     // tslint:disable-next-line:no-empty
     public async bootstrap(connection: Database.IConnection, walletManager: State.IWalletManager): Promise<void> {}
 

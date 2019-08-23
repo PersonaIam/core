@@ -14,6 +14,14 @@ export class CreateAttributeTransactionHandler extends TransactionHandler {
     ): boolean {
         return super.canBeApplied(transaction, wallet, databaseWalletManager);
     }
+
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {
+        const attribute = transaction.data.asset.attribute[0];
+        attribute.timestamp = transaction.data.timestamp;
+        await connection.saveAttribute(attribute);
+    };
+
     // tslint:disable-next-line:no-empty
     public async bootstrap(connection: Database.IConnection, walletManager: State.IWalletManager): Promise<void> {}
 

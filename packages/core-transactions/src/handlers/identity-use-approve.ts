@@ -14,6 +14,26 @@ export class RequestIdentityUseApproveTransactionHandler extends TransactionHand
     ): boolean {
         return super.canBeApplied(transaction, wallet, databaseWalletManager);
     }
+
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {
+        const identityUse = transaction.data.asset.identityuse[0];
+        identityUse.timestamp = transaction.data.timestamp;
+        if (!identityUse.reason) {
+            identityUse.reason = undefined;
+        }
+        if (!identityUse.attributes) {
+            identityUse.attributes = undefined;
+        }
+        identityUse.status = "ACTIVE";
+        await connection.updateIdentityUseRequest(identityUse);
+        await connection.addIdentityUseRequestAction({
+            id: identityUse.id,
+            action: "APPROVE",
+            timestamp: transaction.data.timestamp,
+        });
+    };
+
     // tslint:disable-next-line:no-empty
     public async bootstrap(connection: Database.IConnection, walletManager: State.IWalletManager): Promise<void> {}
 

@@ -78,155 +78,6 @@ const REASON_1025_TOO_LONG = new Array(1 + maxLength + 1).join("x");
 const CUSTOM_VALIDATIONS = 2;
 const ONE_VALIDATION = 1;
 
-const createAttributeBody = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.attribute = [];
-    request.asset.attribute[0] = {};
-    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
-    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.attribute[0].value = param.value ? param.value : NAME_VALUE;
-    if (param.associations) {
-        request.asset.attribute[0].associations = param.associations;
-    }
-    if (param.expire_timestamp) {
-        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
-    }
-
-    return request;
-};
-
-const createAttributeValidationRequestBody = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.validation = [];
-    request.asset.validation[0] = {};
-    if (param.type) {
-        request.asset.validation[0].type = param.type;
-    }
-    if (param.attributeId) {
-        request.asset.validation[0].attributeId = param.attributeId;
-    }
-    request.asset.validation[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.validation[0].validator = param.validator ? param.validator : VALIDATOR;
-
-    console.log(request);
-    return request;
-};
-
-const createIdentityUseRequest = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.identityuse = [];
-    request.asset.identityuse[0] = {};
-    request.asset.identityuse[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.identityuse[0].serviceName = param.serviceName ? param.serviceName : SERVICE_NAME;
-    request.asset.identityuse[0].serviceProvider = param.serviceProvider ? param.serviceProvider : PROVIDER;
-    request.asset.identityuse[0].attributes = param.values ? param.values : [{ type: IDENTITY_CARD, value: "HHH" }];
-
-    console.log(request);
-    return request;
-};
-
-const createAnswerAttributeValidationRequest = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.validation = [];
-    request.asset.validation[0] = {};
-    request.asset.validation[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.validation[0].validator = param.validator ? param.validator : VALIDATOR;
-    if (param.type) {
-        request.asset.validation[0].type = param.type;
-    }
-    if (param.attributeId) {
-        request.asset.validation[0].attributeId = param.attributeId;
-    }
-    if (param.validationType) {
-        request.asset.validation[0].validationType = param.validationType;
-    }
-    if (param.reason) {
-        request.asset.validation[0].reason = param.reason;
-    }
-
-    console.log(request);
-    return request;
-};
-
-const createAnswerIdentityUseRequest = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
-    request.asset = {};
-    request.asset.identityuse = [];
-    request.asset.identityuse[0] = {};
-    request.asset.identityuse[0].owner = param.owner ? param.owner : OWNER;
-    request.asset.identityuse[0].serviceName = param.serviceName ? param.serviceName : SERVICE_NAME;
-    request.asset.identityuse[0].serviceProvider = param.serviceProvider ? param.serviceProvider : PROVIDER;
-    if (param.reason) {
-        request.asset.identityuse[0].reason = param.reason;
-    }
-
-    console.log(request);
-    return request;
-};
-
-const createServiceRequest = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : PROVIDER_SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PROVIDER_PUBLIC_KEY;
-    request.asset = {};
-    request.asset.service = {};
-    request.asset.service.name = param.name ? param.name : SERVICE_NAME;
-    request.asset.service.description = param.description ? param.description : DESCRIPTION_VALUE;
-    request.asset.service.provider = param.provider ? param.provider : PROVIDER;
-    request.asset.service.attribute_types = param.attribute_types ? param.attribute_types : [IDENTITY_CARD];
-    request.asset.service.validations_required = param.validations ? param.validations : CUSTOM_VALIDATIONS;
-
-    console.log(JSON.stringify(request));
-    return request;
-};
-
-const serviceRequestAction = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : PROVIDER_SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PROVIDER_PUBLIC_KEY;
-    request.asset = {};
-    request.asset.service = {};
-    request.asset.service.name = param.name ? param.name : SERVICE_NAME;
-    request.asset.service.provider = param.provider ? param.provider : PROVIDER;
-    console.log(JSON.stringify(request));
-    return request;
-};
-
 describe("API 2.0", () => {
     describe("Preparations - Create Attributes ", () => {
         describe.each([["Accept", "requestWithAcceptHeader"]])("Create Attributes", (header, request) => {
@@ -318,7 +169,7 @@ describe("API 2.0", () => {
         describe.each([["Accept", "requestWithAcceptHeader"]])("Create Services", (header, request) => {
             it("Create a service for PROVIDER. " + "EXPECTED : SUCCESS. RESULT : Transaction ID", async () => {
                 const param = {} as any;
-                param.attribute_types = [EMAIL];
+                param.attribute_types = EMAIL;
                 param.description = DESCRIPTION;
                 param.validations_required = CUSTOM_VALIDATIONS;
                 const body = createServiceRequest(param);
@@ -334,7 +185,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     param.name = SERVICE2_NAME;
@@ -352,7 +203,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE3_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -370,7 +221,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE4_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -388,7 +239,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE5_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -406,7 +257,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE6_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -424,7 +275,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE7_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -442,7 +293,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE8_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -460,7 +311,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE9_NAME;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
@@ -478,7 +329,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [EMAIL];
+                    param.attribute_types = EMAIL;
                     param.name = SERVICE10_NAME;
                     param.description = DESCRIPTION;
                     param.validations = ONE_VALIDATION;
@@ -2723,7 +2574,7 @@ describe("API 2.0", () => {
                     const param = {} as any;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
-                    param.attribute_types = [EMAIL, SSN];
+                    param.attribute_types = EMAIL + "," + SSN;
                     param.name = SERVICE11_NAME;
                     const body = createServiceRequest(param);
                     const response = await utils[request]("POST", "v2/services", body);
@@ -2967,3 +2818,152 @@ describe("API 2.0", () => {
         });
     });
 });
+// tslint:disable-next-line:only-arrow-functions
+function createAttributeBody(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.attribute = [];
+    request.asset.attribute[0] = {};
+    request.asset.attribute[0].type = param.type ? param.type : FIRST_NAME;
+    request.asset.attribute[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.attribute[0].value = param.value ? param.value : NAME_VALUE;
+    if (param.associations) {
+        request.asset.attribute[0].associations = param.associations;
+    }
+    if (param.expire_timestamp) {
+        request.asset.attribute[0].expire_timestamp = param.expire_timestamp;
+    }
+
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function createAttributeValidationRequestBody(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.validation = [];
+    request.asset.validation[0] = {};
+    if (param.type) {
+        request.asset.validation[0].type = param.type;
+    }
+    if (param.attributeId) {
+        request.asset.validation[0].attributeId = param.attributeId;
+    }
+    request.asset.validation[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.validation[0].validator = param.validator ? param.validator : VALIDATOR;
+
+    console.log(request);
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function createIdentityUseRequest(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.identityuse = [];
+    request.asset.identityuse[0] = {};
+    request.asset.identityuse[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.identityuse[0].serviceName = param.serviceName ? param.serviceName : SERVICE_NAME;
+    request.asset.identityuse[0].serviceProvider = param.serviceProvider ? param.serviceProvider : PROVIDER;
+    request.asset.identityuse[0].attributes = param.values ? param.values : [{ type: IDENTITY_CARD, value: "HHH" }];
+
+    console.log(request);
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function createAnswerAttributeValidationRequest(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.validation = [];
+    request.asset.validation[0] = {};
+    request.asset.validation[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.validation[0].validator = param.validator ? param.validator : VALIDATOR;
+    if (param.type) {
+        request.asset.validation[0].type = param.type;
+    }
+    if (param.attributeId) {
+        request.asset.validation[0].attributeId = param.attributeId;
+    }
+    if (param.validationType) {
+        request.asset.validation[0].validationType = param.validationType;
+    }
+    if (param.reason) {
+        request.asset.validation[0].reason = param.reason;
+    }
+
+    console.log(request);
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function createAnswerIdentityUseRequest(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PUBLIC_KEY;
+    request.asset = {};
+    request.asset.identityuse = [];
+    request.asset.identityuse[0] = {};
+    request.asset.identityuse[0].owner = param.owner ? param.owner : OWNER;
+    request.asset.identityuse[0].serviceName = param.serviceName ? param.serviceName : SERVICE_NAME;
+    request.asset.identityuse[0].serviceProvider = param.serviceProvider ? param.serviceProvider : PROVIDER;
+    if (param.reason) {
+        request.asset.identityuse[0].reason = param.reason;
+    }
+
+    console.log(request);
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function createServiceRequest(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : PROVIDER_SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PROVIDER_PUBLIC_KEY;
+    request.asset = {};
+    request.asset.service = {};
+    request.asset.service.name = param.name ? param.name : SERVICE_NAME;
+    request.asset.service.description = param.description ? param.description : DESCRIPTION_VALUE;
+    request.asset.service.provider = param.provider ? param.provider : PROVIDER;
+    request.asset.service.attribute_types = param.attribute_types ? param.attribute_types : IDENTITY_CARD;
+    request.asset.service.validations_required = param.validations ? param.validations : CUSTOM_VALIDATIONS;
+
+    console.log(JSON.stringify(request));
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function serviceRequestAction(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : PROVIDER_SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PROVIDER_PUBLIC_KEY;
+    request.asset = {};
+    request.asset.service = {};
+    request.asset.service.name = param.name ? param.name : SERVICE_NAME;
+    request.asset.service.provider = param.provider ? param.provider : PROVIDER;
+    console.log(JSON.stringify(request));
+    return request;
+}

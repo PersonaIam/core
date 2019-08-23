@@ -107,17 +107,6 @@ export class IdentityUsesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                identityUse.timestamp = transaction.timestamp;
-                if (!identityUse.reason) {
-                    identityUse.reason = undefined;
-                }
-                if (!identityUse.attributes) {
-                    identityUse.attributes = undefined;
-                } else {
-                    identityUse.attributes = JSON.stringify(identityUse.attributes);
-                }
-                identityUse.status = "PENDING_APPROVAL";
-                await this.databaseService.connection.saveIdentityUseRequest(identityUse);
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -153,20 +142,6 @@ export class IdentityUsesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                identityUse.timestamp = transaction.timestamp;
-                if (!identityUse.reason) {
-                    identityUse.reason = undefined;
-                }
-                if (!identityUse.attributes) {
-                    identityUse.attributes = undefined;
-                }
-                identityUse.status = "ACTIVE";
-                await this.databaseService.connection.updateIdentityUseRequest(identityUse);
-                await this.databaseService.connection.addIdentityUseRequestAction({
-                    id: identityUse.id,
-                    action: "APPROVE",
-                    timestamp: transaction.timestamp,
-                });
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -203,17 +178,6 @@ export class IdentityUsesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                identityUse.timestamp = transaction.timestamp;
-                if (!identityUse.reason) {
-                    identityUse.reason = undefined;
-                }
-                identityUse.status = "DECLINED";
-                await this.databaseService.connection.updateIdentityUseRequest(identityUse);
-                await this.databaseService.connection.addIdentityUseRequestAction({
-                    id: identityUse.id,
-                    action: "DECLINE",
-                    timestamp: transaction.timestamp,
-                });
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -250,17 +214,6 @@ export class IdentityUsesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                identityUse.timestamp = transaction.timestamp;
-                if (!identityUse.reason) {
-                    identityUse.reason = undefined;
-                }
-                identityUse.status = "CANCELED";
-                await this.databaseService.connection.updateIdentityUseRequest(identityUse);
-                await this.databaseService.connection.addIdentityUseRequestAction({
-                    id: identityUse.id,
-                    action: "CANCEL",
-                    timestamp: transaction.timestamp,
-                });
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };
@@ -297,17 +250,6 @@ export class IdentityUsesRepository extends Repository implements IRepository {
             );
 
             if (response.data.data.invalid.length === 0) {
-                identityUse.timestamp = transaction.timestamp;
-                if (!identityUse.reason) {
-                    identityUse.reason = undefined;
-                }
-                identityUse.status = "ENDED";
-                await this.databaseService.connection.updateIdentityUseRequest(identityUse);
-                await this.databaseService.connection.addIdentityUseRequestAction({
-                    id: identityUse.id,
-                    action: "END",
-                    timestamp: transaction.timestamp,
-                });
                 return { transactionId: transaction.id };
             } else {
                 return { error: "Invalid Transaction" };

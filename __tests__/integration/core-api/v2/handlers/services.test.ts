@@ -37,49 +37,9 @@ const BIRTHPLACE = "birthplace";
 const ADDRESS = "address";
 const INCORRECT_ADDRESS = "ABC";
 
-const maxLength = 63;
+const maxLength = 128;
 const descriptionMaxLength = new Array(1 + maxLength).join("x");
 const descriptionTooLong = new Array(1 + maxLength + 1).join("x");
-
-const createServiceRequest = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : PROVIDER_SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PROVIDER_PUBLIC_KEY;
-    request.asset = {};
-    request.asset.service = {};
-    request.asset.service.name = param.name ? param.name : SERVICE_NAME;
-    request.asset.service.provider = param.provider ? param.provider : PROVIDER;
-    if (param.description) {
-        request.asset.service.description = param.description;
-    }
-    if (param.validations_required) {
-        request.asset.service.validations_required = param.validations_required;
-    }
-    if (param.attribute_types) {
-        request.asset.service.attribute_types = param.attribute_types;
-    }
-
-    console.log(JSON.stringify(request));
-    return request;
-};
-
-const serviceRequestAction = param => {
-    const request = {} as any;
-    if (!param) {
-        param = {};
-    }
-    request.secret = param.secret ? param.secret : PROVIDER_SECRET;
-    request.publicKey = param.publicKey ? param.publicKey : PROVIDER_PUBLIC_KEY;
-    request.asset = {};
-    request.asset.service = {};
-    request.asset.service.name = param.name ? param.name : SERVICE_NAME;
-    request.asset.service.provider = param.provider ? param.provider : PROVIDER;
-    console.log(JSON.stringify(request));
-    return request;
-};
 
 describe("API 2.0", () => {
     describe("Create & Get Services", () => {
@@ -128,7 +88,7 @@ describe("API 2.0", () => {
                     "EXPECTED : FAILURE. ERROR : MISSING_SERVICE_DESCRIPTION",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = ["birthplace"];
+                    param.attribute_types = "birthplace";
                     param.validations_required = 1;
                     const body = createServiceRequest(param);
                     const response = await utils[request]("POST", "v2/services", body);
@@ -161,7 +121,7 @@ describe("API 2.0", () => {
                 async () => {
                     const param = {} as any;
                     param.description = DESCRIPTION;
-                    param.attribute_types = ["identity_card"];
+                    param.attribute_types = "identity_card";
                     const body = createServiceRequest(param);
                     const response = await utils[request]("POST", "v2/services", body);
                     expect(response.data).toHaveProperty(SUCCESS);
@@ -176,7 +136,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [BIRTHPLACE];
+                    param.attribute_types = BIRTHPLACE;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     const body = createServiceRequest(param);
@@ -193,7 +153,7 @@ describe("API 2.0", () => {
                     "EXPECTED : FAILURE. ERROR : SERVICE_ALREADY_EXISTS",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [BIRTHPLACE];
+                    param.attribute_types = BIRTHPLACE;
                     param.description = DESCRIPTION;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     const body = createServiceRequest(param);
@@ -223,7 +183,7 @@ describe("API 2.0", () => {
                     "EXPECTED : FAILURE. ERROR : SERVICE_DESCRIPTION_TOO_LONG",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [ADDRESS];
+                    param.attribute_types = ADDRESS;
                     param.description = descriptionTooLong;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     param.name = SERVICE2_NAME;
@@ -241,7 +201,7 @@ describe("API 2.0", () => {
                     "EXPECTED : SUCCESS. RESULT : Transaction ID",
                 async () => {
                     const param = {} as any;
-                    param.attribute_types = [ADDRESS];
+                    param.attribute_types = ADDRESS;
                     param.description = descriptionMaxLength;
                     param.validations_required = CUSTOM_VALIDATIONS;
                     param.name = SERVICE2_NAME;
@@ -314,8 +274,7 @@ describe("API 2.0", () => {
                     expect(response.data).toHaveProperty(SUCCESS);
                     expect(response.data.success).toBe(TRUE);
                     expect(response.data).toHaveProperty(SERVICE_ATTRIBUTE_TYPES);
-                    expect(response.data.service_attribute_types).toBeArray();
-                    expect(response.data.service_attribute_types[0]).toBe(BIRTHPLACE);
+                    expect(response.data.service_attribute_types).toBe(BIRTHPLACE);
                 },
             );
 
@@ -539,3 +498,43 @@ describe("API 2.0", () => {
         });
     });
 });
+// tslint:disable-next-line:only-arrow-functions
+function createServiceRequest(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : PROVIDER_SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PROVIDER_PUBLIC_KEY;
+    request.asset = {};
+    request.asset.service = {};
+    request.asset.service.name = param.name ? param.name : SERVICE_NAME;
+    request.asset.service.provider = param.provider ? param.provider : PROVIDER;
+    if (param.description) {
+        request.asset.service.description = param.description;
+    }
+    if (param.validations_required) {
+        request.asset.service.validations_required = param.validations_required;
+    }
+    if (param.attribute_types) {
+        request.asset.service.attribute_types = param.attribute_types;
+    }
+
+    console.log(JSON.stringify(request));
+    return request;
+}
+// tslint:disable-next-line:only-arrow-functions
+function serviceRequestAction(param) {
+    const request = {} as any;
+    if (!param) {
+        param = {};
+    }
+    request.secret = param.secret ? param.secret : PROVIDER_SECRET;
+    request.publicKey = param.publicKey ? param.publicKey : PROVIDER_PUBLIC_KEY;
+    request.asset = {};
+    request.asset.service = {};
+    request.asset.service.name = param.name ? param.name : SERVICE_NAME;
+    request.asset.service.provider = param.provider ? param.provider : PROVIDER;
+    console.log(JSON.stringify(request));
+    return request;
+}

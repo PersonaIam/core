@@ -495,7 +495,7 @@ export class Connection implements TransactionPool.IConnection {
                 if (recipient && sender.address !== recipient.address) {
                     handler.applyToRecipientInPool(transaction, localWalletManager);
                 }
-
+                handler.applyToDB(transaction, this.databaseService.connection);
                 validTransactions.push(deserialized.serialized.toString("hex"));
             } catch (error) {
                 this.removeTransactionById(transaction.id);
