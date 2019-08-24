@@ -33,6 +33,9 @@ export class DelegateResignationTransactionHandler extends TransactionHandler {
         return super.canBeApplied(transaction, wallet, databaseWalletManager);
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {};
+
     public emitEvents(transaction: Interfaces.ITransaction, emitter: EventEmitter.EventEmitter): void {
         emitter.emit(ApplicationEvents.DelegateResigned, transaction.data);
     }

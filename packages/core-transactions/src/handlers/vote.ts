@@ -37,6 +37,9 @@ export class VoteTransactionHandler extends TransactionHandler {
         walletManager.buildVoteBalances();
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {};
+
     public canBeApplied(
         transaction: Interfaces.ITransaction,
         wallet: State.IWallet,

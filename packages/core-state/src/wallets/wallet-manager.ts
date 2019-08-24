@@ -398,7 +398,9 @@ export class WalletManager implements State.IWalletManager {
             // Update vote balance of the sender's delegate
             if (sender.vote) {
                 const delegate: State.IWallet = this.findByPublicKey(sender.vote);
-                const total: Utils.BigNumber = transaction.amount.plus(transaction.fee);
+                const total: Utils.BigNumber = Utils.BigNumber.make(
+                    Number(transaction.amount) + Number(transaction.fee),
+                );
                 delegate.voteBalance = revert ? delegate.voteBalance.plus(total) : delegate.voteBalance.minus(total);
             }
 

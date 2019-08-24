@@ -115,6 +115,8 @@ export abstract class TransactionHandler implements ITransactionHandler {
         sender.balance = sender.balance.plus(transaction.data.amount).plus(transaction.data.fee);
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB(transaction: Interfaces.ITransaction, connection: Database.IConnection): void {}
     protected abstract applyToRecipient(
         transaction: Interfaces.ITransaction,
         walletManager: State.IWalletManager,

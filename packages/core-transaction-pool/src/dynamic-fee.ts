@@ -23,7 +23,7 @@ export const calculateMinimumFee = (satoshiPerByte: number, transaction: Interfa
 
 // @TODO: better name
 export const dynamicFeeMatcher = (transaction: Interfaces.ITransaction): IDynamicFeeMatch => {
-    const fee: Utils.BigNumber = transaction.data.fee;
+    const fee: Utils.BigNumber = Utils.BigNumber.make(transaction.data.fee);
     const id: string = transaction.id;
 
     const { dynamicFees } = app.resolveOptions("transaction-pool");

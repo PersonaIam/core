@@ -37,6 +37,9 @@ export class IpfsTransactionHandler extends TransactionHandler {
         return true;
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {};
+
     protected applyToSender(transaction: Interfaces.ITransaction, walletManager: State.IWalletManager): void {
         super.applyToSender(transaction, walletManager);
 

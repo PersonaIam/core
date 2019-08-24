@@ -419,8 +419,8 @@ export class Connection implements TransactionPool.IConnection {
             const all: Interfaces.ITransaction[] = this.memory.allSortedByFee();
             const lowest: Interfaces.ITransaction = all[all.length - 1];
 
-            const fee: Utils.BigNumber = transaction.data.fee;
-            const lowestFee: Utils.BigNumber = lowest.data.fee;
+            const fee: Utils.BigNumber = Utils.BigNumber.make(transaction.data.fee);
+            const lowestFee: Utils.BigNumber = Utils.BigNumber.make(lowest.data.fee);
 
             if (lowestFee.isLessThan(fee)) {
                 this.walletManager.revertTransactionForSender(lowest);

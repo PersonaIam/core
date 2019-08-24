@@ -25,6 +25,9 @@ export class TransferTransactionHandler extends TransactionHandler {
         return super.canBeApplied(transaction, wallet, databaseWalletManager);
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {};
+
     public hasVendorField(): boolean {
         return true;
     }

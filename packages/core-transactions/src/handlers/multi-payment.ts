@@ -18,6 +18,8 @@ export class MultiPaymentTransactionHandler extends TransactionHandler {
     ): boolean {
         return super.canBeApplied(transaction, wallet, databaseWalletManager);
     }
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {};
 
     protected applyToRecipient(transaction: Interfaces.ITransaction, walletManager: State.IWalletManager): void {
         return;

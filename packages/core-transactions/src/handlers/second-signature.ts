@@ -33,6 +33,9 @@ export class SecondSignatureTransactionHandler extends TransactionHandler {
         return super.canBeApplied(transaction, wallet, databaseWalletManager);
     }
 
+    // tslint:disable-next-line:no-empty
+    public applyToDB = async (transaction: Interfaces.ITransaction, connection: Database.IConnection) => {};
+
     public canEnterTransactionPool(
         data: Interfaces.ITransactionData,
         pool: TransactionPool.IConnection,
