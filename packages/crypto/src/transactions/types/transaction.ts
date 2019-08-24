@@ -44,8 +44,8 @@ export abstract class Transaction implements ITransaction {
 
     public toJson(): ITransactionJson {
         const data: ITransactionJson = JSON.parse(JSON.stringify(this.data));
-        data.amount = this.data.amount.toFixed();
-        data.fee = this.data.fee.toFixed();
+        data.amount = Number(this.data.amount).toFixed();
+        data.fee = Number(this.data.fee).toFixed();
 
         if (!data.vendorFieldHex) {
             delete data.vendorFieldHex;
