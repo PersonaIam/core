@@ -37,15 +37,7 @@
         "vendorFieldLength": 255
     },
     {
-        "height": 8040600,
-        "reward": 400000000
-    },
-    {
-        "height": 15930000,
-        "reward": 200000000
-    },
-    {
-        "height": 23819400,
-        "reward": 100000000
+        "height": 6305000,
+        "reward": 0
     }
 ]
