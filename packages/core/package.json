@@ -1,7 +1,7 @@
 {
     "name": "@persona/core",
     "description": "Core of the Persona Blockchain",
-    "version": "2.3.22",
+    "version": "2.3.3",
     "contributors": [
         "François-Xavier Thoorens <fx@ark.io>",
         "Kristjan Košič <kristjan@ark.io>",
