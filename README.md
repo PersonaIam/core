@@ -1,4 +1,4 @@
-# Persona Core
+# Persona Core 
 
 
 [![Build Status](https://badgen.now.sh/circleci/github/ARKEcosystem/core)](https://circleci.com/gh/ARKEcosystem/core)
